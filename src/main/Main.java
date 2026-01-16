@@ -18,6 +18,5 @@ public class Main {
     public static void main(String[] args) {
         // Affiche "hello world !!!" dans la console
         System.out.println("hello world !!!");   
-    }
-    //Salut les copains
+    }  //Salut les copains
 }
