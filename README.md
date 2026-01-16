@@ -6,7 +6,7 @@ Projet M1 informatique CYU rassemblant les cours de COO, GP et BDA.
 
 Le projet est réalisé en java (jre 1.8) et utilise des library contenues dans le git.
 
-#membres
+# membres
 
 - Louis Gallet chef de projet
 - Chloé Ferron partie BDA
