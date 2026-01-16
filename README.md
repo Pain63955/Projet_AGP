@@ -10,7 +10,7 @@ Le projet est réalisé en java (jre 1.8) et utilise des library contenues dans 
 
 <table>
     <tr>
-        <td>De Araujo Andréa</td>
+        <td>De Araujo Andrea</td>
         <td>JSF</td>
     </tr>
     <tr>
