@@ -1,4 +1,4 @@
-package fr.pain.main;
+package main;
 
 public class Main {
 
