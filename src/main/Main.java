@@ -20,7 +20,10 @@ public class Main {
         System.out.println("hello world !!!");   
       //G commit bonjour (devinez qui c'est ?)
     }
+<<<<<<< HEAD
 //treatjkdfhgkjdfgkjdfg
+=======
+>>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 }
     
     
