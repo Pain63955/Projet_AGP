@@ -1,7 +1,9 @@
 package business.excursion;
 
+import java.math.BigDecimal;
+
 public interface ElementTarifiable {
 
-	double getPrix();
-	
+    BigDecimal getPrix();
+
 }

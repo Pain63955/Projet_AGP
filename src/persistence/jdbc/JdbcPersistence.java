@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import dao.StatisticPersistence;
+import dao.HotelPersistence;
 
-public class JdbcPersistence implements StatisticPersistence {
+public class JdbcPersistence implements HotelPersistence {
 	
 	@Override
 	public void dataInit() {
