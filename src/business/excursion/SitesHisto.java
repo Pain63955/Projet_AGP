@@ -1,5 +1,6 @@
 package business.excursion;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class SitesHisto extends SiteTouristique {
@@ -24,14 +25,14 @@ public class SitesHisto extends SiteTouristique {
 		this.langues = langues;
 	}
 
-	public SitesHisto(String nom, String description, Adresse adresse, double prix, int id, String guide, ArrayList<String> langues) {
+	public SitesHisto(String nom, String description, Adresse adresse, BigDecimal prix, int id, String guide, ArrayList<String> langues) {
 		super(nom, description, adresse, prix, id);
 		this.guideName = guide;
 		this.langues= langues;
 	}
 	
 	@Override
-	public double getPrix() {
+	public BigDecimal getPrix() {
 		return super.getPrix();
 	}
 }
