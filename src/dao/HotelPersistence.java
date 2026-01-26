@@ -2,28 +2,21 @@ package dao;
 
 import business.excursion.Hotel;
 
+import java.math.BigDecimal;
+
 import business.excursion.Adresse;
-import business.simulation.StatisticManager;
 
 /**
  
 General DAO interface for persistence APIs.*/
 public interface HotelPersistence{
+	
+	void dataInit();
 
     Hotel fetchNear(Adresse adresse);
 
-    Hotel fetchGamme(String gamme);
+    Hotel fetchGamme(String range);
 
-    Hotel fetchPrice();
-
-
-    /*
-    void dataInit();
-
-    int persist(SimulationEntry simulationEntry, StatisticManager statisticManager);
-
-    int servedClientCount(int simulationEntryId);
-
-    int nonServedClientCount(int simulationEntryId);*/
+	Hotel fetchPrice(BigDecimal lowPrice, BigDecimal highPrice);
 
 }
