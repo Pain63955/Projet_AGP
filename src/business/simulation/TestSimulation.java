@@ -12,9 +12,9 @@ import org.springframework.context.ApplicationContext;
 public class TestSimulation {
 
 	public static void main(String[] args) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("business/spring/spring.xml");
 		// Récupération de l'offre et de l'hôtel via IoC
-		        OffreSejour offre = context.getBean(OffreSejour.class);
+		OffreSejour offre = context.getBean(OffreSejour.class);
 		        Hotel baliHotel = (Hotel) context.getBean("hotelBali");
 		        offre.setHotel(baliHotel);
 
