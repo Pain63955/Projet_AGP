@@ -2,7 +2,7 @@ package business.excursion;
 
 public class SitesActiv extends SiteTouristique {
 	
-	private float durationRatio;
+	private float duration;
 	
 	@Override
 	public double getPrix() {
@@ -10,11 +10,16 @@ public class SitesActiv extends SiteTouristique {
 	}
 
 	public void setDurationRatio(float durationRatio) {
-		this.durationRatio = durationRatio;
+		this.duration = durationRatio;
 	}
 
 	public float getDurationRatio() {
-		return durationRatio;
+		return duration;
+	}
+
+	public SitesActiv(String nom, String description, Adresse adresse, double prix, int id, float duration) {
+		super(nom, description, adresse, prix, id);
+		this.duration = duration;
 	}
 	
 	

@@ -6,9 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import business.client.AbstractClient;
-import business.client.SimulationEntry;
-import business.simulation.StatisticManager;
 import dao.StatisticPersistence;
 
 public class JdbcPersistence implements StatisticPersistence {

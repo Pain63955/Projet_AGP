@@ -3,7 +3,6 @@ package beans;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import business.client.SimulationEntry;
 import business.simulation.Simulation;
 import business.spring.SpringIoC;
 

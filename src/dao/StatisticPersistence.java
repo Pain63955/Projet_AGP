@@ -1,8 +1,5 @@
 package dao;
 
-import business.client.SimulationEntry;
-import business.simulation.StatisticManager;
-
 /**
  * General DAO interface for persistence APIs.
  */
