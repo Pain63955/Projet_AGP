@@ -1,6 +1,10 @@
-package test.unit;
+package unit;
 
-import junit.*;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 
 import business.excursion.*;
 import java.util.ArrayList;

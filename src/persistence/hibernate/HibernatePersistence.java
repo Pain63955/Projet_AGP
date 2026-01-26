@@ -7,8 +7,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import business.client.SimulationEntry;
-import business.simulation.StatisticManager;
+import businessTests.client.SimulationEntry;
+import businessTests.simulation.StatisticManager;
 import dao.StatisticPersistence;
 
 public class HibernatePersistence implements StatisticPersistence {

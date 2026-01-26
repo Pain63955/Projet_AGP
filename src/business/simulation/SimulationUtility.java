@@ -1,8 +1,8 @@
 package business.simulation;
 
-import business.client.AbstractClient;
-import business.client.SimulationEntry;
 import business.spring.SpringIoC;
+import businessTests.client.AbstractClient;
+import businessTests.client.SimulationEntry;
 
 
 /**

@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.jfree.ui.RefineryUtilities;
 
-import business.chart.PieGraphicalResult;
-import business.client.AbstractClient;
-import business.client.AbstractOperation;
-import business.client.SimulationEntry;
+import businessTests.chart.PieGraphicalResult;
+import businessTests.client.AbstractClient;
+import businessTests.client.AbstractOperation;
+import businessTests.client.SimulationEntry;
 import dao.StatisticPersistence;
 
 /**

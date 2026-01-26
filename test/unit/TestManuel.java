@@ -1,4 +1,4 @@
-package test.integration;
+package beans;
 
 public class TestManuel {
 

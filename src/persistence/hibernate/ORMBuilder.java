@@ -3,10 +3,10 @@ package persistence.hibernate;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.client.AbstractClient;
-import business.client.AbstractOperation;
-import business.client.SimulationEntry;
-import business.simulation.StatisticManager;
+import businessTests.client.AbstractClient;
+import businessTests.client.AbstractOperation;
+import businessTests.client.SimulationEntry;
+import businessTests.simulation.StatisticManager;
 
 /**
  * This class constructs persistence objects from business objects.

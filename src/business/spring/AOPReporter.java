@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.aspectj.lang.JoinPoint;
 
-import business.client.AbstractClient;
+import businessTests.client.AbstractClient;
 
 
 public class AOPReporter {
