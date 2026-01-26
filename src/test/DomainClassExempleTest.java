@@ -2,7 +2,7 @@ package test;
 import junit;
 
 public class DomainClassExempleTest {
-	@Test
+	@TestSimulation
 	void shouldInsertUser() {
 	    TestDao dao = new TestDaoImpl(testEntityManager);
 
