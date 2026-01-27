@@ -7,10 +7,8 @@ public class CritereRecherche {
     private String motsCles;       // La chaîne de texte analysée par l'IA (ex: "zen temple surf")
     private String transportSouhaite; // Le mode envoyé à la factory (BATEAU, BUS, etc.)
 
-    // Constructeur vide (nécessaire si tu veux l'utiliser en tant que Bean Spring)
     public CritereRecherche() {}
 
-    // Constructeur pratique pour ton Main
     public CritereRecherche(String destination, int nbJours, double budgetMax, String motsCles, String transportSouhaite) {
         this.destination = destination;
         this.nbJours = nbJours;
