@@ -1,5 +1,7 @@
 package business.trajet;
 
+import java.math.BigDecimal;
+
 import business.excursion.ElementTarifiable;
 
 public class Trajet implements ElementTarifiable{

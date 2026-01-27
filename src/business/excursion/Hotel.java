@@ -1,18 +1,16 @@
 package business.excursion;
 
-import java.math.BigDecimal;
-
 public class Hotel implements ElementTarifiable{
 
     private String nom;
-    private BigDecimal prixNuit;
+    private double prixNuit;
     private Plage plage;
     private Adresse adresse;
     private String description;
     private int id;
 
     @Override
-    public BigDecimal getPrix() { 
+    public double getPrix() { 
         return this.prixNuit; 
     }
 
@@ -24,11 +22,11 @@ public class Hotel implements ElementTarifiable{
         this.nom = nom;
     }
 
-    public BigDecimal getPrixNuit() {
+    public double getPrixNuit() {
         return prixNuit;
     }
 
-    public void setPrixNuit(BigDecimal prixNuit) {
+    public void setPrixNuit(double prixNuit) {
         this.prixNuit = prixNuit;
     }
 

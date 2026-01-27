@@ -1,6 +1,5 @@
 package business.excursion;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class SitesHisto extends SiteTouristique {
@@ -32,7 +31,7 @@ public class SitesHisto extends SiteTouristique {
 	}
 	
 	@Override
-	public BigDecimal getPrix() {
+	public double getPrix() {
 		return super.getPrix();
 	}
 }

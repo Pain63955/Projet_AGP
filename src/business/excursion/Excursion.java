@@ -1,8 +1,8 @@
 package business.excursion;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
 import business.trajet.Trajet;
 import business.trajet.TransportFactory;
 
@@ -55,10 +55,26 @@ public class Excursion implements ElementTarifiable{
     
     @Override
     public double getPrix() {
-        double totalTrajets = trajets.stream().mapToDouble(Trajet::getPrix).sum();
-        double totalEntreesSites = sites.stream().mapToDouble(SiteTouristique::getPrix).sum();
-        
-        return totalTrajets + totalEntreesSites;
+//    	BigDecimal totalTrajets = trajets.stream().mapToDouble(Trajet::getPrix).sum();
+//    	BigDecimal totalEntreesSites = sites.stream().mapToDouble(SiteTouristique::getPrix).sum();
+    	double prixTotalTrajet = 0.0;
+    	double prixTotalSites = 0.0;
+    	
+    	Iterator<Trajet> ite1 = trajets.iterator();
+    	while(ite1.hasNext()) {
+    		Trajet trajet = ite1.next();
+    		double prixTrajet = trajet.getPrix();
+    		prixTotalTrajet = prixTotalTrajet + prixTrajet;
+    	}
+    	
+    	Iterator<SiteTouristique> ite2 = sites.iterator();
+    	while(ite2.hasNext()) {
+    		SiteTouristique site = ite2.next();
+    		double prixSite = site.getPrix();
+    		prixTotalSites = prixTotalTrajet + prixSite;
+    	}
+    	
+        return prixTotalTrajet + prixTotalSites;
     }
 }
 
