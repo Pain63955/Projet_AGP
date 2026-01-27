@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class OffreBuilder {
+	
     private ApplicationContext context;
     private CritereRecherche criteres;
     private OffreSejour offre;
