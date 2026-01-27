@@ -3,6 +3,14 @@ package persistence.jdbc;
 import business.excursion.Adresse;
 import business.excursion.SiteTouristique;
 import dao.SitePersistence;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class JdbcSitePersistence implements SitePersistence { 
  
@@ -11,23 +19,6 @@ public class JdbcSitePersistence implements SitePersistence {
 		System.err.println("Please don't forget to create tables manually by importing creation.sql in your database !");
 		
 	}
-
-	@Override
-	public SiteTouristique fetchKeywords(String keywords) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	import java.math.BigDecimal;
-	import java.sql.Connection;
-	import java.sql.PreparedStatement;
-	import java.sql.ResultSet;
-	import java.sql.SQLException;
-	import java.util.ArrayList;
-	import java.util.Arrays;
-	import java.util.List;
-
-	// ...
 
 	public List<SiteTouristique> fetchNear(int adresseID, double km) {
 	    // 1) On récupère d'abord le point centre (lat/lng) via une sous-requête "center"
@@ -119,6 +110,12 @@ public class JdbcSitePersistence implements SitePersistence {
 
 	@Override
 	public SiteTouristique fetchNear(Adresse adresse) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SiteTouristique fetchKeywords(String keywords) {
 		// TODO Auto-generated method stub
 		return null;
 	}
