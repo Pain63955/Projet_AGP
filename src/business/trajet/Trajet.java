@@ -14,7 +14,21 @@ public class Trajet implements ElementTarifiable{
         this.distance = distance;
     }
 
-    @Override
+    
+    
+    public String getMode() {
+		return mode;
+	}
+
+
+
+	public double getDistance() {
+		return distance;
+	}
+
+
+
+	@Override
     public double getPrix() { 
     	return this.prix;
     	}

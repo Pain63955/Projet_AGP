@@ -1,20 +1,25 @@
 package business.trajet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TransportFactory {
-    public static Trajet creerTrajet(String mode, double distance) {
-        double prixFixe;
-        switch (mode.toUpperCase()) {
-            case "AUTOBUS":
-                prixFixe = 5.0;
-                break;
-            case "BATEAU":
-                prixFixe = 15.0;
-                break;
-            case "PIED":
-            default:
-                prixFixe = 0.0;
-                break;
+	
+	private Map<String, TransportStrategy> strategies;
+
+    // Spring va injecter la Map définie dans le XML
+    public void setStrategies(Map<String, TransportStrategy> strategies) {
+        this.strategies = strategies;
+    }
+
+    public Trajet creerTrajet(String mode, double distance) {
+    	TransportStrategy calc = strategies.get(mode.toUpperCase());
+        
+        if (calc == null) {
+            return new Trajet("PIED", 0.0, distance);
         }
-        return new Trajet(mode, prixFixe, distance);
+        
+        double prixTotal = calc.calculerPrix(distance);
+        return new Trajet(calc.getMode(), prixTotal, distance);
     }
 }

@@ -7,15 +7,12 @@ public class Hotel implements ElementTarifiable{
     private Plage plage;
     private Adresse adresse;
     private String description;
-    private String gamme;
     private int id;
+    
+    public Hotel() {
+    	
+    }
 
-    public String getGamme() {
-    	return this.gamme;
-    }
-    public void setGamme(String g) {
-    	this.gamme = g;
-    }
     @Override
     public double getPrix() { 
     	return this.prixNuit; 
@@ -68,14 +65,7 @@ public class Hotel implements ElementTarifiable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Hotel(String nom, double prixNuit, Plage plage, Adresse adresse, String description, String gamme, int id) {
-		super();
-		this.nom = nom;
-		this.prixNuit = prixNuit;
-		this.plage = plage;
-		this.adresse = adresse;
-		this.description = description;
-		this.gamme = gamme;
-		this.id = id;
-	}
+    
+    
+
 }

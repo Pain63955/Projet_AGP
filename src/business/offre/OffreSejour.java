@@ -12,6 +12,7 @@ public class OffreSejour implements ElementTarifiable{
 	private String idOffre;
     private Hotel hotel; 
     private List<Excursion> excursions = new ArrayList<>();
+    private int nbNuits;
     
     private double scoreConfort;
 
@@ -23,7 +24,7 @@ public class OffreSejour implements ElementTarifiable{
         double prixTotalExcursions = excursions.stream().mapToDouble(Excursion::getPrix).sum();
         double prixTotalHotel = 0;
         if (hotel != null) {
-            prixTotalHotel = hotel.getPrix() * 7;
+            prixTotalHotel = hotel.getPrix() * nbNuits;
         }
         
         return prixTotalHotel + prixTotalExcursions;
@@ -68,5 +69,10 @@ public class OffreSejour implements ElementTarifiable{
     public boolean estDansLeBudget(double budgetMax) {
         return getPrix() <= budgetMax;
     }
+
+	public void setNbNuits(int nbNuits) {
+		this.nbNuits = nbNuits;
+	}
+    
 }
 
