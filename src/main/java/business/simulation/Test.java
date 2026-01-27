@@ -45,7 +45,7 @@ public class Test {
         jour2.ajouterSite(rizieres);
         
         // Circuit simple (Hôtel -> Rizières -> Hôtel)
-        jour2.genererCircuit(baliHotel, "AUTOBUS");
+        jour2.genererCircuit(baliHotel, "MARCHE");
         offre.ajouterExcursion(jour2);
 
         // AFFICHAGE

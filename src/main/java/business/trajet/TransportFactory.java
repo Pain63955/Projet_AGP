@@ -15,10 +15,10 @@ public class TransportFactory {
     	TransportStrategy calc = strategies.get(mode.toUpperCase());
         
         if (calc == null) {
-            return new Trajet("PIED", 0.0, distance);
+        	
+            return new Trajet(calc, distance);
         }
         
-        double prixTotal = calc.calculerPrix(distance);
-        return new Trajet(calc.getMode(), prixTotal, distance);
+        return new Trajet(calc, distance);
     }
 }

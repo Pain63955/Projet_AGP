@@ -170,11 +170,15 @@
 	    <property name="prixFixe" value="5.0" /> 
 	</bean>
 	
+	<bean id="calcPied" class="business.trajet.Pied"> 
+	</bean>
+	
 	<bean id="transportFactory" class="business.trajet.TransportFactory">
 	    <property name="strategies">
 	        <map>
 	            <entry key="BATEAU" value-ref="calcBateau" />
 	            <entry key="AUTOBUS" value-ref="calcBus" />
+	            <entry key="MARCHE" value-ref="calcPied" />
 	        </map>
 	    </property>
 	</bean>

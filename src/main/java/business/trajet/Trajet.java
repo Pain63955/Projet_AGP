@@ -4,19 +4,17 @@ import business.excursion.ElementTarifiable;
 
 public class Trajet implements ElementTarifiable{
 
-	private String mode;
-    private double prix;
-    private double distance;
+	private TransportStrategy mode;
+	private double distance;
 
-    public Trajet(String mode2, double prix, double distance) {
+    public Trajet(TransportStrategy mode2, double distance) {
         this.mode = mode2;
-        this.prix = prix;
         this.distance = distance;
     }
 
     
     
-    public String getMode() {
+    public TransportStrategy getMode() {
 		return mode;
 	}
 
@@ -30,7 +28,11 @@ public class Trajet implements ElementTarifiable{
 
 	@Override
     public double getPrix() { 
-    	return this.prix;
+    	double prix = 0;
+    	
+    	prix = mode.calculerPrix(distance);
+    	
+    	return prix;
     	}
 	
 }
