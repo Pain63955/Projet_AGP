@@ -1,6 +1,5 @@
 package business.excursion;
 
-import java.math.BigDecimal;
 
 public class SitesActiv extends SiteTouristique {
 	
