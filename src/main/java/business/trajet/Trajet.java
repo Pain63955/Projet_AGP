@@ -14,8 +14,8 @@ public class Trajet implements ElementTarifiable{
 
     
     
-    public TransportStrategy getMode() {
-		return mode;
+    public String getMode() {
+		return mode.getMode();
 	}
 
 
