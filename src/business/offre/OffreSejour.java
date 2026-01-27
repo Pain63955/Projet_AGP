@@ -6,6 +6,7 @@ import java.util.List;
 import business.excursion.ElementTarifiable;
 import business.excursion.Excursion;
 import business.excursion.Hotel;
+import java.util.Iterator;
 
 public class OffreSejour implements ElementTarifiable{
 	
@@ -20,8 +21,16 @@ public class OffreSejour implements ElementTarifiable{
 
     @Override
     public double getPrix() {
-        double prixTotalExcursions = excursions.stream().mapToDouble(Excursion::getPrix).sum();
-        double prixTotalHotel = 0;
+    	double prixTotalExcursions = 0.0;
+    	
+    	Iterator<Excursion> ite = excursions.iterator();
+    	while(ite.hasNext()) {
+    		Excursion excursion = ite.next();
+    		double prixExcursion = excursion.getPrix();
+    		prixTotalExcursions = prixTotalExcursions + prixExcursion;
+    	}
+    	
+        double prixTotalHotel = 0.0;
         if (hotel != null) {
             prixTotalHotel = hotel.getPrix() * 7;
         }
