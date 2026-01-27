@@ -35,3 +35,4 @@ public class JdbcHotelPersistence implements HotelPersistence {
 		return null;
 	}
 }
+//test

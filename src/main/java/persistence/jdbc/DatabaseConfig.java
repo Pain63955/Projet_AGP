@@ -22,3 +22,4 @@ public class DatabaseConfig {
         return properties.getProperty(key);
     }
 }
+//test

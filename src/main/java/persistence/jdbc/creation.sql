@@ -18,3 +18,4 @@ CREATE TABLE client (
 	entry_id INT,
 	FOREIGN KEY (entry_id) REFERENCES entry(id)
 );
+
