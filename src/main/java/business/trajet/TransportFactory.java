@@ -7,7 +7,6 @@ public class TransportFactory {
 	
 	private Map<String, TransportStrategy> strategies;
 
-    // Spring va injecter la Map définie dans le XML
     public void setStrategies(Map<String, TransportStrategy> strategies) {
         this.strategies = strategies;
     }
