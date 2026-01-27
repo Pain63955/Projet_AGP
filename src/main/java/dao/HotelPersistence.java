@@ -14,8 +14,8 @@ public interface HotelPersistence{
 
     List<Hotel> fetchNear(Adresse adresse);
 
-    Hotel fetchGamme(String range);
+    List<Hotel> fetchGamme(String range);
 
-	Hotel fetchPrice(double lowPrice, double highPrice);
+	List<Hotel> fetchPrice(double lowPrice, double highPrice);
 
 }

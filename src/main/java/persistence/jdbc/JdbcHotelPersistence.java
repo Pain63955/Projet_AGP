@@ -22,9 +22,43 @@ public class JdbcHotelPersistence implements HotelPersistence {
 
 	@Override
 	public Hotel fetchName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Hotel hotel = new Hotel();
+		
+		try {
+			
+			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.name = ? ";
+
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
+
+			preparedStatement.setString(1, name);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			try (ResultSet resultTry = preparedStatement.executeQuery()) {
+                if (!resultTry.next()) {
+                    return null;
+                }
+			} 
+			result.next();
+			
+			hotel.setId(result.getInt("hotelID"));
+			hotel.setNom(result.getString("nom_hotel"));
+			hotel.setPrixNuit(result.getDouble("prix_hotel"));
+			hotel.setGamme(result.getString("gamme"));
+			hotel.setPlage(result.getString("plage"));
+			hotel.setDescription(result.getString("description"));	
+
+			preparedStatement.close();
+
+			preparedStatement.executeUpdate();
+
+			preparedStatement.close();
+		
+		} catch (SQLException se) {
+			System.err.println(se.getMessage());
+		}	
+		return hotel;
 	}
+	
 	@Override
 	public List<Hotel> fetchNear(Adresse adresse) {
 		
@@ -73,14 +107,96 @@ public class JdbcHotelPersistence implements HotelPersistence {
 	}
 
 	@Override
-	public Hotel fetchGamme(String range) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Hotel> fetchGamme(String range) {
+		List<Hotel> hotels = new ArrayList<>();
+		
+		try {
+			
+			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.gamme = ? ";
+
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
+
+			preparedStatement.setString(1, range);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			try (ResultSet resultTry = preparedStatement.executeQuery()) {
+                if (!resultTry.next()) {
+                    return null;
+                }
+			} 
+			result.next();
+			
+			while(result.next()) {
+				result.next();
+				
+				Hotel hotel = new Hotel();
+				
+				hotel.setId(result.getInt("hotelID"));
+				hotel.setNom(result.getString("nom_hotel"));
+				hotel.setPrixNuit(result.getDouble("prix_hotel"));
+				hotel.setGamme(result.getString("gamme"));
+				hotel.setPlage(result.getString("plage"));
+				hotel.setDescription(result.getString("description"));	
+				
+				hotels.add(hotel);
+			}
+
+			preparedStatement.close();
+
+			preparedStatement.executeUpdate();
+
+			preparedStatement.close();
+		
+		} catch (SQLException se) {
+			System.err.println(se.getMessage());
+		}	
+		return (hotels);
 	}
 
 	@Override
-	public Hotel fetchPrice(double lowPrice, double highPrice) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Hotel> fetchPrice(double lowPrice, double highPrice) {
+		List<Hotel> hotels = new ArrayList<>();
+		
+		try {
+			
+			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.prix_hotel >= ? AND hot.prix_hotel <=  ? ";
+
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
+
+			preparedStatement.setDouble(1, lowPrice);
+			preparedStatement.setDouble(1, highPrice);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			try (ResultSet resultTry = preparedStatement.executeQuery()) {
+                if (!resultTry.next()) {
+                    return null;
+                }
+			} 
+			
+			while(result.next()) {
+				result.next();
+				
+				Hotel hotel = new Hotel();
+				
+				hotel.setId(result.getInt("hotelID"));
+				hotel.setNom(result.getString("nom_hotel"));
+				hotel.setPrixNuit(result.getDouble("prix_hotel"));
+				hotel.setGamme(result.getString("gamme"));
+				hotel.setPlage(result.getString("plage"));
+				hotel.setDescription(result.getString("description"));	
+				
+				hotels.add(hotel);
+			}
+
+			preparedStatement.close();
+
+			preparedStatement.executeUpdate();
+
+			preparedStatement.close();
+		
+		} catch (SQLException se) {
+			System.err.println(se.getMessage());
+		}	
+		return (hotels);
 	}
 }

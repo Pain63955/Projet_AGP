@@ -10,6 +10,7 @@ import business.excursion.Hotel;
 
 public class OffreSejour implements ElementTarifiable{
 	
+	//
 	private String idOffre;
     private Hotel hotel; 
     private List<Excursion> excursions = new ArrayList<>();
