@@ -7,6 +7,8 @@ import business.excursion.Adresse;
 public interface HotelPersistence{ 
 	
 	void dataInit();
+	
+	Hotel fetchName(String nom);
 
     Hotel fetchNear(Adresse adresse);
 

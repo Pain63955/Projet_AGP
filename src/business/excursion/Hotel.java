@@ -4,9 +4,10 @@ public class Hotel implements ElementTarifiable{
 	
 	private String nom;
     private double prixNuit;
-    private Plage plage;
+    private String plage;
     private Adresse adresse;
     private String description;
+    private String gamme;
     private int id;
     
     public Hotel() {
@@ -34,12 +35,12 @@ public class Hotel implements ElementTarifiable{
 		this.prixNuit = prixNuit;
 	}
 
-	public Plage getPlage() {
+	public String getPlage() {
 		return plage;
 	}
 
-	public void setPlage(Plage plage) {
-		this.plage = plage;
+	public String setPlage(String plage) {
+		return this.plage = plage;
 	}
 
 	public Adresse getAdresse() {
@@ -64,6 +65,14 @@ public class Hotel implements ElementTarifiable{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getGamme() {
+		return gamme;
+	}
+
+	public void setGamme(String gamme) {
+		this.gamme = gamme;
 	}
     
     

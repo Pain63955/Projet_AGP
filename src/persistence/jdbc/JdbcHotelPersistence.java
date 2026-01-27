@@ -19,20 +19,34 @@ public class JdbcHotelPersistence implements HotelPersistence {
 	Connection dbConnection = JdbcConnection.getConnection();
 
 	@Override
+	public Hotel fetchName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
 	public Hotel fetchNear(Adresse adresse) {
-		Hotel hotel = Hotel.
+		Hotel hotel = new Hotel();
 		try {
 			
 			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.adresseID = ? ";
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
 
-			preparedStatement.setint(1, Adresse.getID());
+			preparedStatement.setint(1, adresse.getID());
 			
 			ResultSet result = preparedStatement.executeQuery();
+			
+			while(result.next()) {
+				
+			}
 
 			result.next();
-			hotel = result.getInt("co");
+			hotel.setId(result.getInt("hotelID"));
+			hotel.setNom(result.getString("nom_hotel"));
+			hotel.setPrixNuit(result.getDouble("prix_hotel"));
+			hotel.setGamme(result.getString("gamme"));
+			hotel.setPlage(result.getString("plage"));
+			hotel.setDescription(((Hotel) result).getDescription());				
 
 			preparedStatement.close();
 
