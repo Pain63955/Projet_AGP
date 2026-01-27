@@ -6,9 +6,6 @@ import java.math.BigDecimal;
 
 import business.excursion.Adresse;
 
-/**
- 
-General DAO interface for persistence APIs.*/
 public interface HotelPersistence{
 	
 	void dataInit();
