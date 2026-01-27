@@ -2,6 +2,7 @@ package business.excursion;
 
 public class Adresse {
 	
+	private int id;
 	private  String rue;
     private  String ville;
     private  String codePostal;
@@ -50,6 +51,14 @@ public class Adresse {
 
 	public void setLon(double lon) {
 		this.lon = lon;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
     
 }
