@@ -2,12 +2,12 @@ package business.excursion;
 
 public class Adresse {
 	
-	private int id;
+	private int adresseId;
 	private  String rue;
     private  String ville;
     private  String codePostal;
-    private double lat;
-    private double lon;
+    private double latitude;
+    private double longitude;
     
 	public Adresse() {
 		
@@ -37,28 +37,28 @@ public class Adresse {
 		this.codePostal = codePostal;
 	}
 
-	public double getLat() {
-		return lat;
+	public double getLatitude() {
+		return latitude;
 	}
 
-	public void setLat(double lat) {
-		this.lat = lat;
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 
-	public double getLon() {
-		return lon;
+	public double getLongitude() {
+		return longitude;
 	}
 
-	public void setLon(double lon) {
-		this.lon = lon;
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
-	public int getId() {
-		return id;
+	public int getAdressId() {
+		return adresseId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setAdresssId(int adresseId) {
+		this.adresseId = adresseId;
 	}
     
 }
