@@ -4,19 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 class JdbcConnection {
-	private static String host = "localhost";
-	private static String base = "bank7j";
-	private static String user = "root";
-	private static String password = "";
-	private static String url = "jdbc:mysql://" + host + "/" + base;
+	
+	private static String url = DatabaseConfig.getProperty("db.url");
+	private static String user = DatabaseConfig.getProperty("db.user");
+	private static String password = DatabaseConfig.getProperty("db.password");
 
-	/**
-	 * Lazy singleton instance.
-	 */
 	private static Connection connection;
 
-
-	public static Connection getConnection() {
+	public static Connection getConnection() { 
 		if (connection == null) {
 			try {
 				DriverManager.registerDriver(new com.mysql.jdbc.Driver());

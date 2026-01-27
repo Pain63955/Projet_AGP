@@ -8,7 +8,7 @@ import javax.faces.bean.RequestScoped;
 import org.primefaces.model.chart.PieChartModel;
 
 import business.simulation.Simulation;
-import dao.StatisticPersistence;
+import dao.HotelPersistence;
 
 /**
  * 
@@ -59,14 +59,14 @@ public class ResultBean {
 	public int getServedClientCount() {
 		Simulation simulation = entryBean.getSimulation();
 		int idEntry = simulation.getIdEntry();
-		StatisticPersistence statisticPersistence = simulation.getStatisticPersistence();
+		HotelPersistence statisticPersistence = simulation.getStatisticPersistence();
 		return statisticPersistence.servedClientCount(idEntry);
 	}
 
 	public int getNonServedClientCount() {
 		Simulation simulation = entryBean.getSimulation();
 		int idEntry = simulation.getIdEntry();
-		StatisticPersistence statisticPersistence = simulation.getStatisticPersistence();
+		HotelPersistence statisticPersistence = simulation.getStatisticPersistence();
 		return statisticPersistence.nonServedClientCount(idEntry);
 	}
 
