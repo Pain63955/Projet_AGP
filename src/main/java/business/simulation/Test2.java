@@ -10,7 +10,7 @@ import business.offre.OffreSejour;
 
 public class Test2 {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("business/spring/spring.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("/spring/spring.xml");
 
         // --- CRITÈRES DE BASE ---
         CritereRecherche crit = new CritereRecherche();
