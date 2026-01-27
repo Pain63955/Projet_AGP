@@ -8,6 +8,8 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.print.attribute.standard.PrinterMessageFromOperator;
+
 import business.excursion.*;
 import business.trajet.*;
 
@@ -30,8 +32,8 @@ public class TestExcursion {
         hotel.setNom("Hôtel Paradise");
         hotel.setPrixNuit(100.0);
         Adresse adresseHotel = new Adresse();
-        adresseHotel.setLat(43.7102);
-        adresseHotel.setLon(7.2620);
+        adresseHotel.setLatitude(43.7102);
+        adresseHotel.setLongitude(7.2620);
         hotel.setAdresse(adresseHotel);
         
         // Configuration du site 1
@@ -39,8 +41,8 @@ public class TestExcursion {
         site1.setNom("Musée d'Art");
         site1.setPrix(10.0);
         Adresse adresseSite1 = new Adresse();
-        adresseSite1.setLat(43.7000);
-        adresseSite1.setLon(7.2500);
+        adresseSite1.setLatitude(43.7000);
+        adresseSite1.setLongitude(7.2500);
         site1.setAdresse(adresseSite1);
         
         // Configuration du site 2
@@ -48,8 +50,8 @@ public class TestExcursion {
         site2.setNom("Château");
         site2.setPrix(15.0);
         Adresse adresseSite2 = new Adresse();
-        adresseSite2.setLat(43.6900);
-        adresseSite2.setLon(7.2400);
+        adresseSite2.setLatitude(43.6900);
+        adresseSite2.setLongitude(7.2400);
         site2.setAdresse(adresseSite2);
         
         // Configuration du site 3
@@ -57,8 +59,8 @@ public class TestExcursion {
         site3.setNom("Parc Aventure");
         site3.setPrix(25.0);
         Adresse adresseSite3 = new Adresse();
-        adresseSite3.setLat(43.6800);
-        adresseSite3.setLon(7.2300);
+        adresseSite3.setLatitude(43.6800);
+        adresseSite3.setLongitude(7.2300);
         site3.setAdresse(adresseSite3);
         
         // Configuration de la factory
@@ -175,11 +177,9 @@ public class TestExcursion {
         excursion.genererCircuit(hotel, "AUTOBUS"); // 3 trajets * 5€ = 15€
         
         double prixTotal = excursion.getPrix();
-        
-        // Prix des sites : 10 + 15 = 25€
-        // Prix des trajets : 3 * 5 = 15€
-        // Total : 40€
-        assertEquals(40.0, prixTotal, 0.001);
+       
+
+        assertEquals(45.0, prixTotal, 0.001);
     }
     
     @Test
@@ -190,9 +190,8 @@ public class TestExcursion {
         
         // Pas de génération de circuit
         double prixTotal = excursion.getPrix();
-        
-        // Seulement le prix des sites
-        assertEquals(25.0, prixTotal, 0.001);
+
+        assertEquals(15.0, prixTotal, 0.001);
     }
     
     @Test

@@ -18,8 +18,8 @@ public class TestHotel {
         adresse.setRue("10 Avenue des Champs");
         adresse.setVille("Nice");
         adresse.setCodePostal("06000");
-        adresse.setLat(43.7102);
-        adresse.setLon(7.2620);
+        adresse.setLatitude(43.7102);
+        adresse.setLongitude(7.2620);
     }
     
     @Test
@@ -82,6 +82,6 @@ public class TestHotel {
         hotel.setAdresse(adresse);
         assertNotNull(hotel.getAdresse());
         assertEquals("Nice", hotel.getAdresse().getVille());
-        assertEquals(43.7102, hotel.getAdresse().getLat(), 0.0001);
+        assertEquals(43.7102, hotel.getAdresse().getLatitude(), 0.0001);
     }
 }

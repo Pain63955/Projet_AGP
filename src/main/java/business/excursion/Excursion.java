@@ -48,7 +48,7 @@ public class Excursion implements ElementTarifiable {
         if (depart == null || arrivee == null) {
             throw new IllegalArgumentException("Les adresses de départ et d'arrivée ne peuvent pas être nulles.");
         }
-        double distance = calculerDistance(depart.getLat(), depart.getLon(), arrivee.getLat(), arrivee.getLon());
+        double distance = calculerDistance(depart.getLatitude(), depart.getLongitude(), arrivee.getLatitude(), arrivee.getLongitude());
         Trajet t = factory.creerTrajet(mode, distance);
         this.trajets.add(t);
     }

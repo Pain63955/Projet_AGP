@@ -22,8 +22,8 @@ public class TestSiteTouristique {
         adresse.setRue("1 Place du Monument");
         adresse.setVille("Paris");
         adresse.setCodePostal("75007");
-        adresse.setLat(48.8584);
-        adresse.setLon(2.2945);
+        adresse.setLatitude(48.8584);
+        adresse.setLongitude(2.2945);
     }
     
     @Test
