@@ -3,13 +3,13 @@ package persistence.jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-class JdbcConnection {
+public class JdbcConnection {
 	
 	private static String url = DatabaseConfig.getProperty("db.url");
 	private static String user = DatabaseConfig.getProperty("db.user");
 	private static String password = DatabaseConfig.getProperty("db.password");
 
-	private static Connection connection;
+	public static Connection connection;
 
 	public static Connection getConnection() { 
 		if (connection == null) {

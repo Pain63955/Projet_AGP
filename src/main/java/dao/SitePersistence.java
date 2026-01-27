@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import business.excursion.Adresse;
 import business.excursion.SiteTouristique;
 
@@ -9,7 +11,7 @@ public interface SitePersistence {
 	
 	SiteTouristique fetchKeywords(String keywords);
 	
-	SiteTouristique fetchNear(Adresse adresse);
+	List<SiteTouristique> fetchNear(int adresseID, double km);
 
 	SiteTouristique fetchGamme(String range); 
 

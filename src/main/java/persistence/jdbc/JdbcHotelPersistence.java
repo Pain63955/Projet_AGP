@@ -22,41 +22,46 @@ public class JdbcHotelPersistence implements HotelPersistence {
 
 	@Override
 	public Hotel fetchName(String name) {
-		Hotel hotel = new Hotel();
-		
 		try {
 			
-			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.name = ? ";
+			String selectAddressQuery = "SELECT hotelID, nom_hotel, prix_hotel, gamme, plage, h.adresseID, latitude, longitude, rue, ville, code_postal "+
+										"FROM Hotel h "+
+										"JOIN Adresse a ON a.adresseID = h.adresseID "+
+										"WHERE h.nom_hotel = ? ";
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
 
 			preparedStatement.setString(1, name);
 			
-			ResultSet result = preparedStatement.executeQuery();
-			try (ResultSet resultTry = preparedStatement.executeQuery()) {
-                if (!resultTry.next()) {
+			try (ResultSet result = preparedStatement.executeQuery()) {
+                if (!result.next()) {
                     return null;
                 }
-			} 
-			result.next();
-			
-			hotel.setId(result.getInt("hotelID"));
-			hotel.setNom(result.getString("nom_hotel"));
-			hotel.setPrixNuit(result.getDouble("prix_hotel"));
-			hotel.setGamme(result.getString("gamme"));
-			hotel.setPlage(result.getString("plage"));
-			hotel.setDescription(result.getString("description"));	
-
-			preparedStatement.close();
-
-			preparedStatement.executeUpdate();
-
-			preparedStatement.close();
-		
+				
+                Hotel hotel = new Hotel();
+				hotel.setId(result.getInt("hotelID"));
+				hotel.setNom(result.getString("nom_hotel"));
+				hotel.setPrixNuit(result.getDouble("prix_hotel"));
+				hotel.setGamme(result.getString("gamme"));
+				hotel.setPlage(result.getString("plage"));
+				
+				Adresse adresse = new Adresse();
+				adresse.setAdresseId(result.getInt("adresseID"));
+				adresse.setLatitude(result.getDouble("latitude"));
+				adresse.setLongitude(result.getDouble("longitude"));
+				adresse.setRue(result.getString("rue"));
+				adresse.setVille(result.getString("ville"));
+				adresse.setCodePostal(result.getString("code_postal"));
+				
+				hotel.setAdresse(adresse);
+				
+				preparedStatement.close();
+				return hotel;
+			}
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
 		}	
-		return hotel;
+		return null;
 	}
 	
 	@Override
@@ -70,7 +75,7 @@ public class JdbcHotelPersistence implements HotelPersistence {
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
 
-			preparedStatement.setInt(1, adresse.getAdressId());
+			preparedStatement.setInt(1, adresse.getAdresseId());
 			
 			ResultSet result = preparedStatement.executeQuery();
 			try (ResultSet resultTry = preparedStatement.executeQuery()) {
