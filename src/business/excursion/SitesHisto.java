@@ -24,7 +24,7 @@ public class SitesHisto extends SiteTouristique {
 		this.langues = langues;
 	}
 
-	public SitesHisto(String nom, String description, Adresse adresse, BigDecimal prix, int id, String guide, ArrayList<String> langues) {
+	public SitesHisto(String nom, String description, Adresse adresse, double prix, int id, String guide, ArrayList<String> langues) {
 		super(nom, description, adresse, prix, id);
 		this.guideName = guide;
 		this.langues= langues;

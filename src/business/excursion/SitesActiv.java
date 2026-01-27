@@ -7,7 +7,7 @@ public class SitesActiv extends SiteTouristique {
 	private float duration;
 	
 	@Override
-	public BigDecimal getPrix() {
+	public double getPrix() {
 		return super.getPrix();
 	}
 
@@ -19,7 +19,7 @@ public class SitesActiv extends SiteTouristique {
 		return duration;
 	}
 
-	public SitesActiv(String nom, String description, Adresse adresse, BigDecimal prix, int id, float duration) {
+	public SitesActiv(String nom, String description, Adresse adresse, double prix, int id, float duration) {
 		super(nom, description, adresse, prix, id);
 		this.duration = duration;
 	}

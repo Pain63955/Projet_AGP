@@ -55,8 +55,6 @@ public class Excursion implements ElementTarifiable{
     
     @Override
     public double getPrix() {
-//    	BigDecimal totalTrajets = trajets.stream().mapToDouble(Trajet::getPrix).sum();
-//    	BigDecimal totalEntreesSites = sites.stream().mapToDouble(SiteTouristique::getPrix).sum();
     	double prixTotalTrajet = 0.0;
     	double prixTotalSites = 0.0;
     	
