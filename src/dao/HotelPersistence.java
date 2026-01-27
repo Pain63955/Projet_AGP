@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 import business.excursion.Adresse;
 
-public interface HotelPersistence{
+public interface HotelPersistence{ 
 	
 	void dataInit();
 

@@ -11,7 +11,7 @@ class JdbcConnection {
 
 	private static Connection connection;
 
-	public static Connection getConnection() {
+	public static Connection getConnection() { 
 		if (connection == null) {
 			try {
 				DriverManager.registerDriver(new com.mysql.jdbc.Driver());

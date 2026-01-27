@@ -11,7 +11,7 @@ import business.excursion.Hotel;
 import dao.HotelPersistence;
 
 public class JdbcHotelPersistence implements HotelPersistence {
-	
+	 
 	@Override
 	public void dataInit() {
 		System.err.println("Please don't forget to create tables manually by importing creation.sql in your database !");

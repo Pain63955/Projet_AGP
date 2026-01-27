@@ -5,7 +5,7 @@ import business.excursion.SiteTouristique;
 import dao.SitePersistence;
 
 public class JdbcSitePersistence implements SitePersistence {
-
+ 
 	@Override
 	public void dataInit() {
 		System.err.println("Please don't forget to create tables manually by importing creation.sql in your database !");

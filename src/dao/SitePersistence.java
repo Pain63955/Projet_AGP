@@ -13,7 +13,7 @@ public interface SitePersistence {
 	
 	SiteTouristique fetchNear(Adresse adresse);
 
-	SiteTouristique fetchGamme(String range);
+	SiteTouristique fetchGamme(String range); 
 
 	SiteTouristique fetchPrice(BigDecimal lowPrice, BigDecimal highPrice);
 	
