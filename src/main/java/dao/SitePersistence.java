@@ -1,18 +1,18 @@
 package dao;
 
-import business.excursion.Adresse;
-import business.excursion.SiteTouristique;
+import business.excursion.Address;
+import business.excursion.TouristSite;
 
 public interface SitePersistence {
 
 	void dataInit();
 	
-	SiteTouristique fetchKeywords(String keywords);
+	TouristSite fetchKeywords(String keywords);
 	
-	SiteTouristique fetchNear(Adresse adresse);
+	TouristSite fetchNear(Address adresse);
 
-	SiteTouristique fetchGamme(String range); 
+	TouristSite fetchGrade(String range); 
 
-	SiteTouristique fetchPrice(double lowPrice, double highPrice);
+	TouristSite fetchPrice(double lowPrice, double highPrice);
 	
 }

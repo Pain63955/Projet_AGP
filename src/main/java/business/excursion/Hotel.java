@@ -1,13 +1,13 @@
 package business.excursion;
 
-public class Hotel implements ElementTarifiable{
+public class Hotel implements PriceableElement{
 
-    private String nom;
-    private double prixNuit;
-    private String plage;
-    private Adresse adresse;
+    private String name;
+    private double nightRate;
+    private String beach;
+    private Address address;
     private String description;
-    private String gamme;
+    private String grade;
     private int id;
 
     public Hotel() {
@@ -15,40 +15,40 @@ public class Hotel implements ElementTarifiable{
     }
 
     @Override
-    public double getPrix() { 
-        return this.prixNuit; 
+    public double getPrice() { 
+        return this.nightRate; 
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getPrixNuit() {
-        return prixNuit;
+    public double getNightRate() {
+        return nightRate;
     }
 
-    public void setPrixNuit(double prixNuit) {
-        this.prixNuit = prixNuit;
+    public void setNightRate(double nightRate) {
+        this.nightRate = nightRate;
     }
 
-    public String getPlage() {
-        return plage;
+    public String getBeach() {
+        return beach;
     }
 
-    public String setPlage(String plage) {
-        return this.plage = plage;
+    public String setBeach(String beach) {
+        return this.beach = beach;
     }
 
-    public Adresse getAdresse() {
-        return adresse;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAdresse(Adresse adresse) {
-        this.adresse = adresse;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getDescription() {
@@ -67,12 +67,12 @@ public class Hotel implements ElementTarifiable{
         this.id = id;
     }
 
-    public String getGamme() {
-        return gamme;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setGamme(String gamme) {
-        this.gamme = gamme;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
 

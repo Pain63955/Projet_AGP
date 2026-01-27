@@ -9,15 +9,15 @@ import business.excursion.*;
 public class TestHotel {
     
     private Hotel hotel;
-    private Adresse adresse;
+    private Address adresse;
     
     @Before
     public void setUp() {
         hotel = new Hotel();
-        adresse = new Adresse();
-        adresse.setRue("10 Avenue des Champs");
-        adresse.setVille("Nice");
-        adresse.setCodePostal("06000");
+        adresse = new Address();
+        adresse.setStreet("10 Avenue des Champs");
+        adresse.setTown("Nice");
+        adresse.setPostCode("06000");
         adresse.setLatitude(43.7102);
         adresse.setLongitude(7.2620);
     }
@@ -25,63 +25,63 @@ public class TestHotel {
     @Test
     public void testCreationHotelVide() {
         assertNotNull(hotel);
-        assertNull(hotel.getNom());
-        assertEquals(0.0, hotel.getPrixNuit(),0.0);
-        assertNull(hotel.getAdresse());
+        assertNull(hotel.getName());
+        assertEquals(0.0, hotel.getNightRate(),0.0);
+        assertNull(hotel.getAddress());
         assertNull(hotel.getDescription());
-        assertNull(hotel.getGamme());
+        assertNull(hotel.getGrade());
     }
     
     @Test
     public void testSettersGetters() {
         hotel.setId(1);
-        hotel.setNom("Hôtel Paradise");
-        hotel.setPrixNuit(150.0);
-        hotel.setPlage("Plage des Anges");
-        hotel.setAdresse(adresse);
+        hotel.setName("Hôtel Paradise");
+        hotel.setNightRate(150.0);
+        hotel.setBeach("Plage des Anges");
+        hotel.setAddress(adresse);
         hotel.setDescription("Hôtel 4 étoiles en bord de mer");
-        hotel.setGamme("Luxe");
+        hotel.setGrade("Luxe");
         
         assertEquals(1, hotel.getId());
-        assertEquals("Hôtel Paradise", hotel.getNom());
-        assertEquals(150.0, hotel.getPrixNuit(),0.0);
-        assertEquals("Plage des Anges", hotel.getPlage());
-        assertEquals(adresse, hotel.getAdresse());
+        assertEquals("Hôtel Paradise", hotel.getName());
+        assertEquals(150.0, hotel.getNightRate(),0.0);
+        assertEquals("Plage des Anges", hotel.getBeach());
+        assertEquals(adresse, hotel.getAddress());
         assertEquals("Hôtel 4 étoiles en bord de mer", hotel.getDescription());
-        assertEquals("Luxe", hotel.getGamme());
+        assertEquals("Luxe", hotel.getGrade());
     }
     
     @Test
     public void testGetPrixRetournePrixNuit() {
-        hotel.setPrixNuit(200.0);
-        assertEquals(200.0, hotel.getPrix(),0.0);
+        hotel.setNightRate(200.0);
+        assertEquals(200.0, hotel.getPrice(),0.0);
     }
     
     @Test
     public void testElementTarifableInterface() {
-        hotel.setPrixNuit(100.0);
-        assertTrue(hotel instanceof ElementTarifiable);
-        assertEquals(100.0, ((ElementTarifiable) hotel).getPrix(),0.0);
+        hotel.setNightRate(100.0);
+        assertTrue(hotel instanceof PriceableElement);
+        assertEquals(100.0, ((PriceableElement) hotel).getPrice(),0.0);
     }
     
     @Test
     public void testPrixNuitNegatif() {
         // Test cohérence : le prix ne devrait pas être négatif
-        hotel.setPrixNuit(-50.0);
-        assertTrue(hotel.getPrixNuit() < 0);
+        hotel.setNightRate(-50.0);
+        assertTrue(hotel.getNightRate() < 0);
     }
     
     @Test
     public void testPrixNuitZero() {
-        hotel.setPrixNuit(0.0);
-        assertEquals(0.0, hotel.getPrixNuit(),0.0);
+        hotel.setNightRate(0.0);
+        assertEquals(0.0, hotel.getNightRate(),0.0);
     }
     
     @Test
     public void testAssociationAvecAdresse() {
-        hotel.setAdresse(adresse);
-        assertNotNull(hotel.getAdresse());
-        assertEquals("Nice", hotel.getAdresse().getVille());
-        assertEquals(43.7102, hotel.getAdresse().getLatitude(), 0.0001);
+        hotel.setAddress(adresse);
+        assertNotNull(hotel.getAddress());
+        assertEquals("Nice", hotel.getAddress().getTown());
+        assertEquals(43.7102, hotel.getAddress().getLatitude(), 0.0001);
     }
 }
