@@ -7,6 +7,10 @@ public class Bus implements TransportStrategy {
 	public Bus() {
 		
 	}
+	
+	public Bus(double prix) {
+		this.prixFixe = prix;
+	}
 
 	public void setPrixFixe(double prixFixe) {
         this.prixFixe = prixFixe;
@@ -18,7 +22,7 @@ public class Bus implements TransportStrategy {
     }
 
     @Override
-    public String getMode() {
+    public String toString() {
         return "AUTOBUS";
     }
 

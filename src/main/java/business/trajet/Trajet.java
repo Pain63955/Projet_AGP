@@ -15,7 +15,7 @@ public class Trajet implements ElementTarifiable{
     
     
     public String getMode() {
-		return mode.getMode();
+		return mode.toString();
 	}
 
 

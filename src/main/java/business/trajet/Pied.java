@@ -12,7 +12,7 @@ public class Pied implements TransportStrategy{
 		} 
 	
 	@Override
-    public String getMode() { 
+    public String toString() { 
 		return "MARCHE"; 
 		}
 }

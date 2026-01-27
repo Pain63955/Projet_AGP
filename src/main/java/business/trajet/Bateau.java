@@ -5,8 +5,12 @@ public class Bateau implements TransportStrategy{
 	
 	
 
-    public Bateau() {
+	public Bateau() {
 		super();
+	}
+	public Bateau(double prix) {
+		super();
+		this.prixKm=prix;
 	}
 
 
@@ -31,7 +35,7 @@ public class Bateau implements TransportStrategy{
 
 
 	@Override
-    public String getMode() {
+    public String toString() {
         return "BATEAU";
     }
 }
