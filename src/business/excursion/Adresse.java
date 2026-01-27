@@ -8,12 +8,8 @@ public class Adresse {
     private double lat;
     private double lon;
     
-	public Adresse(String rue, String ville, String codePostal, double lat, double lon) {
-		this.rue = rue;
-		this.ville = ville;
-		this.codePostal = codePostal;
-		this.lat = lat;
-		this.lon = lon;
+	public Adresse() {
+		
 	}
 
 	public String getRue() {

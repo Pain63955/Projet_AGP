@@ -38,8 +38,8 @@ public class TestExcursionBuild {
         ArrayList<String> langues = new ArrayList<>();
         langues.add("Français");
         langues.add("Anglais");
-        siteHisto = new SitesHisto("Musée Matisse", "Musée d'art moderne", adresseSite1, 12.0, 1, "Jean Dupont", langues);
-        siteActiv = new SitesActiv("Parc d'aventure", "Activités en plein air", adresseSite2, 25.0, 2, 3.5f);
+        siteHisto = new SiteHisto("Musée Matisse", "Musée d'art moderne", adresseSite1, 12.0, 1, "Jean Dupont", langues);
+        siteActiv = new SiteActiv("Parc d'aventure", "Activités en plein air", adresseSite2, 25.0, 2, 3.5f);
         
         // Création d'une excursion
         excursion = new Excursion();
@@ -62,7 +62,7 @@ public class TestExcursionBuild {
 
     @Test
     public void testAjouterTroisSitesMaximum() {
-        SiteTouristique site3 = new SitesActiv("Plage privée", "Accès plage", adresseSite3, 15.0, 3, 4.0f);
+        SiteTouristique site3 = new SiteActiv("Plage privée", "Accès plage", adresseSite3, 15.0, 3, 4.0f);
         
         excursion.ajouterSite(siteHisto);
         excursion.ajouterSite(siteActiv);
@@ -74,8 +74,8 @@ public class TestExcursionBuild {
 
     @Test(expected = RuntimeException.class)
     public void testAjouterQuatreSitesLanceException() {
-        SiteTouristique site3 = new SitesActiv("Plage privée", "Accès plage", adresseSite3, 15.0, 3, 4.0f);
-        SiteTouristique site4 = new SitesHisto("Cathédrale", "Monument historique", adresseSite4, 8.0, 4, "Marie Martin", new ArrayList<>());
+        SiteTouristique site3 = new SiteActiv("Plage privée", "Accès plage", adresseSite3, 15.0, 3, 4.0f);
+        SiteTouristique site4 = new SiteHisto("Cathédrale", "Monument historique", adresseSite4, 8.0, 4, "Marie Martin", new ArrayList<>());
         
         excursion.ajouterSite(siteHisto);
         excursion.ajouterSite(siteActiv);
@@ -85,8 +85,8 @@ public class TestExcursionBuild {
 
     @Test
     public void testMessageExceptionQuatreSites() {
-        SiteTouristique site3 = new SitesActiv("Plage privée", "Accès plage", adresseSite3, 15.0, 3, 4.0f);
-        SiteTouristique site4 = new SitesHisto("Cathédrale", "Monument", adresseSite4, 8.0, 4, "Guide", new ArrayList<>());
+        SiteTouristique site3 = new SiteActiv("Plage privée", "Accès plage", adresseSite3, 15.0, 3, 4.0f);
+        SiteTouristique site4 = new SiteHisto("Cathédrale", "Monument", adresseSite4, 8.0, 4, "Guide", new ArrayList<>());
         
         excursion.ajouterSite(siteHisto);
         excursion.ajouterSite(siteActiv);
@@ -159,7 +159,7 @@ public class TestExcursionBuild {
 
     @Test
     public void testExcursionCompleteAvecTrajets() {
-        SiteTouristique site3 = new SitesActiv("Zoo", "Parc animalier", adresseSite3, 18.0, 3, 5.0f);
+        SiteTouristique site3 = new SiteActiv("Zoo", "Parc animalier", adresseSite3, 18.0, 3, 5.0f);
         
         excursion.ajouterSite(siteHisto);
         excursion.ajouterSite(siteActiv);
@@ -195,7 +195,7 @@ public class TestExcursionBuild {
         langues.add("Italien");
         langues.add("Espagnol");
         
-        SitesHisto site = new SitesHisto("Château Nice", "Monument historique", adresseSite1, 10.0, 5, "Pierre Martin", langues);
+        SiteHisto site = new SiteHisto("Château Nice", "Monument historique", adresseSite1, 10.0, 5, "Pierre Martin", langues);
         
         assertEquals("Le nom doit correspondre", "Château Nice", site.getNom());
         assertEquals("Le prix doit correspondre", 10.0, site.getPrix(), 0.01);
@@ -206,7 +206,7 @@ public class TestExcursionBuild {
 
     @Test
     public void testCreationSitesActiv() {
-        SitesActiv site = new SitesActiv("Randonnée Mont Boron", "Activité sportive", adresseSite2, 30.0, 6, 2.5f);
+        SiteActiv site = new SiteActiv("Randonnée Mont Boron", "Activité sportive", adresseSite2, 30.0, 6, 2.5f);
         
         assertEquals("Le nom doit correspondre", "Randonnée Mont Boron", site.getNom());
         assertEquals("Le prix doit correspondre", 30.0, site.getPrix(), 0.01);
@@ -216,7 +216,7 @@ public class TestExcursionBuild {
 
     @Test
     public void testModificationPrixSite() {
-        SitesActiv site = new SitesActiv("Activité", "Description", adresseSite1, 20.0, 7, 1.5f);
+        SiteActiv site = new SiteActiv("Activité", "Description", adresseSite1, 20.0, 7, 1.5f);
         assertEquals("Prix initial", 20.0, site.getPrix(), 0.01);
         
         site.setPrix(35.0);
