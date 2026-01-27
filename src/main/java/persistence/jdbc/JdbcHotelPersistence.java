@@ -70,7 +70,7 @@ public class JdbcHotelPersistence implements HotelPersistence {
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
 
-			preparedStatement.setInt(1, adresse.getId());
+			preparedStatement.setInt(1, adresse.getAdressId());
 			
 			ResultSet result = preparedStatement.executeQuery();
 			try (ResultSet resultTry = preparedStatement.executeQuery()) {
