@@ -35,7 +35,7 @@ public class OffreSejour implements ElementTarifiable{
     	
         double prixTotalHotel = 0.0;
         if (hotel != null) {
-            prixTotalHotel = hotel.getPrix() * 7;
+            prixTotalHotel = hotel.getPrix() * nbNuits;
         }
         
         return prixTotalHotel + prixTotalExcursions;
