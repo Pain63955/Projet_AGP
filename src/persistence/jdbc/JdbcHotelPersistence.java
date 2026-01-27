@@ -10,7 +10,7 @@ import business.excursion.Adresse;
 import business.excursion.Hotel;
 import dao.HotelPersistence;
 
-public class JdbcHotelPersistence implements HotelPersistence {
+public class JdbcHotelPersistence implements HotelPersistence { 
 	 
 	@Override
 	public void dataInit() {

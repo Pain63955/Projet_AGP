@@ -1,7 +1,5 @@
 package dao;
 
-import java.math.BigDecimal;
-
 import business.excursion.Adresse;
 import business.excursion.SiteTouristique;
 
@@ -15,6 +13,6 @@ public interface SitePersistence {
 
 	SiteTouristique fetchGamme(String range); 
 
-	SiteTouristique fetchPrice(BigDecimal lowPrice, BigDecimal highPrice);
+	SiteTouristique fetchPrice(double lowPrice, double highPrice);
 	
 }

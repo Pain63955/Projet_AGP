@@ -2,8 +2,6 @@ package dao;
 
 import business.excursion.Hotel;
 
-import java.math.BigDecimal;
-
 import business.excursion.Adresse;
 
 public interface HotelPersistence{ 
@@ -14,6 +12,6 @@ public interface HotelPersistence{
 
     Hotel fetchGamme(String range);
 
-	Hotel fetchPrice(BigDecimal lowPrice, BigDecimal highPrice);
+	Hotel fetchPrice(double lowPrice, double highPrice);
 
 }
