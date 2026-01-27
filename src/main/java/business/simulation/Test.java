@@ -13,9 +13,9 @@ import business.trajet.TransportFactory;
 import org.springframework.context.ApplicationContext;
 
 public class Test {
-
+	
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("business/spring/spring.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("/spring/spring.xml");
         
         OffreSejour offre = (OffreSejour) context.getBean("offreBali");
         Hotel baliHotel = (Hotel) context.getBean("hotelBali");
