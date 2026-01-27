@@ -1,6 +1,7 @@
 package business.offre;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import business.excursion.ElementTarifiable;
@@ -14,17 +15,26 @@ public class OffreSejour implements ElementTarifiable{
     private List<Excursion> excursions = new ArrayList<>();
     private int nbNuits;
     
-    private double scoreConfort;
+
+	private double scoreConfort;
 
     public OffreSejour() {
     }
 
     @Override
     public double getPrix() {
-        double prixTotalExcursions = excursions.stream().mapToDouble(Excursion::getPrix).sum();
-        double prixTotalHotel = 0;
+    	double prixTotalExcursions = 0.0;
+    	
+    	Iterator<Excursion> ite = excursions.iterator();
+    	while(ite.hasNext()) {
+    		Excursion excursion = ite.next();
+    		double prixExcursion = excursion.getPrix();
+    		prixTotalExcursions = prixTotalExcursions + prixExcursion;
+    	}
+    	
+        double prixTotalHotel = 0.0;
         if (hotel != null) {
-            prixTotalHotel = hotel.getPrix() * nbNuits;
+            prixTotalHotel = hotel.getPrix() * 7;
         }
         
         return prixTotalHotel + prixTotalExcursions;
@@ -68,6 +78,10 @@ public class OffreSejour implements ElementTarifiable{
 
     public boolean estDansLeBudget(double budgetMax) {
         return getPrix() <= budgetMax;
+    }
+    
+    public int getNbNuits() {
+    	return nbNuits;
     }
 
 	public void setNbNuits(int nbNuits) {
