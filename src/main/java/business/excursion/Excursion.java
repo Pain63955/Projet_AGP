@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import business.trajet.Trajet;
-import business.trajet.TransportFactory;
+import business.trajet.*;
 
 public class Excursion implements ElementTarifiable {
     

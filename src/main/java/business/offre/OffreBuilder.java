@@ -21,8 +21,15 @@ public class OffreBuilder {
         // On récupère le bean offreBali configuré dans le XML (contient déjà l'hôtel)
         this.offre = (OffreSejour) context.getBean("offreBali");
     }
-
-    public OffreBuilder genererIA() {
+    
+    
+    
+    /**
+     * 
+     *	GRAND N'IMPORTE QUOI
+     * 
+     **/
+    /*public OffreBuilder genererIA() {
         // 1. Récupération et filtrage sémantique des sites
         Map<String, SiteTouristique> catalogue = context.getBeansOfType(SiteTouristique.class);
         String[] motsCles = criteres.getMotsCles().toLowerCase().split(" ");
@@ -82,7 +89,7 @@ public class OffreBuilder {
         }
         return this;
     }
-
+*/
     public OffreSejour build() {
         return this.offre;
     }

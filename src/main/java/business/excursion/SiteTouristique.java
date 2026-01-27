@@ -8,7 +8,15 @@ public abstract class SiteTouristique implements ElementTarifiable{
     private double prix;
     private int id;
     
-    public SiteTouristique() {
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public SiteTouristique() {
     	
     }
 
