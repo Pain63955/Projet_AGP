@@ -1,4 +1,4 @@
-package unit;
+package tests;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -7,7 +7,7 @@ import business.excursion.Address;
 import business.excursion.Hotel;
 import persistence.jdbc.JdbcHotelPersistence;
 
-public class JdbcHotelPersistenceTest {
+public class DAOHotelPersistenceTest {
 
 	@Test
     public void testFetchName_existingHotel_returnsHotel() {

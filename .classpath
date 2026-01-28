@@ -2,25 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src/main/ressources"/>
 	<classpathentry kind="src" path="src/main/java"/>
-<<<<<<< HEAD
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/libs"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lucene"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lucene"/>
-=======
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/coo"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lucenne"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-<<<<<<< HEAD
-=======
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/TLiu"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COO"/>
->>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
->>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 	<classpathentry kind="output" path="bin"/>
 </classpath>

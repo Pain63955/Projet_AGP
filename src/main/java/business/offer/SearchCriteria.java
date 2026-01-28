@@ -8,14 +8,18 @@ import dao.SitePersistence;
 public class SearchCriteria {
     private String destination;     // Pour filtrer la zone géographique
     private int nbDays;           // Utilise la boucle i < nbJours dans le Builder
-    private double budgetMin;
-    private double budgetMax;      // La limite pour la méthode estDansLeBudget() de OffreSejour
+    private long budgetMin;
+    private long budgetMax;      // La limite pour la méthode estDansLeBudget() de OffreSejour
     private String keywords;       // La chaîne de texte analysée par l'IA (ex: "zen temple surf")
+    private int grade;
+    private int confort;
     private String askedTransport; // Le mode envoyé à la factory (BATEAU, BUS, etc.)
 
     public SearchCriteria() {}
 
-    public SearchCriteria(String destination, int nbJours,double budgetMin, double budgetMax, String motsCles, String transportSouhaite) {
+    
+    //constructeur a supprimé éventuellement)
+    public SearchCriteria(String destination, int nbJours, long budgetMin, long budgetMax, String motsCles, String transportSouhaite) {
         this.destination = destination;
         this.nbDays = nbJours;
         this.budgetMin = budgetMin;
@@ -23,10 +27,19 @@ public class SearchCriteria {
         this.keywords = motsCles;
         this.askedTransport = transportSouhaite;
     }
+    
+    public void prepareComplexSearch(int days, long bi, long ba, int grade, int confort, String trans) {
+    	this.nbDays= days;
+    	this.budgetMin = bi;
+    	this.budgetMax = ba;
+    	this.grade = grade;
+    	this.confort = confort;
+    	this.askedTransport = trans;
+    }
 
-    public List<StayOffer> complexSearch() {
+	public List<StayOffer> complexSearch() {
     	//go ask offre builder ou excursion builder jsp with this.*
-    	//return PAS la list pcq elle va aller dans son ptit proxy bean qui va passé sa à l'xhtml
+    	//return PAS(enfin ptet que la liste va etre return jsp faut capter hein) la list pcq elle va aller dans son ptit proxy bean qui va passé sa à l'xhtml
     	return null;
     }
     
@@ -51,19 +64,19 @@ public class SearchCriteria {
 		this.nbDays = nbDays;
 	}
 
-	public double getBudgetMin() {
+	public long getBudgetMin() {
 		return budgetMin;
 	}
 
-	public void setBudgetMin(double budgetMin) {
+	public void setBudgetMin(long budgetMin) {
 		this.budgetMin = budgetMin;
 	}
 
-	public double getBudgetMax() {
+	public long getBudgetMax() {
 		return budgetMax;
 	}
 
-	public void setBudgetMax(double budgetMax) {
+	public void setBudgetMax(long budgetMax) {
 		this.budgetMax = budgetMax;
 	}
 
@@ -83,4 +96,21 @@ public class SearchCriteria {
 		this.askedTransport = askedTransport;
 	}
 
+    public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+
+
+	public int getConfort() {
+		return confort;
+	}
+
+
+	public void setConfort(int confort) {
+		this.confort = confort;
+	}
 }
