@@ -1,4 +1,4 @@
-package unit;
+package tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,8 +7,6 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.print.attribute.standard.PrinterMessageFromOperator;
 
 import business.excursion.*;
 import business.path.*;
