@@ -172,26 +172,27 @@ public class TestExcursion {
     @Test
     public void testGetPrixAvecTrajetsSites() {
         excursion.setNbSite(2);
-        excursion.addSite(site1); // 10€
-        excursion.addSite(site2); // 15€
-        excursion.generateTour(hotel, "AUTOBUS"); // 3 trajets * 5€ = 15€
+        excursion.setFactory(factory);
+        
+        excursion.addSite(site1); 
+        excursion.addSite(site2); 
+        
+        excursion.generateTour(hotel, "AUTOBUS"); 
         
         double prixTotal = excursion.getPrice();
-       
 
-        assertEquals(45.0, prixTotal, 0.001);
+        assertEquals(40.0, prixTotal, 0.001);
     }
     
     @Test
     public void testGetPrixSansTrajets() {
         excursion.setNbSite(2);
-        excursion.addSite(site1); // 10€
-        excursion.addSite(site2); // 15€
+        excursion.addSite(site1); 
+        excursion.addSite(site2); 
         
-        // Pas de génération de circuit
         double prixTotal = excursion.getPrice();
 
-        assertEquals(15.0, prixTotal, 0.001);
+        assertEquals(25.0, prixTotal, 0.001);
     }
     
     @Test
