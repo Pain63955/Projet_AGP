@@ -20,7 +20,7 @@ public class SearchCriteriaBean implements Serializable{
 	 */
 	private static final long serialVersionUID = -2204740088413345478L;
 	private SearchCriteria srct;
-	
+	//test andrea
 	private int nbDays;       
     private long budgetMin;
     private long budgetMax;
