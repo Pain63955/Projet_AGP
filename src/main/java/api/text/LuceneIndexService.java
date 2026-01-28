@@ -109,7 +109,7 @@ public class LuceneIndexService {
             results.add(new LuceneHit(key, sd.score));
         }
 	    return results;
-	} 
+	}
 	
 	public HashMap<Integer, Double> sortScores(List<LuceneHit> results) throws Exception {
 		 HashMap<Integer, Double> hashResults = new HashMap<Integer, Double>();
