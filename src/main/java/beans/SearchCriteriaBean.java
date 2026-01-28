@@ -22,32 +22,80 @@ public class SearchCriteriaBean implements Serializable{
 	private SearchCriteria srct;
 	
 	private int nbDays;       
-    private double budgetMin;
-    private double budgetMax;      
+    private long budgetMin;
+    private long budgetMax;
+	private int grade;
+    private int confort;
     private String keywords;       
     private String askedTransport;
 	
 
-	public String search() {
-		return null;
-		//euh bah la va falloir vérifier que tt est bon avant de faire l'appel chez search criteria sinon on est un mauvais proxy
+	public String simpleSearch(FacesContext context, UIComponent componentToValidate, Object value) {
+		String kwds = (String)value;
+		validateKeywords(kwds);
+
+		this.srct.setKeywords(kwds);
+		//this.srct.simpleSearch(null);
+		//TODO rajouter le sitepersistence implémenté
 		
+		//return le résultat de la recherche, le formater comme il faut ici avant de le renvoyer
+		
+		return "Une liste de site touristique pour l'exemple";		
 	}
 	
-	public void validatePrice(FacesContext context, UIComponent componentToValidate, Object value) throws ValidatorException {
-		int prix = (int)value;
+	public String complexSearch() {
+		validatePrice(this.budgetMin, this.budgetMax);
+		validateDays(this.nbDays);
+		validateConfort(this.confort);
+		validateGrade(this.grade);
+		validateTransport(this.askedTransport);
 		
-		if (prix < 0 || prix > 50000) {
+		this.srct.prepareComplexSearch(this.budgetMin, this.budgetMax, this.nbDays, this.confort, this.grade, this.askedTransport);
+		this.srct.complexSearch();
+		//TODO Ajouter sitepersistence et tt
+		//return le résu de la recherche complex formaté correctement pour le web et tt t'as vu
+		
+		return "Ceci est un résultat de recherche complexe.";
+	}
+	public void validateConfort(int conf) {
+		if (conf < 1 || conf > 5) {
+			FacesMessage message = new FacesMessage("Nombre de confort invalide.");
+			throw new ValidatorException(message);
+		}
+	}
+	
+	public void validateGrade(int star) {
+		if (star < 1 || star > 5) {
+			FacesMessage message = new FacesMessage("Nombre d'étoiles invalide.");
+			throw new ValidatorException(message);
+		}
+	}
+	
+	public void validateTransport(String transport) {
+		if (transport.isEmpty()) {
+			FacesMessage message = new FacesMessage("Il faut au minimum 1 type de transport.");
+			throw new ValidatorException(message);
+		}
+	}
+	public void validateKeywords(String kwds) throws ValidatorException{
+		if (kwds.isEmpty()) {
+			FacesMessage message = new FacesMessage("La liste ne peut pas être vide.");
+			throw new ValidatorException(message);
+		}
+	}
+	
+	public void validatePrice(long prixMin, long prixMax) throws ValidatorException {
+		
+		if (prixMin < 0 || prixMax > 50000 || prixMin > prixMax) {
 			FacesMessage message = new FacesMessage("The prix cannot be negative nor over 50000€");
 			throw new ValidatorException(message);
 		}
 	}
 	
-	public void validateJours(FacesContext context, UIComponent componentToValidate, Object value) throws ValidatorException {
-		int days = (int)value;
+	public void validateDays(int days) throws ValidatorException {
 		
-		if (days < 0 || days > 100) {
-			FacesMessage message = new FacesMessage("The amount of days cannot be less than 1 and above 100");
+		if (days < 1 || days > 7) {
+			FacesMessage message = new FacesMessage("The amount of days cannot be less than 1 and above 7");
 			throw new ValidatorException(message);
 		}
 	}
@@ -69,15 +117,23 @@ public class SearchCriteriaBean implements Serializable{
 	}
 
 	public void setNbDays(int nbDays) {
-		this.srct.setNbDays(nbDays);
+		this.nbDays = nbDays;
 	}
 
-	public double getBudgetMax() {
+	public long getBudgetMin() {
+		return budgetMin;
+	}
+
+	public void setBudgetMin(long budgetMin) {
+		this.budgetMin = budgetMin;
+	}
+
+	public long getBudgetMax() {
 		return budgetMax;
 	}
 
-	public void setBudgetMax(double budgetMax) {
-		this.srct.setBudgetMax(budgetMax);
+	public void setBudgetMax(long budgetMax) {
+		this.budgetMax = budgetMax;
 	}
 
 	public String getKeywords() {
@@ -85,7 +141,7 @@ public class SearchCriteriaBean implements Serializable{
 	}
 
 	public void setKeywords(String keywords) {
-		this.srct.setKeywords(keywords);
+		this.keywords = keywords;
 	}
 
 	public String getAskedTransport() {
@@ -93,15 +149,21 @@ public class SearchCriteriaBean implements Serializable{
 	}
 
 	public void setAskedTransport(String askedTransport) {
-		this.srct.setAskedTransport(askedTransport);
+		this.askedTransport = askedTransport;
+	}
+	public int getStarRating() {
+		return grade;
 	}
 
-	public double getBudgetMin() {
-		return this.budgetMin;
-		
+	public void setStarRating(int grade) {
+		this.grade = grade;
 	}
-	
-	public void setBudgetMin() {
-		this.srct.setBudgetMin(budgetMin);
+
+	public int getConfort() {
+		return confort;
+	}
+
+	public void setConfort(int confort) {
+		this.confort = confort;
 	}
 }
