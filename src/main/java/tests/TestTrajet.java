@@ -9,7 +9,7 @@ import business.excursion.*;
 import business.path.*;
 
 public class TestTrajet {
-    
+     
     private Path trajet;
     
     @Before
