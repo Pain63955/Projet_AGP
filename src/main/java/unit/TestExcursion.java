@@ -266,6 +266,7 @@ public class TestExcursion {
         // Tous les trajets doivent avoir le même mode de transport
         for (int i = 0; i < excursion.getTrajets().size(); i++) {
             assertEquals("AUTOBUS", excursion.getTrajets().get(i).getMode());
+            System.out.println(excursion.getTrajets().get(i).getMode());
         }
     }
 }
