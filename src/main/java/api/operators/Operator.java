@@ -1,5 +1,7 @@
 package api.operators;
 
-public interface Operator {
+import api.visitor.OperatorVisitor;
 
+public interface Operator {
+		  void accept(OperatorVisitor visitor);
 }

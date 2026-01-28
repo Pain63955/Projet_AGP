@@ -1,5 +1,6 @@
 package api.operators;
 
-public class SqlOperator implements Operator {
+import api.visitor.OperatorVisitor;
 
+public class SqlOperator implements Operator {
 }
