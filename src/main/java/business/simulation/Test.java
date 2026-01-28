@@ -4,11 +4,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import business.excursion.Excursion;
 import business.excursion.Hotel;
-import business.excursion.SiteHisto;
-import business.excursion.SiteTouristique;
-import business.offre.OffreSejour;
-import business.trajet.Trajet;
-import business.trajet.TransportFactory;
+import business.excursion.HistoricSite;
+import business.excursion.TouristSite;
+import business.offer.StayOffer;
+import business.path.Path;
+import business.path.TransportFactory;
 
 import org.springframework.context.ApplicationContext;
 
@@ -17,60 +17,60 @@ public class Test {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("/spring/spring.xml");
         
-        OffreSejour offre = (OffreSejour) context.getBean("offreBali");
+        StayOffer offer = (StayOffer) context.getBean("offerBali");
         Hotel baliHotel = (Hotel) context.getBean("hotelBali");
         TransportFactory transportFactory = (TransportFactory) context.getBean("transportFactory");
 
-        offre.setHotel(baliHotel);
+        offer.setHotel(baliHotel);
 
         // JOUR 1
-        Excursion jour1 = (Excursion) context.getBean("excursion");
-        jour1.setFactory(transportFactory);
+        Excursion day1 = (Excursion) context.getBean("excursion");
+        day1.setFactory(transportFactory);
         
-        SiteHisto temple = (SiteHisto) context.getBean("siteTemple");
-        SiteHisto palais = (SiteHisto) context.getBean("sitePalaisUbud");
+        HistoricSite temple = (HistoricSite) context.getBean("siteTemple");
+        HistoricSite palace = (HistoricSite) context.getBean("sitePalaisUbud");
         
-        jour1.ajouterSite(temple);
-        jour1.ajouterSite(palais);
+        day1.addSite(temple);
+        day1.addSite(palace);
         
         // Génère le circuit automatique (Hôtel -> Temple -> Palais -> Hôtel)
-        jour1.genererCircuit(baliHotel, "BATEAU");
-        offre.ajouterExcursion(jour1);
+        day1.generateTour(baliHotel, "BOAT");
+        offer.addExcursion(day1);
 
         // JOUR 2
-        Excursion jour2 = (Excursion) context.getBean("excursion");
-        jour2.setFactory(transportFactory);
+        Excursion day2 = (Excursion) context.getBean("excursion");
+        day2.setFactory(transportFactory);
         
-        SiteHisto rizieres = (SiteHisto) context.getBean("siteRizieres");
-        jour2.ajouterSite(rizieres);
+        HistoricSite riceField = (HistoricSite) context.getBean("siteRizieres");
+        day2.addSite(riceField);
         
         // Circuit simple (Hôtel -> Rizières -> Hôtel)
-        jour2.genererCircuit(baliHotel, "MARCHE");
-        offre.ajouterExcursion(jour2);
+        day2.generateTour(baliHotel, "WALK");
+        offer.addExcursion(day2);
 
         // AFFICHAGE
         System.out.println("RECAPITULATIF DU SEJOUR : BALI");
-        System.out.println("Hotel : " + offre.getHotel().getNom());
+        System.out.println("Hotel : " + offer.getHotel().getName());
         System.out.println("");
 
         int i = 1;
-        for (Excursion ex : offre.getExcursions()) {
+        for (Excursion ex : offer.getExcursions()) {
             System.out.println("JOUR " + i);
             
-            for (SiteTouristique s : ex.getSites()) {
-                System.out.println("  Site : " + s.getNom());
+            for (TouristSite s : ex.getSites()) {
+                System.out.println("  Site : " + s.getName());
             }
             
             // On affiche chaque segment du trajet généré
-            for (Trajet t : ex.getTrajets()) {
+            for (Path t : ex.getTrajets()) {
                 System.out.println("  Trajet : " + t.getMode() + " (" + String.format("%.2f", t.getDistance()) + " km)");
             }
             
-            System.out.println("  Prix de la journee : " + ex.getPrix() + " EUR");
+            System.out.println("  Prix de la journee : " + ex.getPrice() + " EUR");
             System.out.println("");
             i++;
         }
 
-        System.out.println("PRIX TOTAL DU SEJOUR : " + offre.getPrix() + " EUR");
+        System.out.println("PRIX TOTAL DU SEJOUR : " + offer.getPrice() + " EUR");
     }
 }

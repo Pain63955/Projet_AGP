@@ -3,17 +3,17 @@ package business.simulation;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.offre.OffreSejour;
+import business.offer.StayOffer;
 
 public class Simulation {
 	
-	private List<OffreSejour> offres = new ArrayList<OffreSejour>();
+	private List<StayOffer> offers = new ArrayList<StayOffer>();
 	
-	public List<OffreSejour> getOffres() {
-		return offres;
+	public List<StayOffer> getOffers() {
+		return offers;
 	}
 	
-	public void addOffreSejour(OffreSejour of) {
+	public void addStayOffer(StayOffer of) {
 		
 	}
 }

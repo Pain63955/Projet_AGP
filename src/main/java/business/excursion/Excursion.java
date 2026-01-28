@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import business.trajet.*;
+import business.path.*;
 
-public class Excursion implements ElementTarifiable {
+public class Excursion implements PriceableElement {
     
-    private List<SiteTouristique> sites = new ArrayList<>();
-    private List<Trajet> trajets = new ArrayList<>();
+    private List<TouristSite> sites = new ArrayList<>();
+    private List<Path> paths = new ArrayList<>();
     private int nbSite;
     private TransportFactory factory;
 
     public Excursion() {}
 
-    public void ajouterSite(SiteTouristique site) {
+    public void addSite(TouristSite site) {
         if (sites.size() < this.nbSite) {
             sites.add(site);
         } else {
@@ -27,32 +27,32 @@ public class Excursion implements ElementTarifiable {
      * Génère le circuit logique de la journée :
      * Hôtel -> Site 1 -> Site 2 -> Site 3 -> Hôtel
      */
-    public void genererCircuit(Hotel hotel, String mode) {
+    public void generateTour(Hotel hotel, String mode) {
         if (sites.isEmpty()) return;
-        this.trajets.clear();
+        this.paths.clear();
 
         // 1. Départ : Hôtel -> Premier Site
-        creerEtAjouterTrajet(hotel.getAdresse(), sites.get(0).getAdresse(), mode);
+        createAndAddPath(hotel.getAddress(), sites.get(0).getAddress(), mode);
 
         // 2. Entre les sites : Site n -> Site n+1
         for (int i = 0; i < sites.size() - 1; i++) {
-            creerEtAjouterTrajet(sites.get(i).getAdresse(), sites.get(i+1).getAdresse(), mode);
+            createAndAddPath(sites.get(i).getAddress(), sites.get(i+1).getAddress(), mode);
         }
 
         // 3. Retour : Dernier Site -> Hôtel
-        creerEtAjouterTrajet(sites.get(sites.size() - 1).getAdresse(), hotel.getAdresse(), mode);
+        createAndAddPath(sites.get(sites.size() - 1).getAddress(), hotel.getAddress(), mode);
     }
 
-    private void creerEtAjouterTrajet(Adresse depart, Adresse arrivee, String mode) {
-        if (depart == null || arrivee == null) {
+    private void createAndAddPath(Address departure, Address arrival, String mode) {
+        if (departure == null || arrival == null) {
             throw new IllegalArgumentException("Les adresses de départ et d'arrivée ne peuvent pas être nulles.");
         }
-        double distance = calculerDistance(depart.getLatitude(), depart.getLongitude(), arrivee.getLatitude(), arrivee.getLongitude());
-        Trajet t = factory.creerTrajet(mode, distance);
-        this.trajets.add(t);
+        double distance = calculeDistance(departure.getLatitude(), departure.getLongitude(), arrival.getLatitude(), arrival.getLongitude());
+        Path t = factory.createPath(mode, distance);
+        this.paths.add(t);
     }
 
-    private double calculerDistance(double lat1, double lon1, double lat2, double lon2) {
+    private double calculeDistance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) 
                     + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
@@ -62,34 +62,34 @@ public class Excursion implements ElementTarifiable {
     }
 
     @Override
-    public double getPrix() {
-    	double prixTotalTrajet = 0.0;
-    	double prixTotalSites = 0.0;
+    public double getPrice() {
+    	double totalPricePath = 0.0;
+    	double totalPriceSite = 0.0;
     	
-    	Iterator<Trajet> ite1 = trajets.iterator();
+    	Iterator<Path> ite1 = paths.iterator();
     	while(ite1.hasNext()) {
-    		Trajet trajet = ite1.next();
-    		double prixTrajet = trajet.getPrix();
-    		prixTotalTrajet = prixTotalTrajet + prixTrajet;
+    		Path path = ite1.next();
+    		double pathPrice = path.getPrice();
+    		totalPricePath = totalPricePath + pathPrice;
     	}
     	
-    	Iterator<SiteTouristique> ite2 = sites.iterator();
+    	Iterator<TouristSite> ite2 = sites.iterator();
     	while(ite2.hasNext()) {
-    		SiteTouristique site = ite2.next();
-    		double prixSite = site.getPrix();
-    		prixTotalSites = prixTotalTrajet + prixSite;
+    		TouristSite site = ite2.next();
+    		double sitePrice = site.getPrice();
+    		totalPriceSite = totalPricePath + sitePrice;
     	}
     	
-        return prixTotalTrajet + prixTotalSites;
+        return totalPricePath + totalPriceSite;
     }
 
     // Getters et Setters
-    public List<SiteTouristique> getSites() { 
+    public List<TouristSite> getSites() { 
     	return sites; 
     }
     
-    public List<Trajet> getTrajets() { 
-    	return trajets;
+    public List<Path> getTrajets() { 
+    	return paths;
     
     }
     public void setFactory(TransportFactory factory) { 

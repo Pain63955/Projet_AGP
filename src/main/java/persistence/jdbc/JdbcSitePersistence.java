@@ -1,7 +1,7 @@
 package persistence.jdbc;
 
-import business.excursion.Adresse;
-import business.excursion.SiteTouristique;
+import business.excursion.Address;
+import business.excursion.TouristSite;
 import dao.SitePersistence;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -27,7 +27,11 @@ public class JdbcSitePersistence implements SitePersistence {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public List<SiteTouristique> fetchNear(int adresseID, double km) {
+=======
+	public List<TouristSite> fetchNear(int adresseID, double km) {
+>>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 	    // 1) On récupère d'abord le point centre (lat/lng) via une sous-requête "center"
 	    // 2) Puis on calcule la distance (Haversine) pour chaque site
 	    // 3) On LEFT JOIN les tables filles (activité/historique)
@@ -52,7 +56,7 @@ public class JdbcSitePersistence implements SitePersistence {
 	        "HAVING distance_km <= ? " +
 	        "ORDER BY distance_km ASC";
 
-	    List<SiteTouristique> sites = new ArrayList<>();
+	    List<TouristSite> sites = new ArrayList<>();
 
 	    try (Connection conn = JdbcConnection.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -63,7 +67,7 @@ public class JdbcSitePersistence implements SitePersistence {
 	        try (ResultSet rs = ps.executeQuery()) {
 	            while (rs.next()) {
 	                // ---- mapping base ----
-	                SiteTouristique st = new SiteTouristique();
+	                TouristSite st = new TouristSite();
 	                st.setId(rs.getInt("siteID"));
 	                st.setNom(rs.getString("nom"));
 	                st.setPrix(rs.getDouble("prix"));
@@ -85,13 +89,13 @@ public class JdbcSitePersistence implements SitePersistence {
 
 
 	@Override
-	public SiteTouristique fetchGamme(String range) {
+	public TouristSite fetchGrade(String range) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public SiteTouristique fetchPrice(double lowPrice, double highPrice) {
+	public TouristSite fetchPrice(double lowPrice, double highPrice) {
 		// TODO Auto-generated method stub
 		return null;
 	}

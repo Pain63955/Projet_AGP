@@ -60,7 +60,7 @@ public class LuceneQuery {
     	// 4. Interroger l'index
 	    DirectoryReader ireader = DirectoryReader.open(index);
 	    IndexSearcher searcher = new IndexSearcher(ireader); //l'objet qui fait la recherche dans l'index
-	    String reqstr = "fish";
+	    String reqstr = "Forest";
 	    	
 	    //Parsing de la requete en un objet Query
 	    //  "contenu" est le champ interrogé par defaut si aucun champ n'est precisé
@@ -79,6 +79,7 @@ public class LuceneQuery {
 	    
 	    // fermeture seulement quand il n'y a plus besoin d'acceder aux resultats
 	    ireader.close();
+	    
 	  }
 	  
 }

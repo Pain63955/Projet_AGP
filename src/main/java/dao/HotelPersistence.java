@@ -4,7 +4,7 @@ import business.excursion.Hotel;
 
 import java.util.List;
 
-import business.excursion.Adresse;
+import business.excursion.Address;
 
 public interface HotelPersistence{ 
 	
@@ -12,9 +12,9 @@ public interface HotelPersistence{
 	
 	Hotel fetchName(String nom);
 
-    List<Hotel> fetchNear(Adresse adresse);
+    List<Hotel> fetchNear(Address adresse);
 
-    List<Hotel> fetchGamme(String range);
+    List<Hotel> fetchGrade(String range);
 
 	List<Hotel> fetchPrice(double lowPrice, double highPrice);
 

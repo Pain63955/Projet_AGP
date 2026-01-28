@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.excursion.Adresse;
+import business.excursion.Address;
 import business.excursion.Hotel;
 import dao.HotelPersistence;
 
@@ -37,6 +37,7 @@ public class JdbcHotelPersistence implements HotelPersistence {
                 if (!result.next()) {
                     return null;
                 }
+<<<<<<< HEAD
 				
                 Hotel hotel = new Hotel();
 				hotel.setId(result.getInt("hotelID"));
@@ -58,6 +59,24 @@ public class JdbcHotelPersistence implements HotelPersistence {
 				preparedStatement.close();
 				return hotel;
 			}
+=======
+			} 
+			result.next();
+			
+			hotel.setId(result.getInt("hotelID"));
+			hotel.setName(result.getString("nom_hotel"));
+			hotel.setNightRate(result.getDouble("prix_hotel"));
+			hotel.setGrade(result.getString("gamme"));
+			hotel.setBeach(result.getString("plage"));
+			hotel.setDescription(result.getString("description"));	
+
+			preparedStatement.close();
+
+			preparedStatement.executeUpdate();
+
+			preparedStatement.close();
+		
+>>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
 		}	
@@ -65,7 +84,7 @@ public class JdbcHotelPersistence implements HotelPersistence {
 	}
 	
 	@Override
-	public List<Hotel> fetchNear(Adresse adresse) {
+	public List<Hotel> fetchNear(Address adresse) {
 		
 		List<Hotel> hotels = new ArrayList<>();
 		
@@ -75,7 +94,11 @@ public class JdbcHotelPersistence implements HotelPersistence {
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
 
+<<<<<<< HEAD
 			preparedStatement.setInt(1, adresse.getAdresseId());
+=======
+			preparedStatement.setInt(1, adresse.getAddressId());
+>>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 			
 			ResultSet result = preparedStatement.executeQuery();
 			try (ResultSet resultTry = preparedStatement.executeQuery()) {
@@ -90,10 +113,10 @@ public class JdbcHotelPersistence implements HotelPersistence {
 				Hotel hotel = new Hotel();
 				
 				hotel.setId(result.getInt("hotelID"));
-				hotel.setNom(result.getString("nom_hotel"));
-				hotel.setPrixNuit(result.getDouble("prix_hotel"));
-				hotel.setGamme(result.getString("gamme"));
-				hotel.setPlage(result.getString("plage"));
+				hotel.setName(result.getString("nom_hotel"));
+				hotel.setNightRate(result.getDouble("prix_hotel"));
+				hotel.setGrade(result.getString("gamme"));
+				hotel.setBeach(result.getString("plage"));
 				hotel.setDescription(result.getString("description"));	
 				
 				hotels.add(hotel);
@@ -112,7 +135,7 @@ public class JdbcHotelPersistence implements HotelPersistence {
 	}
 
 	@Override
-	public List<Hotel> fetchGamme(String range) {
+	public List<Hotel> fetchGrade(String range) {
 		List<Hotel> hotels = new ArrayList<>();
 		
 		try {
@@ -137,10 +160,10 @@ public class JdbcHotelPersistence implements HotelPersistence {
 				Hotel hotel = new Hotel();
 				
 				hotel.setId(result.getInt("hotelID"));
-				hotel.setNom(result.getString("nom_hotel"));
-				hotel.setPrixNuit(result.getDouble("prix_hotel"));
-				hotel.setGamme(result.getString("gamme"));
-				hotel.setPlage(result.getString("plage"));
+				hotel.setName(result.getString("nom_hotel"));
+				hotel.setNightRate(result.getDouble("prix_hotel"));
+				hotel.setGrade(result.getString("gamme"));
+				hotel.setBeach(result.getString("plage"));
 				hotel.setDescription(result.getString("description"));	
 				
 				hotels.add(hotel);
@@ -184,10 +207,10 @@ public class JdbcHotelPersistence implements HotelPersistence {
 				Hotel hotel = new Hotel();
 				
 				hotel.setId(result.getInt("hotelID"));
-				hotel.setNom(result.getString("nom_hotel"));
-				hotel.setPrixNuit(result.getDouble("prix_hotel"));
-				hotel.setGamme(result.getString("gamme"));
-				hotel.setPlage(result.getString("plage"));
+				hotel.setName(result.getString("nom_hotel"));
+				hotel.setNightRate(result.getDouble("prix_hotel"));
+				hotel.setGrade(result.getString("gamme"));
+				hotel.setBeach(result.getString("plage"));
 				hotel.setDescription(result.getString("description"));	
 				
 				hotels.add(hotel);
