@@ -20,7 +20,6 @@ public class JdbcSitePersistence implements SitePersistence {
 		
 	}
 
-<<<<<<< HEAD
 	@Override
 	public SiteTouristique fetchKeywords(String keywords) {
 		// TODO Auto-generated method stub
@@ -28,8 +27,6 @@ public class JdbcSitePersistence implements SitePersistence {
 	}
 
 	@Override
-=======
->>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 	public List<SiteTouristique> fetchNear(int adresseID, double km) {
 	    // 1) On récupère d'abord le point centre (lat/lng) via une sous-requête "center"
 	    // 2) Puis on calcule la distance (Haversine) pour chaque site
@@ -99,12 +96,6 @@ public class JdbcSitePersistence implements SitePersistence {
 		return null;
 	}
 
-
-	@Override
-	public SiteTouristique fetchKeywords(String keywords) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
 // test
