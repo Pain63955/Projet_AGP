@@ -1,5 +1,10 @@
 package business.offer;
 
+import java.util.List;
+
+import business.excursion.TouristSite;
+import dao.SitePersistence;
+
 public class SearchCriteria {
     private String destination;     // Pour filtrer la zone géographique
     private int nbDays;           // Utilise la boucle i < nbJours dans le Builder
@@ -19,6 +24,16 @@ public class SearchCriteria {
         this.askedTransport = transportSouhaite;
     }
 
+    public List<StayOffer> complexSearch() {
+    	//go ask offre builder ou excursion builder jsp with this.*
+    	//return PAS la list pcq elle va aller dans son ptit proxy bean qui va passé sa à l'xhtml
+    }
+    
+    public List<TouristSite> simpleSearch(SitePersistence sitepersistence) {
+    	//go ask dao with this.keywords
+    	return(sitepersistence.fetchKeywords(keywords));
+    }
+    
 	public String getDestination() {
 		return destination;
 	}
