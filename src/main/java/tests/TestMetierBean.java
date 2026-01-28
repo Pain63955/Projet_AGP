@@ -11,9 +11,9 @@ import java.util.*;
 public class TestMetierBean {
     
 	public static void main(String[] args) {
-		System.out.println("Test 1 :\n");
+		System.out.println("\n\n==========================================\nTest 1 :\n==========================================\n\n");
 		test1();
-		System.out.println("Test 2 :\n");
+		System.out.println("\n\n==========================================\nTest 2 :\n==========================================\n\n");
 		test2();
 	}
 	
