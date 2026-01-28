@@ -7,23 +7,67 @@
 </h:head>
 <h:body>
 
-	<h2>What can you do on this Web site ?</h2>
-	<h:panelGroup>
+	<h1>Offres de voyage pour Bali</h1>
+	<!--  <h:panelGroup>
 		<ul>
 			<li><a href="list.jsf">View all students</a></li>
 			<li><a href="prim.jsf">Test Prim</a></li>
 		</ul>
-	</h:panelGroup>
+	</h:panelGroup>-->
 	<fieldset>
-		<legend>Please log in for more functionalities</legend>
+		<legend>Recherche de sites touristiques par mots-clés </legend>
 		<h:form>
-               Login : 
-                <h:inputText value="#{loginBean.login}" />
+               Mots-clés : 
+                <h:inputText value="#{searchCriteriaBean.keywords}" />
 			<br />
-                 Password: 
-                <h:inputSecret value="#{loginBean.password}" />
+
+			<h:commandButton value="Rechercher" action="#{searchCriteriaBean.simpleSearch}" />
 			<br />
-			<h:commandButton value="Log in" action="#{loginBean.verify}" />
+			
+		</h:form>
+	</fieldset>
+	<fieldset>
+		<legend>Recherche d'offres de voyage</legend>
+		
+		<h:form>
+		Choisissez le nombre de jours :
+		
+	    <h:selectOneMenu value="#{SearchCriteriaBean.nbDays}" label="Choisissez le nombre de jours :">
+	        <f:selectItem itemValue="1jour" itemLabel="1"/>
+	        <f:selectItem itemValue="2jour" itemLabel="2"/>
+	        <f:selectItem itemValue="3jour" itemLabel="3"/>
+	        <f:selectItem itemValue="4jour" itemLabel="4"/>
+	        <f:selectItem itemValue="5jour" itemLabel="5"/>
+	        <f:selectItem itemValue="6jour" itemLabel="6"/>
+	        <f:selectItem itemValue="7jour" itemLabel="7"/>
+	    </h:selectOneMenu>	
+	    
+		<h:selectManyCheckbox value = "#{SearchCriteriaBean.askedTransport}"> 
+		   <f:selectItem itemValue = "boat" itemLabel = "Bateau" /> 
+		   <f:selectItem itemValue = "bus" itemLabel = "Bus" /> 
+		   <f:selectItem itemValue = "feet" itemLabel = "Marche à pied" />
+		   
+		</h:selectManyCheckbox>
+
+			<br />
+			
+	    <h:selectOneMenu value="#{userBean.selectedOption}" label="Select an option">
+	        <f:selectItem itemValue="Option1" itemLabel="Option 1"/>
+	        <f:selectItem itemValue="Option2" itemLabel="Option 2"/>
+	    </h:selectOneMenu>
+
+		<h:selectOneRadio value = "#{SearchCriteriaBean.grade}"> 
+		   <f:selectItem itemValue = "1star" itemLabel = "1*" /> 
+		   <f:selectItem itemValue = "2star" itemLabel = "2*" /> 
+		   <f:selectItem itemValue = "3star" itemLabel = "3*" />
+		   <f:selectItem itemValue = "4star" itemLabel = "4*" /> 
+		   <f:selectItem itemValue = "5star" itemLabel = "5*" /> 
+		   
+		</h:selectOneRadio>
+		
+			<h:commandButton value="Rechercher" action="#{SearchCriteriaBean.complexSearch}" />
+			<br />
+			
 		</h:form>
 	</fieldset>
 

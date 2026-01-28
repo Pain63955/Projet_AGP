@@ -8,7 +8,7 @@ public interface SitePersistence {
 
 	void dataInit();
 	
-	TouristSite fetchKeywords(String keywords);
+	List<TouristSite> fetchKeywords(String keywords);
 	
 	List<TouristSite> fetchNear(int adresseID, double km);
 	

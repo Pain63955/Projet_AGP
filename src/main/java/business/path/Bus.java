@@ -23,7 +23,7 @@ public class Bus implements TransportStrategy {
 
     @Override
     public String toString() {
-        return "BUS";
+        return "AUTOBUS";
     }
 
 }
