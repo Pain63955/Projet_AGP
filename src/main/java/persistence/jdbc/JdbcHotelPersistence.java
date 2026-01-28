@@ -37,47 +37,28 @@ public class JdbcHotelPersistence implements HotelPersistence {
                 if (!result.next()) {
                     return null;
                 }
-<<<<<<< HEAD
 				
                 Hotel hotel = new Hotel();
 				hotel.setId(result.getInt("hotelID"));
-				hotel.setNom(result.getString("nom_hotel"));
-				hotel.setPrixNuit(result.getDouble("prix_hotel"));
-				hotel.setGamme(result.getString("gamme"));
-				hotel.setPlage(result.getString("plage"));
+				hotel.setName(result.getString("nom_hotel"));
+				hotel.setNightRate(result.getDouble("prix_hotel"));
+				hotel.setGrade(result.getString("gamme"));
+				hotel.setBeach(result.getString("plage"));
 				
-				Adresse adresse = new Adresse();
-				adresse.setAdresseId(result.getInt("adresseID"));
-				adresse.setLatitude(result.getDouble("latitude"));
-				adresse.setLongitude(result.getDouble("longitude"));
-				adresse.setRue(result.getString("rue"));
-				adresse.setVille(result.getString("ville"));
-				adresse.setCodePostal(result.getString("code_postal"));
+				Address address = new Address();
+				address.setAddressId(result.getInt("adresseID"));
+				address.setLatitude(result.getDouble("latitude"));
+				address.setLongitude(result.getDouble("longitude"));
+				address.setStreet(result.getString("rue"));
+				address.setTown(result.getString("ville"));
+				address.setPostCode(result.getString("code_postal"));
 				
-				hotel.setAdresse(adresse);
+				hotel.setAddress(address);
 				
 				preparedStatement.close();
 				return hotel;
 			}
-=======
-			} 
-			result.next();
-			
-			hotel.setId(result.getInt("hotelID"));
-			hotel.setName(result.getString("nom_hotel"));
-			hotel.setNightRate(result.getDouble("prix_hotel"));
-			hotel.setGrade(result.getString("gamme"));
-			hotel.setBeach(result.getString("plage"));
-			hotel.setDescription(result.getString("description"));	
-
-			preparedStatement.close();
-
-			preparedStatement.executeUpdate();
-
-			preparedStatement.close();
-		
->>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
-		} catch (SQLException se) {
+		}catch (SQLException se) {
 			System.err.println(se.getMessage());
 		}	
 		return null;
@@ -94,11 +75,8 @@ public class JdbcHotelPersistence implements HotelPersistence {
 
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
 
-<<<<<<< HEAD
-			preparedStatement.setInt(1, adresse.getAdresseId());
-=======
 			preparedStatement.setInt(1, adresse.getAddressId());
->>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
+			preparedStatement.setInt(1, adresse.getAddressId());
 			
 			ResultSet result = preparedStatement.executeQuery();
 			try (ResultSet resultTry = preparedStatement.executeQuery()) {

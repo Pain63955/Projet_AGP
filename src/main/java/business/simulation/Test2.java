@@ -19,14 +19,14 @@ public class Test2 {
 
         // --- GÉNÉRATION OFFRE 1 (LUXE/BATEAU) ---
         crit.setBudgetMax(200.0);
-        crit.setTransportSouhaite("BATEAU");
+        crit.setAskedTransport("BATEAU");
         StayOffer offre1 = new OfferBuilder(context, crit).genererIA().build();
         afficherOffre("OFFRE A (PREMIUM)", offre1, crit);
 
         // --- GÉNÉRATION OFFRE 2 (ÉCO/BUS) ---
         // On reset l'offre dans le builder pour une nouvelle simulation
         crit.setBudgetMax(100.0);
-        crit.setTransportSouhaite("AUTOBUS");
+        crit.setAskedTransport("AUTOBUS");
         StayOffer offre2 = new OfferBuilder(context, crit).genererIA().build();
         afficherOffre("OFFRE B (ÉCONOMIQUE)", offre2, crit);
     }

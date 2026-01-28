@@ -1,14 +1,8 @@
 package dao;
 
-<<<<<<< HEAD
 import java.util.List;
-
-import business.excursion.Adresse;
-import business.excursion.SiteTouristique;
-=======
-import business.excursion.Address;
 import business.excursion.TouristSite;
->>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
+import business.excursion.Address;
 
 public interface SitePersistence {
 
@@ -16,11 +10,9 @@ public interface SitePersistence {
 	
 	TouristSite fetchKeywords(String keywords);
 	
-<<<<<<< HEAD
-	List<SiteTouristique> fetchNear(int adresseID, double km);
-=======
+	List<TouristSite> fetchNear(int adresseID, double km);
+	
 	TouristSite fetchNear(Address adresse);
->>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 
 	TouristSite fetchGrade(String range); 
 

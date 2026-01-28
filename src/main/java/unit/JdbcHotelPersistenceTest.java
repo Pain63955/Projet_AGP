@@ -3,7 +3,7 @@ package unit;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import business.excursion.Adresse;
+import business.excursion.Address;
 import business.excursion.Hotel;
 import persistence.jdbc.JdbcHotelPersistence;
 
@@ -16,16 +16,16 @@ public class JdbcHotelPersistenceTest {
 
         JdbcHotelPersistence dao = new JdbcHotelPersistence();
         Hotel h = dao.fetchName(existingName);
-        Adresse a = new Adresse(1,-8.686075,115.154228,"Jl. Kayu Aya, Pantai","Seminyak","80361");
+        Address a = new Address(1,-8.686075,115.154228,"Jl. Kayu Aya, Pantai","Seminyak","80361");
         assertNotNull("fetchName doit retourner un Hotel pour un nom existant", h);
         assertNotNull("L'id ne doit pas être null", h.getId());
-        assertEquals("Nom incorrect", existingName, h.getNom());
-        h.setAdresse(a);
-        assertEquals("Adresse incorrect",a, h.getAdresse());
+        assertEquals("Nom incorrect", existingName, h.getName());
+        h.setAddress(a);
+        assertEquals("Adresse incorrect",a, h.getAddress());
 
         // Optionnel si c’est stable en BD :
-        assertEquals("Gamme incorrecte", "4 etoiles", h.getGamme());
-        assertEquals("Plage incorrecte", "Plage de Petitenget", h.getPlage());
+        assertEquals("Gamme incorrecte", "4 etoiles", h.getGrade());
+        assertEquals("Plage incorrecte", "Plage de Petitenget", h.getBeach());
     }
 
     @Test
