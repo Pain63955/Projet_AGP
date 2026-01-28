@@ -11,7 +11,7 @@ import business.path.*;
 public class TestTrajet {
      
     private Path trajet;
-    
+     
     @Before
     public void setUp() {
         trajet = new Path(new Bus(5.0), 10.0);

@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -17,11 +20,30 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 public class LuceneIndexService {
+	
+	public static class LuceneHit {
+	    private final int key;
+	    private final double score;
+
+	    public LuceneHit(int key, double score) {
+	        this.key = key;
+	        this.score = score;
+	    }
+
+	    public int getKey(){ 
+	    	return key; 
+	    }
+	    public double getScore(){ 
+	    	return score; 
+	    }
+	}
+
 	
 	private static void repertoryIndex(File repertory, IndexWriter w) throws Exception {
 	    File[] fichiers = repertory.listFiles((dir, name) -> name.endsWith(".txt"));
@@ -60,7 +82,7 @@ public class LuceneIndexService {
 	}
 	
 	// retourne des couples (key, score) triés score desc (TopDocs)
-	public TopDocs search(String textQuery) throws Exception {
+	public List<LuceneHit> search(String textQuery) throws Exception {
 		int MAX_RESULTS = 100;
 		// 4. Interroger l'index
 		Analyzer analyzer = new StandardAnalyzer();
@@ -77,8 +99,24 @@ public class LuceneIndexService {
 	    QueryParser qp = new QueryParser("content", analyzer); 
 	    Query req = qp.parse(reqstr);
 
-	    TopDocs results = searcher.search(req, MAX_RESULTS); //recherche
+	    TopDocs results_top = searcher.search(req, MAX_RESULTS); //recherche
 	    
+	    List<LuceneHit> results = new ArrayList<>(results_top.scoreDocs.length);
+        for (ScoreDoc sd : results_top.scoreDocs) {
+            Document doc = searcher.doc(sd.doc);
+
+            int key = Integer.parseInt(doc.get("id"));
+            results.add(new LuceneHit(key, sd.score));
+        }
 	    return results;
 	}
-}
+	
+	public HashMap<Integer, Double> sortScores(List<LuceneHit> results) throws Exception {
+		 HashMap<Integer, Double> hashResults = new HashMap<Integer, Double>();
+		 for (LuceneHit res : results) {	           
+	            hashResults.put(res.getKey(), res.getScore());
+	        }
+		return hashResults;
+	}
+
+} 
