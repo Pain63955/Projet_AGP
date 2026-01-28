@@ -28,7 +28,7 @@ public class LuceneIndexService {
 
 	    if (fichiers == null) return;
 
-	    for (File f : fichiers) {
+	    for (File f : fichiers) { 
 	        System.out.println("Indexation : " + f.getPath());
 
 	        String id = f.getName().replaceFirst("\\.txt$", "");
