@@ -74,7 +74,7 @@ public class LuceneIndexService {
 	    DirectoryReader ireader = DirectoryReader.open(index);
 	    IndexSearcher searcher = new IndexSearcher(ireader); //l'objet qui fait la recherche dans l'index
 	    
-	    String reqstr = "Forest"; // UTILISER TEXTQUERY String reqstr = textQuery; qui est en parametre
+	    String reqstr = textQuery; //old : String reqstr = "Forest";
 	    	
 	    //Parsing de la requete en un objet Query
 	    //  "contenu" est le champ interrogé par defaut si aucun champ n'est precisé
