@@ -45,10 +45,14 @@ public class Excursion implements PriceableElement {
 
     private void createAndAddPath(Address departure, Address arrival, String mode) {
         if (departure == null || arrival == null) {
-            throw new IllegalArgumentException("Les adresses de départ et d'arrivée ne peuvent pas être nulles.");
+            throw new IllegalArgumentException("Adresses nulles.");
         }
         double distance = calculeDistance(departure.getLatitude(), departure.getLongitude(), arrival.getLatitude(), arrival.getLongitude());
         Path t = factory.createPath(mode, distance);
+        
+        if (t == null) {
+            throw new RuntimeException("La factory n'a pas pu créer de trajet pour le mode : " + mode);
+        }
         this.paths.add(t);
     }
 
@@ -63,23 +67,27 @@ public class Excursion implements PriceableElement {
 
     @Override
     public double getPrice() {
-    	double totalPricePath = 0.0;
-    	double totalPriceSite = 0.0;
-    	
-    	Iterator<Path> ite1 = paths.iterator();
-    	while(ite1.hasNext()) {
-    		Path path = ite1.next();
-    		double pathPrice = path.getPrice();
-    		totalPricePath = totalPricePath + pathPrice;
-    	}
-    	
-    	Iterator<TouristSite> ite2 = sites.iterator();
-    	while(ite2.hasNext()) {
-    		TouristSite site = ite2.next();
-    		double sitePrice = site.getPrice();
-    		totalPriceSite = totalPricePath + sitePrice;
-    	}
-    	
+        double totalPricePath = 0.0;
+        double totalPriceSite = 0.0;
+        
+        // Calcul sécurisé des trajets
+        if (paths != null) {
+            for (Path path : paths) {
+                if (path != null) {
+                    totalPricePath += path.getPrice();
+                }
+            }
+        }
+        
+        // Calcul sécurisé des sites (Correction de l'accumulation)
+        if (sites != null) {
+            for (TouristSite site : sites) {
+                if (site != null) {
+                    totalPriceSite += site.getPrice(); // On additionne au total des sites
+                }
+            }
+        }
+        
         return totalPricePath + totalPriceSite;
     }
 
@@ -102,5 +110,15 @@ public class Excursion implements PriceableElement {
 
     public int getNbSite() {
         return nbSite;
+    }
+    
+    public double getTotalDistance() {
+        double total = 0.0;
+        for (Path p : paths) {
+            if (p != null) {
+                total += p.getDistance(); // Assurez-vous que la classe Path a getDistance()
+            }
+        }
+        return total;
     }
 }
