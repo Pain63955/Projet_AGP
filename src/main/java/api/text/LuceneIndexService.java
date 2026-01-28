@@ -118,5 +118,5 @@ public class LuceneIndexService {
 	        }
 		return hashResults;
 	}
-	
+
 } 
