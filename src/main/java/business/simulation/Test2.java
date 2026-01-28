@@ -23,7 +23,7 @@ public class Test2 {
         SearchCriteria crit = new SearchCriteria();
         crit.setNbDays(3);
         crit.setKeywords("temple surf zen sport"); // Mots-clés pour le filtrage
-        crit.setBudgetMax(2500.0);       // Budget incluant Hôtel + Excursions
+        crit.setBudgetMax(2500);       // Budget incluant Hôtel + Excursions
         crit.setAskedTransport("BOAT");  // Mode de transport envoyé à la factory
 
         // 4. Utilisation du Builder pour générer l'offre
