@@ -11,7 +11,7 @@ import javax.faces.validator.ValidatorException;
 
 import business.offer.SearchCriteria;
 
-@ManagedBean
+@ManagedBean(name = "searchCriteriaBean")
 @SessionScoped
 public class SearchCriteriaBean implements Serializable{
 	
