@@ -27,24 +27,6 @@ import org.apache.lucene.store.FSDirectory;
 
 public class LuceneIndexService {
 	
-	public static class LuceneHit {
-	    private final int key;
-	    private final double score;
-
-	    public LuceneHit(int key, double score) {
-	        this.key = key;
-	        this.score = score;
-	    }
-
-	    public int getKey(){ 
-	    	return key; 
-	    }
-	    public double getScore(){ 
-	    	return score; 
-	    }
-	}
-
-	
 	private static void repertoryIndex(File repertory, IndexWriter w) throws Exception {
 	    File[] fichiers = repertory.listFiles((dir, name) -> name.endsWith(".txt"));
 
@@ -82,7 +64,7 @@ public class LuceneIndexService {
 	}
 	
 	// retourne des couples (key, score) triés score desc (TopDocs)
-	public List<LuceneHit> search(String textQuery) throws Exception {
+	public List<LucenneList> search(String textQuery) throws Exception {
 		int MAX_RESULTS = 100;
 		// 4. Interroger l'index
 		Analyzer analyzer = new StandardAnalyzer();
@@ -101,19 +83,19 @@ public class LuceneIndexService {
 
 	    TopDocs results_top = searcher.search(req, MAX_RESULTS); //recherche
 	    
-	    List<LuceneHit> results = new ArrayList<>(results_top.scoreDocs.length);
+	    List<LucenneList> results = new ArrayList<>(results_top.scoreDocs.length);
         for (ScoreDoc sd : results_top.scoreDocs) {
             Document doc = searcher.doc(sd.doc);
 
             int key = Integer.parseInt(doc.get("id"));
-            results.add(new LuceneHit(key, sd.score));
+            results.add(new LucenneList(key, sd.score));
         }
 	    return results;
 	}
 	
-	public HashMap<Integer, Double> sortScores(List<LuceneHit> results) throws Exception {
+	public HashMap<Integer, Double> sortScores(List<LucenneList> results) throws Exception {
 		 HashMap<Integer, Double> hashResults = new HashMap<Integer, Double>();
-		 for (LuceneHit res : results) {	           
+		 for (LucenneList res : results) {	           
 	            hashResults.put(res.getKey(), res.getScore());
 	        }
 		return hashResults;
