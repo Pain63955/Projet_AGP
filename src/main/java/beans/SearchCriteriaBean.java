@@ -1,6 +1,8 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -27,40 +29,59 @@ public class SearchCriteriaBean implements Serializable{
 	private int grade;
     private int confort;
     private String keywords;       
-    private String askedTransport;
+    //private String askedTransport;
+    private List<String> simpleResults;
+    private List<String> complexResults;
+
     //private Boolean isOk;
 	
 
 	public String simpleSearch() {
+		complexResults = null;
 		validateKeywords(this.keywords);
 		
-		
+		List<String> results = new ArrayList<>();
 		
 		//this.srct.setKeywords(kwds);
 		//this.srct.simpleSearch(null);
 		//TODO rajouter le sitepersistence implémenté
-		
+		results.add("Ceci est un exemple de desc de site 1");
+		results.add("Ceci est un autre exemple 2");
+		results.add("et de trois");
 		//return le résultat de la recherche, le formater comme il faut ici avant de le renvoyer
-		
+		this.simpleResults = results;
 		//this.isOk = true;
 		
-		return "valid";		
+		return "results";		
 	}
 	
 	public String complexSearch() {
+		simpleResults = null;
 		validatePrice(this.budgetMin, this.budgetMax);
 		validateDays(this.nbDays);
 		validateConfort(this.confort);
 		validateGrade(this.grade);
-		validateTransport(this.askedTransport);
+		//validateTransport(this.askedTransport);
+		
+		complexResults = new ArrayList<>();
 		
 		//this.srct.prepareComplexSearch(this.budgetMin, this.budgetMax, this.nbDays, this.confort, this.grade, this.askedTransport);
-		this.srct.complexSearch();
+		//this.srct.complexSearch();
 		//TODO Ajouter sitepersistence et tt
 		//return le résu de la recherche complex formaté correctement pour le web et tt t'as vu
 		
-		return "Ceci est un résultat de recherche complexe.";
+		complexResults.add("offre 1");
+		complexResults.add("faudra des objets hein");
+		complexResults.add("numéro 3");
+		
+		return "results";
 	}
+	
+	
+	
+	
+	
+	
 	public void validateConfort(int conf) {
 		if (conf < 1 || conf > 5) {
 			FacesMessage message = new FacesMessage("Nombre de confort invalide.");
@@ -75,12 +96,12 @@ public class SearchCriteriaBean implements Serializable{
 		}
 	}
 	
-	public void validateTransport(String transport) {
+	/*public void validateTransport(String transport) {
 		if (transport.isEmpty()) {
 			FacesMessage message = new FacesMessage("Il faut au minimum 1 type de transport.");
 			throw new ValidatorException(message);
 		}
-	}
+	}*/
 	public void validateKeywords(String kwds) throws ValidatorException{
 		if (kwds.isEmpty()) {
 			FacesMessage message = new FacesMessage("La liste ne peut pas être vide.");
@@ -98,7 +119,7 @@ public class SearchCriteriaBean implements Serializable{
 	
 	public void validateDays(int days) throws ValidatorException {
 		
-		if (days < 1 || days > 7) {
+		if (days < 1 || days > 100) {
 			FacesMessage message = new FacesMessage("The amount of days cannot be less than 1 and above 7");
 			throw new ValidatorException(message);
 		}
@@ -148,13 +169,13 @@ public class SearchCriteriaBean implements Serializable{
 		this.keywords = keywords;
 	}
 
-	public String getAskedTransport() {
+	/*public String getAskedTransport() {
 		return askedTransport;
 	}
 
 	public void setAskedTransport(String askedTransport) {
 		this.askedTransport = askedTransport;
-	}
+	}*/
 	public int getStarRating() {
 		return grade;
 	}
@@ -170,4 +191,29 @@ public class SearchCriteriaBean implements Serializable{
 	public void setConfort(int confort) {
 		this.confort = confort;
 	}
+
+	public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+
+	public List<String> getSimpleResults() {
+		return simpleResults;
+	}
+
+	public void setSimpleResults(List<String> simpleResults) {
+		this.simpleResults = simpleResults;
+	}
+
+	public List<String> getComplexResults() {
+		return complexResults;
+	}
+
+	public void setComplexResults(List<String> complexResults) {
+		this.complexResults = complexResults;
+	}
+	
 }

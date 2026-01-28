@@ -2,62 +2,16 @@
                                             
     
     
-    
-    
-    
-    
-    
-    
-    
-    <wb-module deploy-name="AGP_Bali">
-                                                                                        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-                                
-        
-        
+    <wb-module deploy-name="AGP_Bali">    
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>   
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/ressources"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/"/>
-                                                                                        
-        
-        
-        
-        
-        
-        
-        
-        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+ 
         
         <property name="context-root" value="AGP_Bali"/>
-                                                                                        
-        
-        
-        
-        
-        
-        
-        
-        
         
         <property name="java-output-path" value="/AGP_Bali/build/classes"/>
-                                                                                    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     </wb-module>
                                         
 
