@@ -16,7 +16,7 @@ public class JdbcHotelPersistenceTest {
 
         JdbcHotelPersistence dao = new JdbcHotelPersistence();
         Hotel h = dao.fetchName(existingName);
-        Address a = new Address();
+        Address a = new Address(1,-8.686075,115.154228,"Jl. Kayu Aya, Pantai","Seminyak","80361");
         assertNotNull("fetchName doit retourner un Hotel pour un nom existant", h);
         assertNotNull("L'id ne doit pas être null", h.getId());
         assertEquals("Nom incorrect", existingName, h.getName());

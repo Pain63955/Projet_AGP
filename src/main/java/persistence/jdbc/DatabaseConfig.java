@@ -1,4 +1,4 @@
-package business.offer;
+package persistence.jdbc;
 
 import java.io.InputStream;
 import java.util.Properties;
