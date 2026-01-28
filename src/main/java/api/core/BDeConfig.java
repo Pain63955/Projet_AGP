@@ -45,5 +45,16 @@ public class BDeConfig {
                 : directoryPath;
         return base + "/index";
     }
+    
+    public void validate() {
+        if (isBlank(tableName)) throw new IllegalStateException("tableName is missing");
+        if (isBlank(keyColumn)) throw new IllegalStateException("keyColumn is missing");
+        if (isBlank(directoryPath)) throw new IllegalStateException("directoryPath (R) is missing");
+    }
+    
+    private static boolean isBlank(String s) {
+        return s == null || s.trim().isEmpty();
+    }
+
 	
 }

@@ -2,6 +2,7 @@ package unitAPI;
 
 import static org.junit.Assert.*;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -12,63 +13,62 @@ import api.text.TextRepository;
 
 public class TextRepositoryTest {
 
-	 @Test
-	    public void putReadDelete_listKeys_ok() throws Exception {
-	        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
-	        TextRepository repo = new TextRepository(tmpDir.toString());
+    @Test
+    public void putText_createsFile_and_listKeys_containsKey() throws Exception {
+        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
+        TextRepository repo = new TextRepository(tmpDir.toString());
 
-	        // put + read
-	        repo.putText("12", "sculpture renaissance");
-	        assertEquals("sculpture renaissance", repo.readText("12"));
+        repo.putText("12", "sculpture renaissance");
 
-	        // listKeys
-	        List<String> keys = repo.listKeys();
-	        assertTrue(keys.contains("12"));
+        // Vérifie que le fichier existe vraiment (car pas de readText dans ta classe)
+        Path expectedFile = tmpDir.resolve("12.txt");
+        assertTrue(Files.exists(expectedFile));
 
-	        // delete
-	        assertTrue(repo.deleteText("12"));
-	        assertNull(repo.readText("12"));
-	    }
-	 
-	 @Test
-	    public void read_missing_returnsNull() throws Exception {
-	        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
-	        TextRepository repo = new TextRepository(tmpDir.toString());
+        // Vérifie le contenu sur disque
+        String content = new String(Files.readAllBytes(expectedFile), StandardCharsets.UTF_8);
+        assertEquals("sculpture renaissance", content);
 
-	        assertNull(repo.readText("999"));
-	    }
+        // Vérifie listKeys()
+        List<String> keys = repo.listKeys();
+        assertTrue(keys.contains("12"));
+    }
 
-	    @Test(expected = IllegalArgumentException.class)
-	    public void put_invalidKey_withSlash_throws() throws Exception {
-	        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
-	        TextRepository repo = new TextRepository(tmpDir.toString());
+    @Test
+    public void putText_nullText_writesEmptyFile() throws Exception {
+        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
+        TextRepository repo = new TextRepository(tmpDir.toString());
 
-	        repo.putText("bad/key", "x");
-	    }
+        repo.putText("1", null);
 
-	    @Test(expected = IllegalArgumentException.class)
-	    public void put_invalidKey_withBackslash_throws() throws Exception {
-	        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
-	        TextRepository repo = new TextRepository(tmpDir.toString());
+        Path expectedFile = tmpDir.resolve("1.txt");
+        assertTrue(Files.exists(expectedFile));
 
-	        repo.putText("bad\\key", "x");
-	    }
+        String content = new String(Files.readAllBytes(expectedFile), StandardCharsets.UTF_8);
+        assertEquals("", content);
+    }
 
-	    @Test(expected = IllegalArgumentException.class)
-	    public void put_invalidKey_withDotDot_throws() throws Exception {
-	        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
-	        TextRepository repo = new TextRepository(tmpDir.toString());
 
-	        repo.putText("../escape", "x");
-	    }
+    @Test(expected = IllegalArgumentException.class)
+    public void putText_invalidKey_withSlash_throws() throws Exception {
+        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
+        TextRepository repo = new TextRepository(tmpDir.toString());
 
-	    @Test
-	    public void put_nullText_writesEmptyString() throws Exception {
-	        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
-	        TextRepository repo = new TextRepository(tmpDir.toString());
+        repo.putText("bad/key", "x");
+    }
 
-	        repo.putText("1", null);
-	        assertEquals("", repo.readText("1"));
-	    }
+    @Test(expected = IllegalArgumentException.class)
+    public void putText_invalidKey_withBackslash_throws() throws Exception {
+        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
+        TextRepository repo = new TextRepository(tmpDir.toString());
 
+        repo.putText("bad\\key", "x");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void putText_invalidKey_withDotDot_throws() throws Exception {
+        Path tmpDir = Files.createTempDirectory("bde_text_repo_");
+        TextRepository repo = new TextRepository(tmpDir.toString());
+
+        repo.putText("../escape", "x");
+    }
 }

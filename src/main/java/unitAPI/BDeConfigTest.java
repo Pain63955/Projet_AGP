@@ -1,16 +1,15 @@
 package unitAPI;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import api.core.BDeConfig;
 
 public class BDeConfigTest {
 
-	@Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void constructor_nullTable_throws() {
-        new BDeConfig(null, "id", "data/texts");
+        new BDeConfig(null, "idSite", "data/texts");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -20,25 +19,25 @@ public class BDeConfigTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void constructor_nullDir_throws() {
-        new BDeConfig("SiteTouristique", "id", null);
+        new BDeConfig("SiteTouristique", "idSite", null);
     }
 
     @Test
     public void getIndexPath_noTrailingSlash_ok() {
-        BDeConfig cfg = new BDeConfig("SiteTouristique", "id", "data/texts");
+        BDeConfig cfg = new BDeConfig("SiteTouristique", "idSite", "data/texts");
         assertEquals("data/texts/index", cfg.getIndexPath());
     }
 
     @Test
     public void getIndexPath_trailingSlash_ok() {
-        BDeConfig cfg = new BDeConfig("SiteTouristique", "id", "data/texts/");
+        BDeConfig cfg = new BDeConfig("SiteTouristique", "idSite", "data/texts/");
         assertEquals("data/texts/index", cfg.getIndexPath());
     }
 
     @Test(expected = IllegalStateException.class)
     public void validate_missingTable_throws() {
         BDeConfig cfg = new BDeConfig();
-        cfg.setKeyColumn("id");
+        cfg.setKeyColumn("idSite");
         cfg.setDirectoryPath("data/texts");
         cfg.validate();
     }
@@ -55,14 +54,13 @@ public class BDeConfigTest {
     public void validate_missingDir_throws() {
         BDeConfig cfg = new BDeConfig();
         cfg.setTableName("SiteTouristique");
-        cfg.setKeyColumn("id");
+        cfg.setKeyColumn("idSite");
         cfg.validate();
     }
 
     @Test
     public void validate_ok() {
-        BDeConfig cfg = new BDeConfig("SiteTouristique", "id", "data/texts");
+        BDeConfig cfg = new BDeConfig("SiteTouristique", "idSite", "data/texts");
         cfg.validate(); // ne doit pas throw
     }
-
 }
