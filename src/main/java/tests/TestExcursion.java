@@ -38,6 +38,7 @@ public class TestExcursion {
         site1 = new HistoricSite();
         site1.setName("Musée d'Art");
         site1.setPrice(10.0);
+        site1.setTransport("WALK");
         Address adresseSite1 = new Address();
         adresseSite1.setLatitude(43.7000);
         adresseSite1.setLongitude(7.2500);
@@ -47,6 +48,7 @@ public class TestExcursion {
         site2 = new HistoricSite();
         site2.setName("Château");
         site2.setPrice(15.0);
+        site2.setTransport("BUS");
         Address adresseSite2 = new Address();
         adresseSite2.setLatitude(43.6900);
         adresseSite2.setLongitude(7.2400);
@@ -56,6 +58,7 @@ public class TestExcursion {
         site3 = new ActivitySite();
         site3.setName("Parc Aventure");
         site3.setPrice(25.0);
+        site3.setTransport("BOAT");
         Address adresseSite3 = new Address();
         adresseSite3.setLatitude(43.6800);
         adresseSite3.setLongitude(7.2300);
@@ -73,9 +76,9 @@ public class TestExcursion {
         
         Feet pied = new Feet();
         
-        strategies.put("AUTOBUS", bus);
-        strategies.put("BATEAU", bateau);
-        strategies.put("MARCHE", pied);
+        strategies.put("BUS", bus);
+        strategies.put("BOAT", bateau);
+        strategies.put("WALK", pied);
         
         factory.setStrategies(strategies);
         excursion.setFactory(factory);
@@ -119,7 +122,7 @@ public class TestExcursion {
     public void testGenererCircuitUnSeulSite() {
         excursion.setNbSite(1);
         excursion.addSite(site1);
-        excursion.generateTour(hotel, "AUTOBUS");
+        excursion.generateTour(hotel);
         
         // Devrait créer 2 trajets : Hôtel -> Site1, Site1 -> Hôtel
         assertEquals(2, excursion.getTrajets().size());
@@ -130,7 +133,7 @@ public class TestExcursion {
         excursion.setNbSite(2);
         excursion.addSite(site1);
         excursion.addSite(site2);
-        excursion.generateTour(hotel, "AUTOBUS");
+        excursion.generateTour(hotel);
         
         // Devrait créer 3 trajets : Hôtel -> Site1, Site1 -> Site2, Site2 -> Hôtel
         assertEquals(3, excursion.getTrajets().size());
@@ -142,7 +145,7 @@ public class TestExcursion {
         excursion.addSite(site1);
         excursion.addSite(site2);
         excursion.addSite(site3);
-        excursion.generateTour(hotel, "AUTOBUS");
+        excursion.generateTour(hotel);
         
         // Devrait créer 4 trajets : Hôtel -> Site1, Site1 -> Site2, Site2 -> Site3, Site3 -> Hôtel
         assertEquals(4, excursion.getTrajets().size());
@@ -150,7 +153,7 @@ public class TestExcursion {
     
     @Test
     public void testGenererCircuitSanssSites() {
-        excursion.generateTour(hotel, "AUTOBUS");
+        excursion.generateTour(hotel);
         
         // Ne devrait créer aucun trajet
         assertEquals(0, excursion.getTrajets().size());
@@ -160,25 +163,29 @@ public class TestExcursion {
     public void testGenererCircuitModeTransport() {
         excursion.setNbSite(1);
         excursion.addSite(site1);
-        excursion.generateTour(hotel, "MARCHE");
+        excursion.generateTour(hotel);
         
         assertEquals(2, excursion.getTrajets().size());
-        assertEquals("MARCHE", excursion.getTrajets().get(0).getMode());
-        assertEquals("MARCHE", excursion.getTrajets().get(1).getMode());
+        assertEquals(site1.getTransport(), excursion.getTrajets().get(0).getMode());
+        assertEquals(site1.getTransport(), excursion.getTrajets().get(1).getMode());
     }
     
     @Test
     public void testGetPrixAvecTrajetsSites() {
         excursion.setNbSite(2);
-        excursion.setFactory(factory);
+        
+        // Correction : Forcer le mode "BUS" pour avoir le prix fixe de 5.0 par trajet
+        site1.setTransport("BUS");
+        site2.setTransport("BUS");
         
         excursion.addSite(site1); 
         excursion.addSite(site2); 
         
-        excursion.generateTour(hotel, "AUTOBUS"); 
+        excursion.generateTour(hotel); // Crée 3 trajets
         
         double prixTotal = excursion.getPrice();
 
+        // 25.0 (sites) + 15.0 (3 trajets à 5.0) = 40.0
         assertEquals(40.0, prixTotal, 0.001);
     }
     
@@ -217,13 +224,13 @@ public class TestExcursion {
         excursion.addSite(site2);
         
         // Première génération
-        excursion.generateTour(hotel, "AUTOBUS");
+        excursion.generateTour(hotel);
         assertEquals(3, excursion.getTrajets().size());
         
         // Régénération avec un autre mode
-        excursion.generateTour(hotel, "MARCHE");
+        excursion.generateTour(hotel);
         assertEquals(3, excursion.getTrajets().size());
-        assertEquals("MARCHE", excursion.getTrajets().get(0).getMode());
+        assertEquals(site1.getTransport(), excursion.getTrajets().get(0).getMode());
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -235,7 +242,7 @@ public class TestExcursion {
         // Pas d'adresse définie
         
         excursion.addSite(siteSansAdresse);
-        excursion.generateTour(hotel, "AUTOBUS"); // Devrait lancer une exception
+        excursion.generateTour(hotel); // Devrait lancer une exception
     }
     
     @Test
@@ -243,7 +250,7 @@ public class TestExcursion {
         excursion.setNbSite(2);
         excursion.addSite(site1);
         excursion.addSite(site2);
-        excursion.generateTour(hotel, "BATEAU"); // Bateau à 2.5€/km
+        excursion.generateTour(hotel); // Bateau à 2.5€/km
         
         // Vérifier que des trajets ont été créés et qu'ils ont une distance > 0
         for (int i = 0; i < excursion.getTrajets().size(); i++) {
@@ -253,18 +260,22 @@ public class TestExcursion {
     
     @Test
     public void testCoherenceCircuit() {
+        // Correction : On aligne le transport des sites sur ce que le test attend
+        site1.setTransport("BUS");
+        site2.setTransport("BUS");
+        site3.setTransport("BUS");
+
         excursion.setNbSite(3);
         excursion.addSite(site1);
         excursion.addSite(site2);
         excursion.addSite(site3);
-        excursion.generateTour(hotel, "AUTOBUS");
+        excursion.generateTour(hotel);
         
-        // Vérifier la structure logique du circuit
         assertEquals(4, excursion.getTrajets().size()); // Hôtel->S1, S1->S2, S2->S3, S3->Hôtel
         
-        // Tous les trajets doivent avoir le même mode de transport
         for (int i = 0; i < excursion.getTrajets().size(); i++) {
-            assertEquals("AUTOBUS", excursion.getTrajets().get(i).getMode());
+            // Correction : On utilise "BUS" car c'est la clé définie dans votre setUp
+            assertEquals("BUS", excursion.getTrajets().get(i).getMode());
         }
     }
 }

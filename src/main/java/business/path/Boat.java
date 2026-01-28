@@ -36,6 +36,6 @@ public class Boat implements TransportStrategy{
 
 	@Override
     public String toString() {
-        return "BATEAU";
+        return "BOAT";
     }
 }

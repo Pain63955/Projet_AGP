@@ -34,7 +34,6 @@ public class TestMetierBean {
         crit.setNbDays(3);
         crit.setKeywords("temple surf zen sport"); // Mots-clés pour le filtrage
         crit.setBudgetMax(2500);       // Budget incluant Hôtel + Excursions
-        crit.setAskedTransport("BOAT");  // Mode de transport envoyé à la factory
 
         // 4. Utilisation du Builder pour générer l'offre
         OfferBuilder builder = new OfferBuilder(context, crit);
@@ -115,7 +114,7 @@ public class TestMetierBean {
         day1.addSite(palace);
         
         // Génère le circuit automatique (Hôtel -> Temple -> Palais -> Hôtel)
-        day1.generateTour(baliHotel, "BOAT");
+        day1.generateTour(baliHotel);
         offer.addExcursion(day1);
 
         // JOUR 2
@@ -126,7 +125,7 @@ public class TestMetierBean {
         day2.addSite(riceField);
         
         // Circuit simple (Hôtel -> Rizières -> Hôtel)
-        day2.generateTour(baliHotel, "WALK");
+        day2.generateTour(baliHotel);
         offer.addExcursion(day2);
 
         // AFFICHAGE
