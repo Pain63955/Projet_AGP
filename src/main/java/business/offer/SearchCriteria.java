@@ -27,6 +27,7 @@ public class SearchCriteria {
     public List<StayOffer> complexSearch() {
     	//go ask offre builder ou excursion builder jsp with this.*
     	//return PAS la list pcq elle va aller dans son ptit proxy bean qui va passé sa à l'xhtml
+    	return null;
     }
     
     public List<TouristSite> simpleSearch(SitePersistence sitepersistence) {
