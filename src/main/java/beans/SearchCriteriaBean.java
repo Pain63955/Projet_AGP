@@ -20,7 +20,7 @@ public class SearchCriteriaBean implements Serializable{
 	 */
 	private static final long serialVersionUID = -2204740088413345478L;
 	private SearchCriteria srct;
-	//test andrea
+
 	private int nbDays;       
     private long budgetMin;
     private long budgetMax;
@@ -28,17 +28,19 @@ public class SearchCriteriaBean implements Serializable{
     private int confort;
     private String keywords;       
     private String askedTransport;
+    private Boolean isOk;
 	
 
-	public String simpleSearch(FacesContext context, UIComponent componentToValidate, Object value) {
-		String kwds = (String)value;
-		validateKeywords(kwds);
-
-		this.srct.setKeywords(kwds);
+	public String simpleSearch() {
+		validateKeywords(this.keywords);
+		
+		//this.srct.setKeywords(kwds);
 		//this.srct.simpleSearch(null);
 		//TODO rajouter le sitepersistence implémenté
 		
 		//return le résultat de la recherche, le formater comme il faut ici avant de le renvoyer
+		
+		this.isOk = true;
 		
 		return "Une liste de site touristique pour l'exemple";		
 	}
@@ -50,7 +52,7 @@ public class SearchCriteriaBean implements Serializable{
 		validateGrade(this.grade);
 		validateTransport(this.askedTransport);
 		
-		this.srct.prepareComplexSearch(this.budgetMin, this.budgetMax, this.nbDays, this.confort, this.grade, this.askedTransport);
+		//this.srct.prepareComplexSearch(this.budgetMin, this.budgetMax, this.nbDays, this.confort, this.grade, this.askedTransport);
 		this.srct.complexSearch();
 		//TODO Ajouter sitepersistence et tt
 		//return le résu de la recherche complex formaté correctement pour le web et tt t'as vu
