@@ -1,15 +1,8 @@
 package persistence.jdbc;
 
-import business.excursion.Address;
 import business.excursion.TouristSite;
 import dao.SitePersistence;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 public class JdbcSitePersistence implements SitePersistence {
@@ -21,72 +14,10 @@ public class JdbcSitePersistence implements SitePersistence {
 	}
 
 	@Override
-	public SiteTouristique fetchKeywords(String keywords) {
+	public List<TouristSite> fetchKeywords(String keywords) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-<<<<<<< HEAD
-	public List<SiteTouristique> fetchNear(int adresseID, double km) {
-=======
-	public List<TouristSite> fetchNear(int adresseID, double km) {
->>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
-	    // 1) On récupère d'abord le point centre (lat/lng) via une sous-requête "center"
-	    // 2) Puis on calcule la distance (Haversine) pour chaque site
-	    // 3) On LEFT JOIN les tables filles (activité/historique)
-	    // 4) On récupère les langues (pour histo) via GROUP_CONCAT (1 ligne par site)
-	    final String sql =
-	        "SELECT " +
-	        "  st.siteID, st.site_type, st.nom, st.prix, st.adresseID, " +
-	        "  sa.duration, sh.guideName, " +
-	        "  GROUP_CONCAT(sl.langue ORDER BY sl.langue SEPARATOR ',') AS langues_csv, " +
-	        "  (6371 * ACOS( " +
-	        "     COS(RADIANS(center.latitude)) * COS(RADIANS(a.latitude)) * " +
-	        "     COS(RADIANS(a.longitude) - RADIANS(center.longitude)) + " +
-	        "     SIN(RADIANS(center.latitude)) * SIN(RADIANS(a.latitude)) " +
-	        "  )) AS distance_km " +
-	        "FROM SiteTouristique st " +
-	        "JOIN Adresse a ON a.adresseID = st.adresseID " +
-	        "JOIN (SELECT latitude, longitude FROM Adresse WHERE adresseID = ?) AS center " +
-	        "LEFT JOIN SitesActiv sa ON sa.siteID = st.siteID " +
-	        "LEFT JOIN SitesHisto sh ON sh.siteID = st.siteID " +
-	        "LEFT JOIN SitesHistoLangues sl ON sl.siteID = st.siteID " +
-	        "GROUP BY st.siteID, st.site_type, st.nom, st.prix, st.adresseID, sa.duration, sh.guideName, center.latitude, center.longitude, a.latitude, a.longitude " +
-	        "HAVING distance_km <= ? " +
-	        "ORDER BY distance_km ASC";
-
-	    List<TouristSite> sites = new ArrayList<>();
-
-	    try (Connection conn = JdbcConnection.getConnection();
-	         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-	        ps.setInt(1, adresseID);
-	        ps.setDouble(2, km);
-
-	        try (ResultSet rs = ps.executeQuery()) {
-	            while (rs.next()) {
-	                // ---- mapping base ----
-	                TouristSite st = new TouristSite();
-	                st.setId(rs.getInt("siteID"));
-	                st.setNom(rs.getString("nom"));
-	                st.setPrix(rs.getDouble("prix"));
-	                st.setId(rs.getInt("adresseID"));
-	                st.setType(rs.getString("site_type"));
-
-	                String languesCsv = rs.getString("langues_csv");
-	                if (languesCsv != null && !languesCsv.isBlank()) {
-	                    List<String> langues = Arrays.asList(languesCsv.split(","));
-	                sites.add(st);
-	            }
-	        }
-	    } catch (SQLException e) {
-	        System.err.println(e.getMessage());
-	    }
-
-	    return sites;
-	}
-
 
 	@Override
 	public TouristSite fetchGrade(String range) {
@@ -99,6 +30,13 @@ public class JdbcSitePersistence implements SitePersistence {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<TouristSite> fetchNear(int adresseID, double km) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }
