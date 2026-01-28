@@ -28,11 +28,13 @@ public class SearchCriteriaBean implements Serializable{
     private int confort;
     private String keywords;       
     private String askedTransport;
-    private Boolean isOk;
+    //private Boolean isOk;
 	
 
 	public String simpleSearch() {
 		validateKeywords(this.keywords);
+		
+		
 		
 		//this.srct.setKeywords(kwds);
 		//this.srct.simpleSearch(null);
@@ -40,9 +42,9 @@ public class SearchCriteriaBean implements Serializable{
 		
 		//return le résultat de la recherche, le formater comme il faut ici avant de le renvoyer
 		
-		this.isOk = true;
+		//this.isOk = true;
 		
-		return "Une liste de site touristique pour l'exemple";		
+		return "valid";		
 	}
 	
 	public String complexSearch() {
