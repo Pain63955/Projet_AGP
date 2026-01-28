@@ -16,16 +16,22 @@ import business.offer.SearchCriteria;
 public class SearchCriteriaBean implements Serializable{
 	
 	/**
-	 * 
+	 *	Proxy de search criteria, on check tout
 	 */
 	private static final long serialVersionUID = -2204740088413345478L;
-	private int nbJours;
-	private double budgetMax;
-	
 	private SearchCriteria srct;
+	
+	private int nbDays;       
+    private double budgetMin;
+    private double budgetMax;      
+    private String keywords;       
+    private String askedTransport;
+	
 
 	public String search() {
 		return null;
+		//euh bah la va falloir vérifier que tt est bon avant de faire l'appel chez search criteria sinon on est un mauvais proxy
+		
 	}
 	
 	public void validatePrice(FacesContext context, UIComponent componentToValidate, Object value) throws ValidatorException {
@@ -50,28 +56,52 @@ public class SearchCriteriaBean implements Serializable{
 		
 	}
 
-	public int getNbJours() {
-		return nbJours;
+	public SearchCriteria getSrct() {
+		return srct;
 	}
 
-	public void setNbJours(int nbJours) {
-		this.nbJours = nbJours;
+	public void setSrct(SearchCriteria srct) {
+		this.srct = srct;
 	}
 
-	public double getBudgetMin() {
-		return this.srct.getBudgetMax();
-		
+	public int getNbDays() {
+		return nbDays;
 	}
-	
-	public void setBudgetMin() {
-		
+
+	public void setNbDays(int nbDays) {
+		this.srct.setNbDays(nbDays);
 	}
-	
+
 	public double getBudgetMax() {
 		return budgetMax;
 	}
 
 	public void setBudgetMax(double budgetMax) {
-		this.budgetMax = budgetMax;
+		this.srct.setBudgetMax(budgetMax);
+	}
+
+	public String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.srct.setKeywords(keywords);
+	}
+
+	public String getAskedTransport() {
+		return askedTransport;
+	}
+
+	public void setAskedTransport(String askedTransport) {
+		this.srct.setAskedTransport(askedTransport);
+	}
+
+	public double getBudgetMin() {
+		return this.budgetMin;
+		
+	}
+	
+	public void setBudgetMin() {
+		this.srct.setBudgetMin(budgetMin);
 	}
 }
