@@ -3,12 +3,10 @@ package unit;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
 
-import persistence.jdbc.*;
 import org.junit.Test;
 
 public class JdbcConnectionTest {
