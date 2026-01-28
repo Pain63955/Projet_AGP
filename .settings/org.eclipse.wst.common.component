@@ -10,7 +10,7 @@
     
     
     
-    <wb-module deploy-name="AGP_Mardi">
+    <wb-module deploy-name="AGP_Bali">
                                                                                         
         
         
@@ -37,7 +37,7 @@
         
         
         
-        <property name="context-root" value="AGP_Mardi"/>
+        <property name="context-root" value="AGP_Bali"/>
                                                                                         
         
         
@@ -48,7 +48,7 @@
         
         
         
-        <property name="java-output-path" value="/AGP_Mardi/build/classes"/>
+        <property name="java-output-path" value="/AGP_Bali/build/classes"/>
                                                                                     
     
     
@@ -71,6 +71,7 @@
 
 
 </project-modules>
+
 =======
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
                                             
@@ -83,7 +84,7 @@
     
     
     
-    <wb-module deploy-name="AGP_Mardi">
+    <wb-module deploy-name="AGP_Bali">
                                                                                         
         
         
@@ -110,7 +111,7 @@
         
         
         
-        <property name="context-root" value="AGP_Mardi"/>
+        <property name="context-root" value="AGP_Bali"/>
                                                                                         
         
         
@@ -121,7 +122,7 @@
         
         
         
-        <property name="java-output-path" value="/AGP_Mardi/build/classes"/>
+        <property name="java-output-path" value="/AGP_Bali/build/classes"/>
                                                                                     
     
     
