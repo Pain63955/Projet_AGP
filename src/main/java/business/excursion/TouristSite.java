@@ -7,6 +7,7 @@ public abstract class TouristSite implements PriceableElement{
     private Address address;
     private double price;
     private int id;
+    private String transport;
     
     public TouristSite() {
     	
@@ -40,6 +41,14 @@ public abstract class TouristSite implements PriceableElement{
 	
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public String getTransport() {
+		return transport;
+	}
+
+	public void setTransport(String transport) {
+		this.transport = transport;
 	}
 
 	@Override

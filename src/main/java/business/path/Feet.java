@@ -13,6 +13,6 @@ public class Feet implements TransportStrategy{
 	
 	@Override
     public String toString() { 
-		return "MARCHE"; 
+		return "WALK"; 
 		}
 }

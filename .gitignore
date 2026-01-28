@@ -1,4 +1,4 @@
 *.properties
-*.classpath
+.classpath
 /bin/
 /bin/

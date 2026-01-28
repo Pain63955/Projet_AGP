@@ -27,20 +27,20 @@ public class Excursion implements PriceableElement {
      * Génère le circuit logique de la journée :
      * Hôtel -> Site 1 -> Site 2 -> Site 3 -> Hôtel
      */
-    public void generateTour(Hotel hotel, String mode) {
+    public void generateTour(Hotel hotel) {
         if (sites.isEmpty()) return;
         this.paths.clear();
 
         // 1. Départ : Hôtel -> Premier Site
-        createAndAddPath(hotel.getAddress(), sites.get(0).getAddress(), mode);
+        createAndAddPath(hotel.getAddress(), sites.get(0).getAddress(), sites.get(0).getTransport());
 
         // 2. Entre les sites : Site n -> Site n+1
         for (int i = 0; i < sites.size() - 1; i++) {
-            createAndAddPath(sites.get(i).getAddress(), sites.get(i+1).getAddress(), mode);
+            createAndAddPath(sites.get(i).getAddress(), sites.get(i+1).getAddress(), sites.get(i+1).getTransport());
         }
 
         // 3. Retour : Dernier Site -> Hôtel
-        createAndAddPath(sites.get(sites.size() - 1).getAddress(), hotel.getAddress(), mode);
+        createAndAddPath(sites.get(sites.size() - 1).getAddress(), hotel.getAddress(), sites.get(sites.size() - 1).getTransport());
     }
 
     private void createAndAddPath(Address departure, Address arrival, String mode) {

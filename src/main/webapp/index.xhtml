@@ -2,6 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
 <h:head>
 	<title>AGP Bali</title>
 </h:head>
@@ -32,7 +33,7 @@
 		<h:form>
 		Choisissez le nombre de jours :
 		
-	    <h:selectOneMenu value="#{SearchCriteriaBean.nbDays}" label="Choisissez le nombre de jours :">
+	    <h:selectOneMenu value="#{searchCriteriaBean.nbDays}" label="Choisissez le nombre de jours :">
 	        <f:selectItem itemValue="1jour" itemLabel="1"/>
 	        <f:selectItem itemValue="2jour" itemLabel="2"/>
 	        <f:selectItem itemValue="3jour" itemLabel="3"/>
@@ -42,12 +43,12 @@
 	        <f:selectItem itemValue="7jour" itemLabel="7"/>
 	    </h:selectOneMenu>	
 	    
-		<h:selectManyCheckbox value = "#{SearchCriteriaBean.askedTransport}"> 
+		<!--<h:selectManyCheckbox value = "#{SearchCriteriaBean.askedTransport}"> 
 		   <f:selectItem itemValue = "boat" itemLabel = "Bateau" /> 
 		   <f:selectItem itemValue = "bus" itemLabel = "Bus" /> 
 		   <f:selectItem itemValue = "feet" itemLabel = "Marche à pied" />
 		   
-		</h:selectManyCheckbox>
+		</h:selectManyCheckbox>-->
 
 			<br />
 			

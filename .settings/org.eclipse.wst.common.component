@@ -1,5 +1,6 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-                                        
+                                            
     
     
     
@@ -8,8 +9,10 @@
     
     
     
-    <wb-module deploy-name="AGP_Mardi">
-                                                                                
+    
+    <wb-module deploy-name="AGP_Bali">
+                                                                                        
+        
         
         
         
@@ -19,13 +22,12 @@
         
         
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-                        
+                                
+        
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/ressources"/>
-                        
-        
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-                                                                                
+                                                                                        
         
         
         
@@ -34,8 +36,9 @@
         
         
         
-        <property name="context-root" value="AGP_Mardi"/>
-                                                                                
+        
+        <property name="context-root" value="AGP_Bali"/>
+                                                                                        
         
         
         
@@ -44,8 +47,10 @@
         
         
         
-        <property name="java-output-path" value="/AGP_Mardi/build/classes"/>
-                                                                            
+        
+        <property name="java-output-path" value="/AGP_Bali/build/classes"/>
+                                                                                    
+    
     
     
     
@@ -55,7 +60,8 @@
     
     
     </wb-module>
-                                    
+                                        
+
 
 
 
@@ -65,3 +71,78 @@
 
 
 </project-modules>
+
+=======
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+                                            
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <wb-module deploy-name="AGP_Bali">
+                                                                                        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                                
+        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/ressources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <property name="context-root" value="AGP_Bali"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <property name="java-output-path" value="/AGP_Bali/build/classes"/>
+                                                                                    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </wb-module>
+                                        
+
+
+
+
+
+
+
+
+
+</project-modules>
+>>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git

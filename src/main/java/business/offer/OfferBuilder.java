@@ -73,7 +73,7 @@ public class OfferBuilder {
 
                 // Génération du circuit
                 try {
-                    dailyEx.generateTour(offer.getHotel(), criteria.getAskedTransport());
+                    dailyEx.generateTour(offer.getHotel());
                     
                     // Vérification du prix (Sécurisée contre NPE)
                     double currentPrice = offer.getPrice();

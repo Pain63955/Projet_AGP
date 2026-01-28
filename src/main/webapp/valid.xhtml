@@ -9,7 +9,13 @@
 <h:body>
 	<fieldset>
 		<legend>Sites Touristiques</legend>
-		<h:panelGroup rendered="#{SearchCriteriaBean.isOk == true}">
+		<h:panelGroup>
+		"Une liste de site touristique pour l'exemple"
+		<h:selectOneMenu value="#{userBean.selectedOption}" label="Select an option">
+	        <f:selectItem itemValue="Option1" itemLabel="test 1"/>
+	        <f:selectItem itemValue="Option2" itemLabel="test 2"/>
+	    </h:selectOneMenu>
+		
 			<ul>
 				<li><a href="index.jsf">Menu</a></li>
 			</ul>

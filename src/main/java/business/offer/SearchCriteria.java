@@ -13,7 +13,6 @@ public class SearchCriteria {
     private String keywords;       // La chaîne de texte analysée par l'IA (ex: "zen temple surf")
     private int grade;
     private int confort;
-    private String askedTransport; // Le mode envoyé à la factory (BATEAU, BUS, etc.)
 
     public SearchCriteria() {}
 
@@ -25,7 +24,6 @@ public class SearchCriteria {
         this.budgetMin = budgetMin;
         this.budgetMax = budgetMax;
         this.keywords = motsCles;
-        this.askedTransport = transportSouhaite;
     }
     
     public void prepareComplexSearch(int days, long bi, long ba, int grade, int confort, String trans) {
@@ -34,7 +32,6 @@ public class SearchCriteria {
     	this.budgetMax = ba;
     	this.grade = grade;
     	this.confort = confort;
-    	this.askedTransport = trans;
     }
 
 	public List<StayOffer> complexSearch() {
@@ -86,14 +83,6 @@ public class SearchCriteria {
 
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
-	}
-
-	public String getAskedTransport() {
-		return askedTransport;
-	}
-
-	public void setAskedTransport(String askedTransport) {
-		this.askedTransport = askedTransport;
 	}
 
     public int getGrade() {

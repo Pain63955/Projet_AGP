@@ -9,9 +9,9 @@ import business.excursion.*;
 import business.path.*;
 
 public class TestTrajet {
-    
+     
     private Path trajet;
-    
+     
     @Before
     public void setUp() {
         trajet = new Path(new Bus(5.0), 10.0);
@@ -20,7 +20,7 @@ public class TestTrajet {
     @Test
     public void testCreationTrajet() {
         assertNotNull(trajet);
-        assertEquals("AUTOBUS", trajet.getMode());
+        assertEquals("BUS", trajet.getMode());
         assertEquals(5.0, trajet.getPrice(), 0.0);
         assertEquals(10.0, trajet.getDistance(), 0.0);
     }
@@ -29,7 +29,7 @@ public class TestTrajet {
     public void testTrajetPied() {
         Path trajetPied = new Path(new Feet(), 5.0);
         
-        assertEquals("MARCHE", trajetPied.getMode());
+        assertEquals("WALK", trajetPied.getMode());
         assertEquals(0.0, trajetPied.getPrice(), 0.0);
         assertEquals(5.0, trajetPied.getDistance(), 0.0);
     }
@@ -38,7 +38,7 @@ public class TestTrajet {
     public void testTrajetBateau() {
         Path trajetBateau = new Path(new Boat(2), 10);
         
-        assertEquals("BATEAU", trajetBateau.getMode());
+        assertEquals("BOAT", trajetBateau.getMode());
         assertEquals(20.0, trajetBateau.getPrice(), 0.0);
         assertEquals(10.0, trajetBateau.getDistance(), 0.0);
     }
@@ -56,7 +56,7 @@ public class TestTrajet {
     
     @Test
     public void testGetMode() {
-        assertEquals("AUTOBUS", trajet.getMode());
+        assertEquals("BUS", trajet.getMode());
     }
     
     @Test
