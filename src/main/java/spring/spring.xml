@@ -223,7 +223,7 @@
 	</bean>
 
 	<bean id="boatCalc" class="business.path.Boat">
-	    <property name="priceKm" value="2.5" /> 
+	    <property name="priceKm" value="10.0" /> 
 	</bean>
 	
 	<bean id="busCalc" class="business.path.Bus">
