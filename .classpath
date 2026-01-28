@@ -10,5 +10,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
+=======
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/TLiu"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COO"/>
+>>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 	<classpathentry kind="output" path="bin"/>
 </classpath>
