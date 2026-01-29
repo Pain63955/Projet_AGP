@@ -160,7 +160,7 @@ public class JdbcHotelPersistence implements HotelPersistence {
 	}
 
 	@Override
-	public List<Hotel> fetchPrice(double lowPrice, double highPrice) {
+	public List<Hotel> fetchPrice(long lowPrice, long highPrice) {
 		List<Hotel> hotels = new ArrayList<>();
 		
 		try {

@@ -16,6 +16,6 @@ public interface HotelPersistence{
 
     List<Hotel> fetchGrade(String range);
 
-	List<Hotel> fetchPrice(double lowPrice, double highPrice);
+	List<Hotel> fetchPrice(long lowPrice, long highPrice);
 
 }

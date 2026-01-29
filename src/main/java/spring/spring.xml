@@ -5,6 +5,32 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="baseAddress" class="business.excursion.Address" abstract="true" />
+
+	<bean id="sitePersistence" class="persistence.jdbc.JdbcSitePersistence"/>
+	
+	<bean id="hotelPersistence" class="persistence.jdbc.JdbcHotelPersistence"/>
+	
+	<bean id="boatCalc" class="business.path.Boat">
+	    <property name="priceKm" value="5.0" /> 
+	</bean>
+	
+	<bean id="busCalc" class="business.path.Bus">
+	    <property name="fixedPrice" value="5.0" /> 
+	</bean>
+	
+	<bean id="feetCalc" class="business.path.Feet"> 
+	</bean>
+	
+	<bean id="transportFactory" class="business.path.TransportFactory">
+	    <property name="strategies">
+	        <map>
+	            <entry key="BOAT" value-ref="boatCalc" />
+	            <entry key="BUS" value-ref="busCalc" />
+	            <entry key="WALK" value-ref="feetCalc" />
+	        </map>
+	    </property>
+	</bean>
+	
 	
 	<bean id="offerBali" class="business.offer.StayOffer" scope="prototype">
 	    <property name="hotel" ref="hotelBali" />
@@ -28,7 +54,50 @@
 		<property name="address" ref="adrBali" />
 	</bean>
 	
-	
+	<bean id="adrSeminyak" parent="baseAddress">
+		<property name="latitude" value="-8.6913" /><property name="longitude" value="115.1682" />
+	</bean>
+	<bean id="hotelSeminyak" class="business.excursion.Hotel">
+		<property name="name" value="W Bali - Seminyak" />
+		<property name="nightRate" value="250.0" />
+		<property name="address" ref="adrSeminyak" />
+	</bean>
+
+	<bean id="adrUluwatu" parent="baseAddress">
+		<property name="latitude" value="-8.8450" /><property name="longitude" value="115.1000" />
+	</bean>
+	<bean id="hotelUluwatu" class="business.excursion.Hotel">
+		<property name="name" value="Renaissance Bali Uluwatu" />
+		<property name="nightRate" value="150.0" />
+		<property name="address" ref="adrUluwatu" />
+	</bean>
+
+	<bean id="adrLovina" parent="baseAddress">
+		<property name="latitude" value="-8.1610" /><property name="longitude" value="115.0242" />
+	</bean>
+	<bean id="hotelLovina" class="business.excursion.Hotel">
+		<property name="name" value="Lovina Beach Resort" />
+		<property name="nightRate" value="95.0" />
+		<property name="address" ref="adrLovina" />
+	</bean>
+
+	<bean id="adrAmed" parent="baseAddress">
+		<property name="latitude" value="-8.3400" /><property name="longitude" value="115.6500" />
+	</bean>
+	<bean id="hotelAmed" class="business.excursion.Hotel">
+		<property name="name" value="Mathis Lodge Amed" />
+		<property name="nightRate" value="110.0" />
+		<property name="address" ref="adrAmed" />
+	</bean>
+
+	<bean id="adrPemuteran" parent="baseAddress">
+		<property name="latitude" value="-8.1481" /><property name="longitude" value="114.6542" />
+	</bean>
+	<bean id="hotelPemuteran" class="business.excursion.Hotel">
+		<property name="name" value="Matahari Beach Resort" />
+		<property name="nightRate" value="130.0" />
+		<property name="address" ref="adrPemuteran" />
+	</bean>
 
 	<bean id="siteTemple" class="business.excursion.HistoricSite">
 		<property name="name" value="Pura Besakih" />
@@ -245,25 +314,5 @@
         </property>
 	</bean>
 
-	<bean id="boatCalc" class="business.path.Boat">
-	    <property name="priceKm" value="10.0" /> 
-	</bean>
-	
-	<bean id="busCalc" class="business.path.Bus">
-	    <property name="fixedPrice" value="5.0" /> 
-	</bean>
-	
-	<bean id="feetCalc" class="business.path.Feet"> 
-	</bean>
-	
-	<bean id="transportFactory" class="business.path.TransportFactory">
-	    <property name="strategies">
-	        <map>
-	            <entry key="BOAT" value-ref="boatCalc" />
-	            <entry key="BUS" value-ref="busCalc" />
-	            <entry key="WALK" value-ref="feetCalc" />
-	        </map>
-	    </property>
-	</bean>
 
 </beans>

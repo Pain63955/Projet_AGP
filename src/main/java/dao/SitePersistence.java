@@ -11,8 +11,10 @@ public interface SitePersistence {
 	
 	List<TouristSite> fetchNear(int adresseID, double km);
 
+	List<TouristSite> fetchByInput(int days, long bi, long ba, int grade, int confort);
+	
 	TouristSite fetchGrade(String range); 
 
-	TouristSite fetchPrice(double lowPrice, double highPrice);
+	TouristSite fetchPrice(long lowPrice, long highPrice);
 	
 }

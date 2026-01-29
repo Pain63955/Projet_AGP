@@ -1,93 +1,53 @@
 package business.offer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
 import business.excursion.PriceableElement;
 import business.excursion.Excursion;
 import business.excursion.Hotel;
 
-public class StayOffer implements PriceableElement{
-	
-	//
-	private String idOffer;
-    private Hotel hotel; 
+public class StayOffer implements PriceableElement {
+    private String idOffer;
+    private List<Hotel> hotels = new ArrayList<>(); 
     private List<Excursion> excursions = new ArrayList<>();
     private int nbNights;
-    
+    private double scoreComfort;
 
-	private double scoreComfort;
-
-    public StayOffer() {
-    }
+    public StayOffer() {}
 
     @Override
     public double getPrice() {
-    	double totalPriceExcursions = 0.0;
-    	
-    	Iterator<Excursion> ite = excursions.iterator();
-    	while(ite.hasNext()) {
-    		Excursion excursion = ite.next();
-    		double priceExcursion = excursion.getPrice();
-    		totalPriceExcursions = totalPriceExcursions + priceExcursion;
-    	}
-    	
-        double totalPriceHotel = 0.0;
-        if (hotel != null) {
-            totalPriceHotel = hotel.getPrice() * nbNights;
-        }
+        // Somme du prix de toutes les excursions
+        double totalExcursions = excursions.stream().mapToDouble(Excursion::getPrice).sum();
         
-        return totalPriceHotel + totalPriceExcursions;
+        // Somme du prix de chaque hôtel stocké dans la liste (1 hôtel = 1 nuit)
+        double totalHotels = hotels.stream().mapToDouble(Hotel::getPrice).sum();
+        
+        return totalExcursions + totalHotels;
     }
-
 
     public void addExcursion(Excursion excursion) {
-        if (excursion != null) {
-            this.excursions.add(excursion);
-        }
+        if (excursion != null) this.excursions.add(excursion);
     }
 
+    public void addHotel(Hotel hotel) {
+        if (hotel != null) this.hotels.add(hotel);
+    }
 
+    public List<Hotel> getHotels() { return hotels; }
+    public List<Excursion> getExcursions() { return excursions; }
+    public double getScoreComfort() { return scoreComfort; }
+    public void setScoreComfort(double scoreComfort) { this.scoreComfort = scoreComfort; }
+    public int getNbNights() { return nbNights; }
+    public void setNbNights(int nbNights) { this.nbNights = nbNights; }
+
+    // Pour compatibilité avec les anciens tests
     public Hotel getHotel() {
-        return hotel;
+        return hotels.isEmpty() ? null : hotels.get(hotels.size() - 1);
     }
 
     public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
+        this.hotels.clear();
+        this.hotels.add(hotel);
     }
-
-    public List<Excursion> getExcursions() {
-        return excursions;
-    }
-
-    public double getScoreComfort() {
-        return scoreComfort;
-    }
-
-    public void setScoreComfort(double scoreComfort) {
-        this.scoreComfort = scoreComfort;
-    }
-
-    public String getIdOffer() {
-        return idOffer;
-    }
-
-    public void setIdOffer(String idOffer) {
-        this.idOffer = idOffer;
-    }
-
-    public boolean fitsBudget(double budgetMax) {
-        return getPrice() <= budgetMax;
-    }
-    
-    public int getNbNights() {
-    	return nbNights;
-    }
-
-	public void setNbNights(int nbNights) {
-		this.nbNights = nbNights;
-	}
-    
 }
-
