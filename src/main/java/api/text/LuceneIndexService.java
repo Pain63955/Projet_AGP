@@ -86,7 +86,11 @@ public class LuceneIndexService {
 	    DirectoryReader ireader = DirectoryReader.open(index);
 	    IndexSearcher searcher = new IndexSearcher(ireader); //l'objet qui fait la recherche dans l'index
 	    
+<<<<<<< HEAD
 	    String reqstr = textQuery;
+=======
+	    String reqstr = textQuery; //old : String reqstr = "Forest";
+>>>>>>> branch 'master' of https://github.com/Pain63955/Projet_AGP.git
 	    	
 	    //Parsing de la requete en un objet Query
 	    //  "contenu" est le champ interrogé par defaut si aucun champ n'est precisé
