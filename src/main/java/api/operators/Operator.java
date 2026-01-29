@@ -2,8 +2,8 @@ package api.operators;
 
 public abstract class Operator implements Tree {
 	
-    private final Tree left;
-    private final Tree right;
+    private Tree left;
+    private Tree right;
 
     public Operator() {
         this(null, null);

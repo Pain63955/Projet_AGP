@@ -5,7 +5,7 @@ import api.operators.SqlOperator;
 import api.operators.TextOperator;
 
 public class CloseVisitor implements OperatorVisitor {
-
+	
 	@Override
 	public void visit(SqlOperator operator) {
 		// TODO Auto-generated method stub

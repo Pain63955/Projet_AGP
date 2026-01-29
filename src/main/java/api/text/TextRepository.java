@@ -8,19 +8,19 @@ import java.util.List;
 
 public class TextRepository {
 
-    private final Path textsDir;
+    private final Path directoryPath;
 
     public TextRepository(String directoryPath) {
-        this.textsDir = Paths.get(directoryPath);
+        this.directoryPath = Paths.get(directoryPath);
         
         ensureDirectoryExists();
     }
 
     private void ensureDirectoryExists() {
         try {
-            Files.createDirectories(textsDir);
+            Files.createDirectories(directoryPath);
         } catch (IOException e) {
-            throw new RuntimeException("Cannot create texts directory: " + textsDir, e);
+            throw new RuntimeException("Cannot create texts directory: " + directoryPath, e);
         }
     }
 
@@ -32,7 +32,7 @@ public class TextRepository {
         if (key.contains("/") || key.contains("\\") || key.contains("..")) {
             throw new IllegalArgumentException("Invalid key: " + key);
         }
-        return textsDir.resolve(key + ".txt");
+        return directoryPath.resolve(key + ".txt");
     }
 
     /** Ajoute/écrase le texte associé à la clé */
@@ -48,7 +48,7 @@ public class TextRepository {
     /** Retourne la liste des clés présentes dans R */
     public List<String> listKeys() {
         List<String> keys = new ArrayList<>();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(textsDir, "*" + ".txt")) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directoryPath, "*" + ".txt")) {
             for (Path p : stream) {
                 String name = p.getFileName().toString();
                 if (name.endsWith(".txt")) {
@@ -57,12 +57,12 @@ public class TextRepository {
                 keys.add(name);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Cannot list texts in: " + textsDir, e);
+            throw new RuntimeException("Cannot list texts in: " + directoryPath, e);
         }
         return keys;
     }
 
-    public Path getTextsDir() {
-        return textsDir;
+    public Path getDirectoryPath() {
+        return directoryPath;
     }
 }

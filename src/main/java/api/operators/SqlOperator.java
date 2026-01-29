@@ -50,6 +50,7 @@ public class SqlOperator extends Operator {
 		for(int columnIndex = 1; columnIndex<= numberRow; columnIndex++) {
 			String label = resultSetMetaData.getColumnLabel(columnIndex);
 			Object value = resultSet.getObject(columnIndex);
+			row.put(label, value);
 		}
 		this.currentRow = row;
 		return true;
@@ -67,7 +68,6 @@ public class SqlOperator extends Operator {
 	public BDeActualRow current() {
 		return currentRow;
 	}
-	
 	
 	public String getSqlPart() {
 		return sqlPart;
