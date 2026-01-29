@@ -7,7 +7,7 @@ public class Hotel implements PriceableElement{
     private String beach;
     private Address address;
     private String description;
-    private String grade;
+    private int grade;
     private int id;
 
     public Hotel() {
@@ -67,11 +67,11 @@ public class Hotel implements PriceableElement{
         this.id = id;
     }
 
-    public String getGrade() {
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
 

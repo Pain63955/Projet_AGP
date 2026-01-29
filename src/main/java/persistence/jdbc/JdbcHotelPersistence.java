@@ -12,197 +12,113 @@ import business.excursion.Hotel;
 import dao.HotelPersistence;
 
 public class JdbcHotelPersistence implements HotelPersistence { 
+	
+	private Connection dbConnection;
+	
+	public JdbcHotelPersistence() {
+		this.dbConnection = JdbcConnection.getConnection();
+		if (this.dbConnection == null) {
+			System.err.println("ERREUR CRITIQUE: La connexion à la base de données est null!");
+			System.err.println("Vérifiez votre configuration de base de données (URL, username, password)");
+		}
+	}
 	 
 	@Override
 	public void dataInit() {
 		System.err.println("Please don't forget to create tables manually by importing creation.sql in your database !");
 	}
 	
-	Connection dbConnection = JdbcConnection.getConnection();
-
 	@Override
-	public Hotel fetchName(String name) {
+	public List<Hotel> fetchGrade(int range) {
+		List<Hotel> hotels = new ArrayList<>();
+		
+		// Vérification de la connexion avant toute opération
+		if (dbConnection == null) {
+			System.err.println("ERREUR: Impossible d'exécuter la requête - connexion à la BD est null");
+			return hotels;
+		}
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		
 		try {
+			String selectAddressQuery = "SELECT h.*, ad.* \r\n"
+					+ "FROM `Hotel` h\r\n"
+					+ "JOIN Adresse ad ON ad.adresseID = h.adresseID\r\n"
+					+ "WHERE h.gamme >= ?";
+					
+			preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
+			preparedStatement.setInt(1, range);
 			
-			String selectAddressQuery = "SELECT hotelID, nom_hotel, prix_hotel, gamme, plage, h.adresseID, latitude, longitude, rue, ville, code_postal "+
-										"FROM Hotel h "+
-										"JOIN Adresse a ON a.adresseID = h.adresseID "+
-										"WHERE h.nom_hotel = ? ";
+			result = preparedStatement.executeQuery();
 
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
+			while(result.next()) {
 
-			preparedStatement.setString(1, name);
-			
-			try (ResultSet result = preparedStatement.executeQuery()) {
-                if (!result.next()) {
-                    return null;
-                }
+				Hotel hotel = new Hotel();
 				
-                Hotel hotel = new Hotel();
-				hotel.setId(result.getInt("hotelID"));
 				hotel.setName(result.getString("nom_hotel"));
 				hotel.setNightRate(result.getDouble("prix_hotel"));
-				hotel.setGrade(result.getString("gamme"));
+
+				String gammeStr = result.getString("gamme");
+				hotel.setGrade(extractGradeFromString(gammeStr));
+				
 				hotel.setBeach(result.getString("plage"));
 				
-				Address address = new Address();
-				address.setAddressId(result.getInt("adresseID"));
-				address.setLatitude(result.getDouble("latitude"));
-				address.setLongitude(result.getDouble("longitude"));
-				address.setStreet(result.getString("rue"));
-				address.setTown(result.getString("ville"));
-				address.setPostCode(result.getString("code_postal"));
+				Address ad = new Address();
+				ad.setLatitude(result.getDouble("latitude"));
+				ad.setLongitude(result.getDouble("longitude"));
+				ad.setPostCode(result.getString("code_postal"));
+				ad.setStreet(result.getString("rue"));
+				ad.setTown(result.getString("ville"));
 				
-				hotel.setAddress(address);
+				hotel.setAddress(ad);
 				
-				preparedStatement.close();
-				return hotel;
+				hotels.add(hotel);
 			}
-		}catch (SQLException se) {
-			System.err.println(se.getMessage());
-		}	
-		return null;
+			
+		} catch (SQLException se) {
+			System.err.println("Erreur SQL dans fetchGrade: " + se.getMessage());
+			se.printStackTrace();
+		} finally {
+			try {
+				if (result != null) result.close();
+				if (preparedStatement != null) preparedStatement.close();
+			} catch (SQLException e) {
+				System.err.println("Erreur lors de la fermeture des ressources: " + e.getMessage());
+			}
+		}
+		
+		return hotels;
 	}
 	
-	@Override
-	public List<Hotel> fetchNear(Address adresse) {
-		
-		List<Hotel> hotels = new ArrayList<>();
-		
-		try {
-			
-			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.adresseID = ? ";
-
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-
-			preparedStatement.setInt(1, adresse.getAddressId());
-			preparedStatement.setInt(1, adresse.getAddressId());
-			
-			ResultSet result = preparedStatement.executeQuery();
-			try (ResultSet resultTry = preparedStatement.executeQuery()) {
-                if (!resultTry.next()) {
-                    return null;
-                }
-			} 
-			
-			while(result.next()) {
-				result.next();
-				
-				Hotel hotel = new Hotel();
-				
-				hotel.setId(result.getInt("hotelID"));
-				hotel.setName(result.getString("nom_hotel"));
-				hotel.setNightRate(result.getDouble("prix_hotel"));
-				hotel.setGrade(result.getString("gamme"));
-				hotel.setBeach(result.getString("plage"));
-				hotel.setDescription(result.getString("description"));	
-				
-				hotels.add(hotel);
-			}
-
-			preparedStatement.close();
-
-			preparedStatement.executeUpdate();
-
-			preparedStatement.close();
-		
-		} catch (SQLException se) {
-			System.err.println(se.getMessage());
-		}	
-		return (hotels);
-	}
-
-	@Override
-	public List<Hotel> fetchGrade(String range) {
-		List<Hotel> hotels = new ArrayList<>();
+	private int extractGradeFromString(String gammeStr) {
+		if (gammeStr == null || gammeStr.isEmpty()) {
+			return 0;
+		}
 		
 		try {
-			
-			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.gamme = ? ";
-
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-
-			preparedStatement.setString(1, range);
-			
-			ResultSet result = preparedStatement.executeQuery();
-			try (ResultSet resultTry = preparedStatement.executeQuery()) {
-                if (!resultTry.next()) {
-                    return null;
-                }
-			} 
-			result.next();
-			
-			while(result.next()) {
-				result.next();
-				
-				Hotel hotel = new Hotel();
-				
-				hotel.setId(result.getInt("hotelID"));
-				hotel.setName(result.getString("nom_hotel"));
-				hotel.setNightRate(result.getDouble("prix_hotel"));
-				hotel.setGrade(result.getString("gamme"));
-				hotel.setBeach(result.getString("plage"));
-				hotel.setDescription(result.getString("description"));	
-				
-				hotels.add(hotel);
+			if (gammeStr.matches("\\d+")) {
+				return Integer.parseInt(gammeStr);
 			}
-
-			preparedStatement.close();
-
-			preparedStatement.executeUpdate();
-
-			preparedStatement.close();
+			
+			String[] parts = gammeStr.split("\\s+");
+			for (String part : parts) {
+				if (part.matches("\\d+")) {
+					return Integer.parseInt(part);
+				}
+			}
+			
+			java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(\\d+)");
+			java.util.regex.Matcher matcher = pattern.matcher(gammeStr);
+			if (matcher.find()) {
+				return Integer.parseInt(matcher.group(1));
+			}
+			
+		} catch (NumberFormatException e) {
+			System.err.println("Impossible de convertir la gamme: " + gammeStr);
+		}
 		
-		} catch (SQLException se) {
-			System.err.println(se.getMessage());
-		}	
-		return (hotels);
+		return 1;
 	}
 
-	@Override
-	public List<Hotel> fetchPrice(long lowPrice, long highPrice) {
-		List<Hotel> hotels = new ArrayList<>();
-		
-		try {
-			
-			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.prix_hotel >= ? AND hot.prix_hotel <=  ? ";
-
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-
-			preparedStatement.setDouble(1, lowPrice);
-			preparedStatement.setDouble(1, highPrice);
-			
-			ResultSet result = preparedStatement.executeQuery();
-			try (ResultSet resultTry = preparedStatement.executeQuery()) {
-                if (!resultTry.next()) {
-                    return null;
-                }
-			} 
-			
-			while(result.next()) {
-				result.next();
-				
-				Hotel hotel = new Hotel();
-				
-				hotel.setId(result.getInt("hotelID"));
-				hotel.setName(result.getString("nom_hotel"));
-				hotel.setNightRate(result.getDouble("prix_hotel"));
-				hotel.setGrade(result.getString("gamme"));
-				hotel.setBeach(result.getString("plage"));
-				hotel.setDescription(result.getString("description"));	
-				
-				hotels.add(hotel);
-			}
-
-			preparedStatement.close();
-
-			preparedStatement.executeUpdate();
-
-			preparedStatement.close();
-		
-		} catch (SQLException se) {
-			System.err.println(se.getMessage());
-		}	
-		return (hotels);
-	}
 }

@@ -14,7 +14,7 @@ public class JdbcConnection {
     public static Connection getConnection() { 
         if (connection == null) {
             try {
-                //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+                DriverManager.registerDriver(new com.mysql.jdbc.Driver());
                 connection = DriverManager.getConnection(url, user, password);
             } catch (Exception e) {
                 System.err.println("Connection failed : " + e.getMessage());

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Résultats</title>
+    <h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+
+<ui:include src="header.xhtml"></ui:include>
+
+<h:body>
+
+    <h1>Résultats de la recherche</h1>
+
+    <h2>Recherche par mots-clés</h2>
+    <h:panelGroup rendered="#{not empty searchCriteriaBean.keywords}">
+        Mots-clés :
+        <h:outputText value="#{searchCriteriaBean.keywords}" />
+    </h:panelGroup>
+	<h:dataTable value="#{searchCriteriaBean.simpleResults}" var="r"
+                 rendered="#{not empty searchCriteriaBean.simpleResults}">
+
+        <h:column>
+            <h:outputText value="#{r}" />
+            <!--- on peut prendre les attribut du bean avec r.nomAttrripute si on décide de meetre autre chose que des strings
+            -->
+        </h:column>
+
+    </h:dataTable>
+    
+    <br/>
+    <h2>Recherche complexe</h2>
+
+    <h:panelGroup>
+        Budget :
+        <h:outputText value="#{searchCriteriaBean.budgetMin}" />
+        -
+        <h:outputText value="#{searchCriteriaBean.budgetMax}" />
+        <br />
+
+        Durée :
+        <h:outputText value="#{searchCriteriaBean.nbDays}" />
+        jours
+        <br />
+
+        Hôtel :
+        <h:outputText value="#{searchCriteriaBean.starRating}" />
+        étoiles
+        <br />
+
+        Confort :
+        <h:outputText value="#{searchCriteriaBean.confort}" />
+        <br />
+    </h:panelGroup>
+	<h:panelGroup rendered="#{not empty searchCriteriaBean.complexResults}">
+        <h2>Résultats de la recherche complexe</h2>
+
+        <h:dataTable value="#{searchCriteriaBean.complexResults}" var="r">
+            <h:column>
+                <h:outputText value="#{r}" />
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+    <br />
+    <h:link value="Retour" outcome="index" />
+
+</h:body>
+</html>

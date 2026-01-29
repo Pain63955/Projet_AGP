@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" >
+      
+
+    <h:head>
+        <title>AGP Bali</title>
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+
+	<ui:include src="header.xhtml"></ui:include>
+
+    <h:body>
+
+        <h:outputText value="#{searchCriteriaBean}" />
+         <!--debug ça check si y'a le bean d'instancié, si non alors faut remettre le org.eclipse.wst component
+             la avec le chemin de src/main/java et src/main/ressources
+        -->
+
+        <h2>Recherche de sites touristiques</h2>
+
+        <fieldset>
+            <legend>Recherche de sites touristiques par mots-clés</legend>
+            <h:form>
+                Mots-clés :
+                <h:inputText value="#{searchCriteriaBean.keywords}" />
+                <br />
+                <h:commandButton value="Rechercher"
+                                 action="#{searchCriteriaBean.simpleSearch}" />
+            </h:form>
+        </fieldset>
+
+    </h:body>
+</html>

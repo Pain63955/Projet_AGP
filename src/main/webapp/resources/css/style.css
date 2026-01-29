@@ -1,0 +1,91 @@
+body {
+    background-color: #f0f2f0;
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* --- LE CONTENEUR HERO --- */
+.hero-container {
+    position: relative;
+    height: 350px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* L'image prend toute la place en fond */
+.hero-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* L'image s'adapte sans se déformer */
+    z-index: 1;
+    filter: brightness(60%); /* On l'assombrit pour lire le texte */
+}
+
+/* Le texte par-dessus l'image */
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+}
+
+.hero-overlay h1 {
+    font-size: 3rem;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+/* --- MISE EN PAGE DU FORMULAIRE --- */
+.main-container {
+    max-width: 480px; /* Largeur étroite demandée */
+    margin: -50px auto 40px auto; /* On remonte sur l'image */
+    position: relative;
+    z-index: 10;
+    padding: 0 15px;
+}
+
+
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+fieldset { border: none; padding: 0; margin: 0; }
+legend { font-weight: bold; color: #2d5a27; margin-bottom: 10px; }
+
+/* Champs et bouton */
+.form-group { margin-bottom: 15px; }
+.form-row { display: flex; gap: 10px; }
+label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; }
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.radio-section { background: #fdfae0; padding: 10px; border-radius: 8px; }
+
+.btn-primary, .btn-secondary {
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    color: white;
+}
+
+.btn-primary { background-color: #2d5a27; }
+.btn-secondary { background-color: #bc6c25; }
