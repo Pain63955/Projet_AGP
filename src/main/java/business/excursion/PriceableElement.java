@@ -2,6 +2,6 @@ package business.excursion;
 
 public interface PriceableElement {
 
-	double getPrice();
+	double getPrice(); 
 	
 }
