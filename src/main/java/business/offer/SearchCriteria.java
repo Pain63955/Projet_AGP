@@ -39,8 +39,8 @@ public class SearchCriteria {
 
 	public boolean complexSearch(SitePersistence sitepersistence, HotelPersistence hotelpersistence) {
 		//Va demander les ressources a DAO, renvoie true si l'execution c'est passé sans souçis.
-		this.listSites = sitepersistence.fetchByInput(this.nbDays, this.budgetMin, this.budgetMax, this.grade, this.confort);
-		this.listHotels = hotelpersistence.fetchPrice(this.budgetMin, this.budgetMax);
+		this.listSites = sitepersistence.fetchKeywords(keywords);
+		this.listHotels = hotelpersistence.fetchGrade(this.grade);
     	return true;
     }
     

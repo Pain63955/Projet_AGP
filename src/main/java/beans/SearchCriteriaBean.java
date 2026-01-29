@@ -69,7 +69,7 @@ public class SearchCriteriaBean implements Serializable{
 		
 		complexResults = new ArrayList<>();
 		this.srct = new SearchCriteria();
-		
+		this.srct.setKeywords(keywords);
 		this.srct.prepareComplexSearch(this.nbDays, this.budgetMin, this.budgetMax, this.grade, this.confort);
 		this.srct.complexSearch(	//Il s'agit d'un bool on pourrait faire des vérifs en plus pour s'assurer que la fonction s'éxecute bien
 				(SitePersistence) context.getBean("sitePersistence"),
