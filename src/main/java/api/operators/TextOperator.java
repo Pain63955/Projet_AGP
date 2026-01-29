@@ -26,7 +26,7 @@ public class TextOperator extends Operator {
 	public void open() throws Exception {
 		lucenneIndex=new LuceneIndexService(bdeConfig);
 		this.scoreByKey = lucenneIndex.search(textPart);
-		this.keysOrdered = lucenneIndex.sortScores(scoreByKey);
+		this.keysOrdered = lucenneIndex.sortScores(scoreByKey); 
 	}
 	
 	public HashMap<Integer, Double> getScoreByKey(){
