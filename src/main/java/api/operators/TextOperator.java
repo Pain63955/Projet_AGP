@@ -12,8 +12,8 @@ public class TextOperator extends Operator {
 	private BDeConfig bdeConfig;
 	private String textPart;
 	
-	private HashMap<Integer, Double> scoreByKey;
-	private ArrayList<Integer> keysOrdered;
+	private HashMap<String, Double> scoreByKey;
+	private ArrayList<String> keysOrdered;
 	
 	public LuceneIndexService lucenneIndex;
 	
@@ -29,12 +29,21 @@ public class TextOperator extends Operator {
 		this.keysOrdered = lucenneIndex.sortScores(scoreByKey); 
 	}
 	
-	public HashMap<Integer, Double> getScoreByKey(){
+	public HashMap<String, Double> getScoreByKey(){
 		return scoreByKey;
 	}
 	
-	public ArrayList<Integer> getKeysOrdered(){
+	public ArrayList<String> getKeysOrdered(){
 		return keysOrdered;
+	}
+	
+	public void close() {
+		scoreByKey.clear();
+		keysOrdered.clear();
+	}
+	
+	public String getTextPart() {
+		return textPart;
 	}
 	
 	@Override

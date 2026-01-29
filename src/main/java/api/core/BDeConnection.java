@@ -32,32 +32,31 @@ public class BDeConnection {
             throw new IllegalStateException("Cannot obtain JDBC connection");
         }
 
-        TextRepository repo = new TextRepository(cfg.getTextsDir());
+        TextRepository repo = new TextRepository(cfg.getDirectoryPath());
 
-        LuceneIndexService lucene =
-            new LuceneIndexService(cfg.getTextsDir() + "/index");
+        LuceneIndexService lucene = new LuceneIndexService(cfg);
 
         return new BDeConnection(cfg, jdbc, repo, lucene);
     }
     
     public static BDeConnection open(BDeConfig cfg, Connection jdbc) {
-        TextRepository repo = new TextRepository(cfg.getTextsDir());
+        TextRepository repo = new TextRepository(cfg.getDirectoryPath());
         LuceneIndexService lucene =
-            new LuceneIndexService(cfg.getTextsDir() + "/index");
+            new LuceneIndexService(cfg);
         return new BDeConnection(cfg, jdbc, repo, lucene);
     }
 
-    // --- API publique ---
-    public BDeStatement createStatement() {
-        return new BDeStatement(this);
-    }
+//    // --- API publique ---
+//    public BDeStatement createStatement() {
+//        return new BDeStatement(this);
+//    }
 
     public void putText(String key, String text) {
         textRepo.putText(key, text);
     }
 
     public void buildIndex() throws Exception {
-        lucene.buildIndex(textRepo);
+        lucene.buildIndex();
     }
 
     public void close() throws Exception {
@@ -82,6 +81,4 @@ public class BDeConnection {
     public LuceneIndexService getLuceneIndexService() {
         return lucene;
     }
-}
-}
 }
