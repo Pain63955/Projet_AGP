@@ -11,7 +11,17 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import business.excursion.TouristSite;
+import business.offer.CalmPaceStrategy;
+import business.offer.OfferBuilder;
 import business.offer.SearchCriteria;
+import business.offer.StayOffer;
+import business.path.TransportFactory;
+import dao.HotelPersistence;
+import dao.SitePersistence;
 
 @ManagedBean(name = "searchCriteriaBean")
 @SessionScoped
@@ -28,29 +38,24 @@ public class SearchCriteriaBean implements Serializable{
     private long budgetMax;
 	private int grade;
     private int confort;
-    private String keywords;       
-    //private String askedTransport;
-    private List<String> simpleResults;
-    private List<String> complexResults;
+    private String keywords;
+    
+    private ApplicationContext context;
+    
+    private List<TouristSite> simpleResults;
+    private List<StayOffer> complexResults;
 
-    //private Boolean isOk;
-	
+	public SearchCriteriaBean() {
+		this.context = new ClassPathXmlApplicationContext("/spring/spring.xml");
+	}
 
 	public String simpleSearch() {
 		complexResults = null;
-		validateKeywords(this.keywords);
 		
-		List<String> results = new ArrayList<>();
-		
-		//this.srct.setKeywords(kwds);
-		//this.srct.simpleSearch(null);
-		//TODO rajouter le sitepersistence implémenté
-		results.add("Ceci est un exemple de desc de site 1");
-		results.add("Ceci est un autre exemple 2");
-		results.add("et de trois");
-		//return le résultat de la recherche, le formater comme il faut ici avant de le renvoyer
-		this.simpleResults = results;
-		//this.isOk = true;
+		this.srct= new SearchCriteria();
+		this.srct.setKeywords(this.keywords);
+		this.simpleResults = this.srct.simpleSearch(
+				(SitePersistence)context.getBean("sitePersistence"));
 		
 		return "results";		
 	}
@@ -61,26 +66,38 @@ public class SearchCriteriaBean implements Serializable{
 		validateDays(this.nbDays);
 		validateConfort(this.confort);
 		validateGrade(this.grade);
-		//validateTransport(this.askedTransport);
 		
 		complexResults = new ArrayList<>();
+		this.srct = new SearchCriteria();
 		
-		//this.srct.prepareComplexSearch(this.budgetMin, this.budgetMax, this.nbDays, this.confort, this.grade, this.askedTransport);
-		//this.srct.complexSearch();
-		//TODO Ajouter sitepersistence et tt
-		//return le résu de la recherche complex formaté correctement pour le web et tt t'as vu
+		this.srct.prepareComplexSearch(this.nbDays, this.budgetMin, this.budgetMax, this.grade, this.confort);
+		this.srct.complexSearch(	//Il s'agit d'un bool on pourrait faire des vérifs en plus pour s'assurer que la fonction s'éxecute bien
+				(SitePersistence) context.getBean("sitePersistence"),
+				(HotelPersistence) context.getBean("hotelPersistence"));
 		
-		complexResults.add("offre 1");
-		complexResults.add("faudra des objets hein");
-		complexResults.add("numéro 3");
 		
 		return "results";
 	}
 	
-	
-	
-	
-	
+	public List<StayOffer> generateStayList(OfferBuilder ob) {
+		TransportFactory factory = (TransportFactory) context.getBean("transportFactory");
+        List<StayOffer> validOffers = new ArrayList<>();
+        
+        while (validOffers.size() < 3) {
+            OfferBuilder builder = new OfferBuilder(context ,this.srct);
+            StayOffer candidate = builder.setStrategy(new CalmPaceStrategy()).generateOptimizedStay(factory).build();
+
+            // On n'ajoute que si le critère de confort est atteint
+            if (candidate.getScoreComfort() >= this.srct.getConfort()) {
+                validOffers.add(candidate);
+            }
+        }
+
+        // Tri par score de confort décroissant
+        validOffers.sort((o1, o2) -> Double.compare(o2.getScoreComfort(), o1.getScoreComfort()));
+        
+		return validOffers;
+	}
 	
 	public void validateConfort(int conf) {
 		if (conf < 1 || conf > 5) {
@@ -95,13 +112,7 @@ public class SearchCriteriaBean implements Serializable{
 			throw new ValidatorException(message);
 		}
 	}
-	
-	/*public void validateTransport(String transport) {
-		if (transport.isEmpty()) {
-			FacesMessage message = new FacesMessage("Il faut au minimum 1 type de transport.");
-			throw new ValidatorException(message);
-		}
-	}*/
+
 	public void validateKeywords(String kwds) throws ValidatorException{
 		if (kwds.isEmpty()) {
 			FacesMessage message = new FacesMessage("La liste ne peut pas être vide.");
@@ -123,10 +134,6 @@ public class SearchCriteriaBean implements Serializable{
 			FacesMessage message = new FacesMessage("The amount of days cannot be less than 1 and above 7");
 			throw new ValidatorException(message);
 		}
-	}
-	
-	public SearchCriteriaBean() {
-		
 	}
 
 	public SearchCriteria getSrct() {
@@ -169,13 +176,6 @@ public class SearchCriteriaBean implements Serializable{
 		this.keywords = keywords;
 	}
 
-	/*public String getAskedTransport() {
-		return askedTransport;
-	}
-
-	public void setAskedTransport(String askedTransport) {
-		this.askedTransport = askedTransport;
-	}*/
 	public int getStarRating() {
 		return grade;
 	}
@@ -200,19 +200,19 @@ public class SearchCriteriaBean implements Serializable{
 		this.grade = grade;
 	}
 
-	public List<String> getSimpleResults() {
+	public List<TouristSite> getSimpleResults() {
 		return simpleResults;
 	}
 
-	public void setSimpleResults(List<String> simpleResults) {
+	public void setSimpleResults(List<TouristSite> simpleResults) {
 		this.simpleResults = simpleResults;
 	}
 
-	public List<String> getComplexResults() {
+	public List<StayOffer> getComplexResults() {
 		return complexResults;
 	}
 
-	public void setComplexResults(List<String> complexResults) {
+	public void setComplexResults(List<StayOffer> complexResults) {
 		this.complexResults = complexResults;
 	}
 	

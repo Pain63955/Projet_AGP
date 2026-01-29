@@ -27,10 +27,10 @@ public class OfferBuilder {
         return this;
     }
 
-    public OfferBuilder generateOptimizedStay(List<TouristSite> allSites, List<Hotel> allHotels, TransportFactory factory) {
-        List<TouristSite> matchedSites = filterSites(allSites);
+    public OfferBuilder generateOptimizedStay(/*List<TouristSite> allSites, List<Hotel> allHotels, */TransportFactory factory) {
+        List<TouristSite> matchedSites = filterSites(this.criteria.getListSites());
         Collections.shuffle(matchedSites);
-
+        List<Hotel> allHotels = this.criteria.getListHotels();
         double runningTotal = 0.0;
         Hotel cheapestHotel = findCheapestHotel(allHotels);
         Hotel currentHotel = allHotels.get(random.nextInt(allHotels.size()));

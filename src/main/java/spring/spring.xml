@@ -5,6 +5,32 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="baseAddress" class="business.excursion.Address" abstract="true" />
+
+	<bean id="sitePersistence" class="persistence.jdbc.JdbcSitePersistence"/>
+	
+	<bean id="hotelPersistence" class="persistence.jdbc.JdbcHotelPersistence"/>
+	
+	<bean id="boatCalc" class="business.path.Boat">
+	    <property name="priceKm" value="5.0" /> 
+	</bean>
+	
+	<bean id="busCalc" class="business.path.Bus">
+	    <property name="fixedPrice" value="5.0" /> 
+	</bean>
+	
+	<bean id="feetCalc" class="business.path.Feet"> 
+	</bean>
+	
+	<bean id="transportFactory" class="business.path.TransportFactory">
+	    <property name="strategies">
+	        <map>
+	            <entry key="BOAT" value-ref="boatCalc" />
+	            <entry key="BUS" value-ref="busCalc" />
+	            <entry key="WALK" value-ref="feetCalc" />
+	        </map>
+	    </property>
+	</bean>
+	
 	
 	<bean id="offerBali" class="business.offer.StayOffer" scope="prototype">
 	    <property name="hotel" ref="hotelBali" />
@@ -288,25 +314,5 @@
         </property>
 	</bean>
 
-	<bean id="boatCalc" class="business.path.Boat">
-	    <property name="priceKm" value="5.0" /> 
-	</bean>
-	
-	<bean id="busCalc" class="business.path.Bus">
-	    <property name="fixedPrice" value="5.0" /> 
-	</bean>
-	
-	<bean id="feetCalc" class="business.path.Feet"> 
-	</bean>
-	
-	<bean id="transportFactory" class="business.path.TransportFactory">
-	    <property name="strategies">
-	        <map>
-	            <entry key="BOAT" value-ref="boatCalc" />
-	            <entry key="BUS" value-ref="busCalc" />
-	            <entry key="WALK" value-ref="feetCalc" />
-	        </map>
-	    </property>
-	</bean>
 
 </beans>

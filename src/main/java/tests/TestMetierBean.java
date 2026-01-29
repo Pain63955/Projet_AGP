@@ -51,8 +51,7 @@ public class TestMetierBean {
 
     public static void test2() {
         ApplicationContext context = new ClassPathXmlApplicationContext("/spring/spring.xml");
-        List<TouristSite> sites = new ArrayList<>(context.getBeansOfType(TouristSite.class).values());
-        List<Hotel> hotels = new ArrayList<>(context.getBeansOfType(Hotel.class).values());
+
         TransportFactory factory = (TransportFactory) context.getBean("transportFactory");
 
         SearchCriteria crit = new SearchCriteria();
@@ -66,10 +65,10 @@ public class TestMetierBean {
 
         // On boucle tant qu'on n'a pas trouvé nos 3 pépites
         while (validOffers.size() < 3) {
-            OfferBuilder builder = new OfferBuilder(context, crit);
+            OfferBuilder builder = new OfferBuilder(context ,crit);
             StayOffer candidate = builder
                 .setStrategy(new CalmPaceStrategy())
-                .generateOptimizedStay(sites, hotels, factory)
+                .generateOptimizedStay(factory)
                 .build();
 
             // On n'ajoute que si le critère de confort est atteint
