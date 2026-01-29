@@ -6,7 +6,6 @@ public abstract class TouristSite implements PriceableElement{
     private String description;
     private Address address;
     private double price;
-    private int id;
     private String transport;
     
     public TouristSite() {

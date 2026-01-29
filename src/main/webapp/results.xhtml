@@ -2,69 +2,146 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
     <title>Résultats</title>
 </h:head>
-
 <ui:include src="header.xhtml"></ui:include>
-
 <h:body>
-
     <h1>Résultats de la recherche</h1>
-
-    <h2>Recherche par mots-clés</h2>
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.keywords}">
-        Mots-clés :
-        <h:outputText value="#{searchCriteriaBean.keywords}" />
-    </h:panelGroup>
-	<h:dataTable value="#{searchCriteriaBean.simpleResults}" var="r"
-                 rendered="#{not empty searchCriteriaBean.simpleResults}">
-
-        <h:column>
-            <h:outputText value="#{r}" />
-            <!--- on peut prendre les attribut du bean avec r.nomAttrripute si on décide de meetre autre chose que des strings
-            -->
-        </h:column>
-
-    </h:dataTable>
     
-    <br/>
-    <h2>Recherche complexe</h2>
-
-    <h:panelGroup>
-        Budget :
-        <h:outputText value="#{searchCriteriaBean.budgetMin}" />
-        -
-        <h:outputText value="#{searchCriteriaBean.budgetMax}" />
-        <br />
-
-        Durée :
-        <h:outputText value="#{searchCriteriaBean.nbDays}" />
-        jours
-        <br />
-
-        Hôtel :
-        <h:outputText value="#{searchCriteriaBean.starRating}" />
-        étoiles
-        <br />
-
-        Confort :
-        <h:outputText value="#{searchCriteriaBean.confort}" />
-        <br />
+    <!-- Recherche Simple -->
+    <h2>🔍 Recherche par mots-clés</h2>
+    <h:panelGroup rendered="#{not empty searchCriteriaBean.keywords}">
+        <div class="search-info">
+            <strong>Mots-clés recherchés :</strong> 
+            <h:outputText value="#{searchCriteriaBean.keywords}" />
+        </div>
     </h:panelGroup>
-	<h:panelGroup rendered="#{not empty searchCriteriaBean.complexResults}">
-        <h2>Résultats de la recherche complexe</h2>
-
-        <h:dataTable value="#{searchCriteriaBean.complexResults}" var="r">
+    
+    <!-- Tableau des résultats simples -->
+    <h:panelGroup rendered="#{not empty searchCriteriaBean.simpleResults}">
+        <h:dataTable value="#{searchCriteriaBean.simpleResults}" var="site"
+                     styleClass="results-table"
+                     headerClass="table-header"
+                     rowClasses="table-row-odd,table-row-even">
+      
+            <!-- Colonne Nom -->
             <h:column>
-                <h:outputText value="#{r}" />
+                <f:facet name="header">Nom</f:facet>
+                <h:outputText value="#{site.name}" />
             </h:column>
+            
+            <!-- Colonne Prix -->
+            <h:column>
+                <f:facet name="header">Prix (€)</f:facet>
+                <h:outputText value="#{site.price}">
+                    <f:convertNumber type="currency" currencySymbol="€" />
+                </h:outputText>
+            </h:column>
+            
+            <!-- Colonne Transport -->
+            <h:column>
+                <f:facet name="header">Transport</f:facet>
+                <h:outputText value="#{site.transport}" />
+            </h:column>
+            
+            <!-- Colonne Adresse -->
+            <h:column>
+                <f:facet name="header">Adresse</f:facet>
+                <h:outputText value="#{site.address.street}, #{site.address.postCode} #{site.address.town}" />
+            </h:column>
+            
+            <!-- Colonne Coordonnées GPS -->
+            <h:column>
+                <f:facet name="header">Coordonnées</f:facet>
+                <h:outputText value="#{site.address.latitude}, #{site.address.longitude}">
+                    <f:convertNumber pattern="#0.####" />
+                </h:outputText>
+            </h:column>
+           
+            
         </h:dataTable>
     </h:panelGroup>
+    
+    <!-- Message si pas de résultats -->
+    <h:panelGroup rendered="#{empty searchCriteriaBean.simpleResults and not empty searchCriteriaBean.keywords}">
+        <div class="no-results">
+            ℹ️ Aucun site touristique ne correspond à votre recherche.
+        </div>
+    </h:panelGroup>
+    
+    <br/>
+    
+    <!-- Recherche Complexe -->
+    <h2>🔧 Recherche complexe</h2>
+    <h:panelGroup rendered="#{not empty searchCriteriaBean.budgetMin or not empty searchCriteriaBean.budgetMax}">
+        <div class="search-info">
+            <strong>Budget :</strong> 
+            <h:outputText value="#{searchCriteriaBean.budgetMin}">
+                <f:convertNumber type="currency" currencySymbol="€" />
+            </h:outputText>
+            -
+            <h:outputText value="#{searchCriteriaBean.budgetMax}">
+                <f:convertNumber type="currency" currencySymbol="€" />
+            </h:outputText>
+            <br />
+            <strong>Durée :</strong> 
+            <h:outputText value="#{searchCriteriaBean.nbDays}" />
+            jours
+            <br />
+            <strong>Hôtel :</strong> 
+            <h:outputText value="#{searchCriteriaBean.grade}" />
+            étoiles
+            <br />
+            <strong>Confort :</strong> 
+            <h:outputText value="#{searchCriteriaBean.confort}" />
+            / 5
+        </div>
+    </h:panelGroup>
+    
+    <!-- Tableau des résultats complexes -->
+    <h:panelGroup rendered="#{not empty searchCriteriaBean.complexResults}">
+        <h:dataTable value="#{searchCriteriaBean.complexResults}" var="offer"
+                     styleClass="results-table"
+                     headerClass="table-header"
+                     rowClasses="table-row-odd,table-row-even">
+            
+            <!-- Colonne Séjour -->
+            <h:column>
+                <f:facet name="header">Offre de séjour</f:facet>
+                <h:outputText value="#{offer}" />
+            </h:column>
+            
+            <!-- Vous pouvez ajouter d'autres colonnes selon les attributs de StayOffer -->
+            <!-- Exemple :
+            <h:column>
+                <f:facet name="header">Prix total</f:facet>
+                <h:outputText value="#{offer.totalPrice}">
+                    <f:convertNumber type="currency" currencySymbol="€" />
+                </h:outputText>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">Score confort</f:facet>
+                <h:outputText value="#{offer.scoreComfort}">
+                    <f:convertNumber pattern="#0.0" />
+                </h:outputText>
+            </h:column>
+            -->
+            
+        </h:dataTable>
+    </h:panelGroup>
+    
+    <!-- Message si pas de résultats complexes -->
+    <h:panelGroup rendered="#{empty searchCriteriaBean.complexResults and not empty searchCriteriaBean.budgetMin}">
+        <div class="no-results">
+            ℹ️ Aucune offre de séjour ne correspond à vos critères.
+        </div>
+    </h:panelGroup>
+    
     <br />
-    <h:link value="Retour" outcome="index" />
-
+    <h:link value="← Retour à la recherche" outcome="index" styleClass="back-link" />
 </h:body>
 </html>

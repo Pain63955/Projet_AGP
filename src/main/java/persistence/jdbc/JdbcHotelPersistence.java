@@ -65,54 +65,6 @@ public class JdbcHotelPersistence implements HotelPersistence {
 	}
 	
 	@Override
-	public List<Hotel> fetchNear(Address adresse) {
-		
-		List<Hotel> hotels = new ArrayList<>();
-		
-		try {
-			
-			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.adresseID = ? ";
-
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-
-			preparedStatement.setInt(1, adresse.getAddressId());
-			preparedStatement.setInt(1, adresse.getAddressId());
-			
-			ResultSet result = preparedStatement.executeQuery();
-			try (ResultSet resultTry = preparedStatement.executeQuery()) {
-                if (!resultTry.next()) {
-                    return null;
-                }
-			} 
-			
-			while(result.next()) {
-				result.next();
-				
-				Hotel hotel = new Hotel();
-				
-				hotel.setId(result.getInt("hotelID"));
-				hotel.setName(result.getString("nom_hotel"));
-				hotel.setNightRate(result.getDouble("prix_hotel"));
-				hotel.setGrade(result.getString("gamme"));
-				hotel.setBeach(result.getString("plage"));
-				hotel.setDescription(result.getString("description"));	
-				
-				hotels.add(hotel);
-			}
-
-			preparedStatement.close();
-
-			preparedStatement.executeUpdate();
-
-			preparedStatement.close();
-		
-		} catch (SQLException se) {
-			System.err.println(se.getMessage());
-		}	
-		return (hotels);
-	}
-
-	@Override
 	public List<Hotel> fetchGrade(String range) {
 		List<Hotel> hotels = new ArrayList<>();
 		
@@ -131,53 +83,6 @@ public class JdbcHotelPersistence implements HotelPersistence {
                 }
 			} 
 			result.next();
-			
-			while(result.next()) {
-				result.next();
-				
-				Hotel hotel = new Hotel();
-				
-				hotel.setId(result.getInt("hotelID"));
-				hotel.setName(result.getString("nom_hotel"));
-				hotel.setNightRate(result.getDouble("prix_hotel"));
-				hotel.setGrade(result.getString("gamme"));
-				hotel.setBeach(result.getString("plage"));
-				hotel.setDescription(result.getString("description"));	
-				
-				hotels.add(hotel);
-			}
-
-			preparedStatement.close();
-
-			preparedStatement.executeUpdate();
-
-			preparedStatement.close();
-		
-		} catch (SQLException se) {
-			System.err.println(se.getMessage());
-		}	
-		return (hotels);
-	}
-
-	@Override
-	public List<Hotel> fetchPrice(long lowPrice, long highPrice) {
-		List<Hotel> hotels = new ArrayList<>();
-		
-		try {
-			
-			String selectAddressQuery = "SELECT * FROM Hotel hot WHERE hot.prix_hotel >= ? AND hot.prix_hotel <=  ? ";
-
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-
-			preparedStatement.setDouble(1, lowPrice);
-			preparedStatement.setDouble(1, highPrice);
-			
-			ResultSet result = preparedStatement.executeQuery();
-			try (ResultSet resultTry = preparedStatement.executeQuery()) {
-                if (!resultTry.next()) {
-                    return null;
-                }
-			} 
 			
 			while(result.next()) {
 				result.next();
