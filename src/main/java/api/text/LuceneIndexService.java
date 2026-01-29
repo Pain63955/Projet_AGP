@@ -76,7 +76,7 @@ public class LuceneIndexService {
 	}
 	
 	/** Recherche et retourne key->score (key = id du fichier .txt) */
-	public HashMap<Integer, Double> search(String textQuery) throws Exception {
+	public HashMap<String, Double> search(String textQuery) throws Exception {
 		int MAX_RESULTS = 100;
 		
 		Analyzer analyzer = new StandardAnalyzer();
@@ -95,19 +95,19 @@ public class LuceneIndexService {
 	    
 	    TopDocs results_top = searcher.search(req, MAX_RESULTS); //recherche
 	    
-	    HashMap<Integer, Double> scoreByKey = new HashMap<Integer, Double>();
+	    HashMap<String, Double> scoreByKey = new HashMap<String, Double>();
         for (ScoreDoc sd : results_top.scoreDocs) {
             Document doc = searcher.doc(sd.doc);
-            int key = Integer.parseInt(doc.get("id"));
+            String key = doc.get("id");
             scoreByKey.put(key, (double) sd.score);
         }
 	    return scoreByKey;
 	}
 	
 	/** Renvoie les clés triées par score décroissant */
-	public ArrayList<Integer> sortScores(HashMap<Integer, Double> scoreByKey) throws Exception {
-		ArrayList<Integer> keysOrdered = new ArrayList<>(scoreByKey.keySet());
-		keysOrdered.sort(Comparator.comparingDouble((Integer k) -> scoreByKey.get(k)).reversed());
+	public ArrayList<String> sortScores(HashMap<String, Double> scoreByKey) throws Exception {
+		ArrayList<String> keysOrdered = new ArrayList<>(scoreByKey.keySet());
+		keysOrdered.sort(Comparator.comparingDouble((String k) -> scoreByKey.get(k)).reversed());
 		return keysOrdered;
 	}
 

@@ -72,7 +72,7 @@ public class BDeActualRow {
         return score;
     }
 
-    public void setScore(Float score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
