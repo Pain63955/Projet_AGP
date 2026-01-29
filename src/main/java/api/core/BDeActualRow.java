@@ -7,7 +7,7 @@ import java.util.Map;
 public class BDeActualRow {
 
     private final Map<String, Object> valuesByColumn;
-    private Float score;
+    private double score;
     
     public BDeActualRow() {
         this.valuesByColumn = new LinkedHashMap<>();
@@ -68,7 +68,7 @@ public class BDeActualRow {
     }
 
     /** Score Lucene pour requêtes mixtes (null pour SQL pure) */
-    public Float getScore() {
+    public double getScore() {
         return score;
     }
 

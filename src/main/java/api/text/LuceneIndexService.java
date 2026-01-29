@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,8 +26,19 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import api.core.BDeConfig;
+
 public class LuceneIndexService {
 	
+	private String directoryStringPath;
+	private String indexStringPath;
+	
+	
+	public LuceneIndexService(BDeConfig cfg) {
+		this.indexStringPath = cfg.getIndexPath();
+		this.directoryStringPath = cfg.getDirectoryPath();
+	}
+
 	private static void repertoryIndex(File repertory, IndexWriter w) throws Exception {
 	    File[] fichiers = repertory.listFiles((dir, name) -> name.endsWith(".txt"));
 
@@ -50,55 +62,53 @@ public class LuceneIndexService {
 	public void buildIndex() throws Exception {
 	    Analyzer analyzer = new StandardAnalyzer();
 
-	    Path indexPath = FileSystems.getDefault().getPath("data/index");
+	    Path indexPath = FileSystems.getDefault().getPath(indexStringPath);
 	    Directory index = FSDirectory.open(indexPath);
 
 	    IndexWriterConfig config = new IndexWriterConfig(analyzer);
 	    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
 
 	    try (IndexWriter w = new IndexWriter(index, config)) {
-	        File repertory = new File("data/descriptions");
+	        File repertory = new File(directoryStringPath);
 	        repertoryIndex(repertory, w);
 	        w.close();
 	    }
 	}
 	
-	// retourne des couples (key, score) triés score desc (TopDocs)
-	public List<LucenneList> search(String textQuery) throws Exception {
+	/** Recherche et retourne key->score (key = id du fichier .txt) */
+	public HashMap<Integer, Double> search(String textQuery) throws Exception {
 		int MAX_RESULTS = 100;
-		// 4. Interroger l'index
+		
 		Analyzer analyzer = new StandardAnalyzer();
-		Path indexPath = FileSystems.getDefault().getPath("data/index");
+		Path indexPath = FileSystems.getDefault().getPath(indexStringPath);
 	    Directory index = FSDirectory.open(indexPath);
 	    
 	    DirectoryReader ireader = DirectoryReader.open(index);
 	    IndexSearcher searcher = new IndexSearcher(ireader); //l'objet qui fait la recherche dans l'index
 	    
-	    String reqstr = "Forest"; // UTILISER TEXTQUERY String reqstr = textQuery; qui est en parametre
+	    String reqstr = textQuery;
 	    	
 	    //Parsing de la requete en un objet Query
 	    //  "contenu" est le champ interrogé par defaut si aucun champ n'est precisé
 	    QueryParser qp = new QueryParser("content", analyzer); 
 	    Query req = qp.parse(reqstr);
-
+	    
 	    TopDocs results_top = searcher.search(req, MAX_RESULTS); //recherche
 	    
-	    List<LucenneList> results = new ArrayList<>(results_top.scoreDocs.length);
+	    HashMap<Integer, Double> scoreByKey = new HashMap<Integer, Double>();
         for (ScoreDoc sd : results_top.scoreDocs) {
             Document doc = searcher.doc(sd.doc);
-
             int key = Integer.parseInt(doc.get("id"));
-            results.add(new LucenneList(key, sd.score));
+            scoreByKey.put(key, (double) sd.score);
         }
-	    return results;
+	    return scoreByKey;
 	}
 	
-	public HashMap<Integer, Double> sortScores(List<LucenneList> results) throws Exception {
-		 HashMap<Integer, Double> hashResults = new HashMap<Integer, Double>();
-		 for (LucenneList res : results) {	           
-	            hashResults.put(res.getKey(), res.getScore());
-	        }
-		return hashResults;
+	/** Renvoie les clés triées par score décroissant */
+	public ArrayList<Integer> sortScores(HashMap<Integer, Double> scoreByKey) throws Exception {
+		ArrayList<Integer> keysOrdered = new ArrayList<>(scoreByKey.keySet());
+		keysOrdered.sort(Comparator.comparingDouble((Integer k) -> scoreByKey.get(k)).reversed());
+		return keysOrdered;
 	}
 
 } 
