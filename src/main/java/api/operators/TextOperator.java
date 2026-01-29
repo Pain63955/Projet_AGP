@@ -32,9 +32,18 @@ public class TextOperator extends Operator {
 	public HashMap<String, Double> getScoreByKey(){
 		return scoreByKey;
 	}
-	
-	public ArrayList<String	> getKeysOrdered(){
+
+	public ArrayList<String> getKeysOrdered(){
 		return keysOrdered;
+	}
+	
+	public void close() {
+		scoreByKey.clear();
+		keysOrdered.clear();
+	}
+	
+	public String getTextPart() {
+		return textPart;
 	}
 	
 	@Override

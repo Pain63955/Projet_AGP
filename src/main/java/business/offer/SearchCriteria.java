@@ -2,31 +2,34 @@ package business.offer;
 
 import java.util.List;
 
+import business.excursion.Hotel;
 import business.excursion.TouristSite;
+import dao.HotelPersistence;
 import dao.SitePersistence;
 
 public class SearchCriteria {
-    private String destination;     // Pour filtrer la zone géographique
     private int nbDays;           // Utilise la boucle i < nbJours dans le Builder
     private long budgetMin;
     private long budgetMax;      // La limite pour la méthode estDansLeBudget() de OffreSejour
     private String keywords;       // La chaîne de texte analysée par l'IA (ex: "zen temple surf")
     private int grade;
     private int confort;
-
+    private List<TouristSite> listSites;
+    private List<Hotel> listHotels;
+    
+    
     public SearchCriteria() {}
 
     
     //constructeur a supprimé éventuellement)
-    public SearchCriteria(String destination, int nbJours, long budgetMin, long budgetMax, String motsCles, String transportSouhaite) {
-        this.destination = destination;
+    public SearchCriteria(int nbJours, long budgetMin, long budgetMax, String motsCles, String transportSouhaite) {
         this.nbDays = nbJours;
         this.budgetMin = budgetMin;
         this.budgetMax = budgetMax;
         this.keywords = motsCles;
     }
     
-    public void prepareComplexSearch(int days, long bi, long ba, int grade, int confort, String trans) {
+    public void prepareComplexSearch(int days, long bi, long ba, int grade, int confort) {
     	this.nbDays= days;
     	this.budgetMin = bi;
     	this.budgetMax = ba;
@@ -34,24 +37,17 @@ public class SearchCriteria {
     	this.confort = confort;
     }
 
-	public List<StayOffer> complexSearch() {
-    	//go ask offre builder ou excursion builder jsp with this.*
-    	//return PAS(enfin ptet que la liste va etre return jsp faut capter hein) la list pcq elle va aller dans son ptit proxy bean qui va passé sa à l'xhtml
-    	return null;
+	public boolean complexSearch(SitePersistence sitepersistence, HotelPersistence hotelpersistence) {
+		//Va demander les ressources a DAO, renvoie true si l'execution c'est passé sans souçis.
+		this.listSites = sitepersistence.fetchByInput(this.nbDays, this.budgetMin, this.budgetMax, this.grade, this.confort);
+		this.listHotels = hotelpersistence.fetchPrice(this.budgetMin, this.budgetMax);
+    	return true;
     }
     
     public List<TouristSite> simpleSearch(SitePersistence sitepersistence) {
     	//go ask dao with this.keywords
     	return(sitepersistence.fetchKeywords(keywords));
     }
-    
-	public String getDestination() {
-		return destination;
-	}
-
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
 
 	public int getNbDays() {
 		return nbDays;
@@ -102,4 +98,25 @@ public class SearchCriteria {
 	public void setConfort(int confort) {
 		this.confort = confort;
 	}
+
+
+	public List<TouristSite> getListSites() {
+		return listSites;
+	}
+
+
+	public void setListSites(List<TouristSite> listSites) {
+		this.listSites = listSites;
+	}
+
+
+	public List<Hotel> getListHotels() {
+		return listHotels;
+	}
+
+
+	public void setListHotels(List<Hotel> listHotels) {
+		this.listHotels = listHotels;
+	}
+	
 }

@@ -26,13 +26,19 @@ public class JdbcSitePersistence implements SitePersistence {
 	}
 
 	@Override
-	public TouristSite fetchPrice(double lowPrice, double highPrice) {
+	public TouristSite fetchPrice(long lowPrice, long highPrice) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<TouristSite> fetchNear(int adresseID, double km) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TouristSite> fetchByInput(int days, long bi, long ba, int grade, int confort) {
 		// TODO Auto-generated method stub
 		return null;
 	}
