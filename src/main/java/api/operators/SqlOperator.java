@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import api.core.BDeActualRow;
 import api.visitor.OperatorVisitor;
@@ -20,23 +21,25 @@ public class SqlOperator extends Operator {
     private ResultSet resultSet;
     private ResultSetMetaData resultSetMetaData;
     
-    private BDeActualRow currentRow;
+//    private BDeActualRow currentRow;
     
 	public SqlOperator(Connection connection, String sqlPart, String keyColumn) {
-		super();
+		super(null,null);
 		this.connection = connection;
 		this.sqlPart = sqlPart;
 		this.keyColumn = keyColumn;
 	}
-
-	public void open() throws SQLException {
+	
+	@Override
+	public void open() throws Exception {
 		this.preparedStatement = connection.prepareStatement(sqlPart);
 		this.resultSet = preparedStatement.executeQuery();
-		this.resultSetMetaData = preparedStatement.getMetaData();
-		this.currentRow = null;
+		this.resultSetMetaData = resultSet.getMetaData();
+		currentRow = null;
 	}
 	
-	public boolean next() throws SQLException {
+	@Override
+	public boolean next() throws Exception {
 		if(resultSet == null) {
 			throw new IllegalStateException("SqlOperator not opened, call open() ! :)");
 		}
@@ -56,16 +59,25 @@ public class SqlOperator extends Operator {
 		return true;
 	}
 	
-	public void close() throws SQLException {
-		resultSet.close();
-		preparedStatement.close();
+	@Override
+	public void close() throws Exception {
+		if (resultSet != null) {
+			resultSet.close();
+		}
+		if(preparedStatement != null) {
+			preparedStatement.close();
+		}
 		resultSet = null;
 		preparedStatement = null;
 		resultSetMetaData = null;
 		currentRow = null;
 	}
 	
+	@Override
 	public BDeActualRow current() {
+		if(currentRow == null) {
+			throw new IllegalStateException("Current row is null. You need to call open().");
+		}
 		return currentRow;
 	}
 	
@@ -78,21 +90,8 @@ public class SqlOperator extends Operator {
 	}
 
 	@Override
-	public void accept(OperatorVisitor visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Tree getLeft() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Tree getRight() {
-		// TODO Auto-generated method stub
-		return null;
+	public void accept(OperatorVisitor visitor) throws Exception  {
+		visitor.visit(this);
 	}
 	
 }

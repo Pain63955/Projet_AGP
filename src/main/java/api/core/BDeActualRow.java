@@ -20,7 +20,6 @@ public class BDeActualRow {
         this.valuesByColumn = new LinkedHashMap<>(valuesByColumn);
     }
 
-    /** Ajoute/écrase une valeur de colonne */
     public void put(String columnLabel, Object value) {
         if (columnLabel == null || columnLabel.trim().isEmpty()) {
             throw new IllegalArgumentException("columnLabel is empty");
@@ -28,7 +27,6 @@ public class BDeActualRow {
         valuesByColumn.put(columnLabel, value);
     }
 
-    /** Récupère brut (type Object) */
     public Object getObject(String columnLabel) {
         return valuesByColumn.get(columnLabel);
     }

@@ -26,7 +26,6 @@ public class BDeConnection {
         if (cfg == null) {
             throw new IllegalArgumentException("BDeConfig is null");
         }
-
         Connection jdbc = JdbcConnection.getConnection();
         if (jdbc == null) {
             throw new IllegalStateException("Cannot obtain JDBC connection");
@@ -35,21 +34,25 @@ public class BDeConnection {
         TextRepository repo = new TextRepository(cfg.getDirectoryPath());
 
         LuceneIndexService lucene = new LuceneIndexService(cfg);
-
         return new BDeConnection(cfg, jdbc, repo, lucene);
     }
     
     public static BDeConnection open(BDeConfig cfg, Connection jdbc) {
+    	if (cfg == null) {
+            throw new IllegalArgumentException("BDeConfig is null");
+        }
+    	if (jdbc == null) {
+            throw new IllegalStateException("Cannot obtain JDBC connection");
+        }
         TextRepository repo = new TextRepository(cfg.getDirectoryPath());
-        LuceneIndexService lucene =
-            new LuceneIndexService(cfg);
+        LuceneIndexService lucene =new LuceneIndexService(cfg);
         return new BDeConnection(cfg, jdbc, repo, lucene);
     }
 
-//    // --- API publique ---
-//    public BDeStatement createStatement() {
-//        return new BDeStatement(this);
-//    }
+    // --- API publique ---
+    public BDeStatement prepareStatement(String query) {
+        return new BDeStatement(this, query);
+    }
 
     public void putText(String key, String text) {
         textRepo.putText(key, text);

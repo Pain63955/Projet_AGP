@@ -28,21 +28,21 @@ public class ExplainVisitor implements OperatorVisitor {
     // -------- VISITS --------
 
     @Override
-    public void visit(SqlOperator op) {
+    public void visit(SqlOperator op) throws Exception{
         // ⚠️ adapte le getter si ton SqlOperator n'a pas getSql()
         String sql = safe(op.getSqlPart());
         line("SQL[" + shorten(sql, 120) + "]");
     }
 
     @Override
-    public void visit(TextOperator op) {
+    public void visit(TextOperator op) throws Exception{
         // ⚠️ adapte le getter si ton TextOperator n'a pas getTextQuery()
         String q = safe(op.getTextPart());
         line("TEXT[" + shorten(q, 120) + "]");
     }
 
     @Override
-    public void visit(JoinOperator op) {
+    public void visit(JoinOperator op) throws Exception{
         // Tu peux afficher ici le type de plan (order lucene), etc.
         line("JOIN(order=lucene)");
         indent++;

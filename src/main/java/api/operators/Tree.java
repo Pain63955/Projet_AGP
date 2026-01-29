@@ -8,5 +8,5 @@ public interface Tree{
 
 	Tree getRight();
 	
-	void accept(OperatorVisitor visitor); 
+	void accept(OperatorVisitor visitor) throws Exception; 
 }

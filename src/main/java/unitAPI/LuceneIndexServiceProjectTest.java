@@ -55,11 +55,11 @@ public class LuceneIndexServiceProjectTest {
         assertTrue(Files.isDirectory(indexDir));
 
         // 6️⃣ Recherche Lucene
-        HashMap<Integer, Double> scores = lucene.search("renaissance");
+        HashMap<String, Double> scores = lucene.search("renaissance");
 
-        assertTrue(scores.containsKey(1));
-        assertTrue(scores.containsKey(3));
-        assertFalse(scores.containsKey(2));
+        assertTrue(scores.containsKey("1"));
+        assertTrue(scores.containsKey("3"));
+        assertFalse(scores.containsKey("2"));
     }
 
     // --- utilitaire local au test ---

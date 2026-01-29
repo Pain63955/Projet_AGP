@@ -49,12 +49,12 @@ public class LuceneIndexServiceTest {
         assertTrue(Files.isDirectory(indexDir));
 
         // 6️⃣ Recherche Lucene
-        HashMap<Integer, Double> scores = lucene.search("renaissance");
+        HashMap<String, Double> scores = lucene.search("renaissance");
 
         // 7️⃣ Vérifications sémantiques
-        assertTrue(scores.containsKey(1));
-        assertTrue(scores.containsKey(3));
-        assertFalse(scores.containsKey(2)); // pas de renaissance
+        assertTrue(scores.containsKey("1"));
+        assertTrue(scores.containsKey("3"));
+        assertFalse(scores.containsKey("2")); // pas de renaissance
 
         assertEquals(2, scores.size());
     }

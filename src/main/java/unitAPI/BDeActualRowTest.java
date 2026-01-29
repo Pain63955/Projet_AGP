@@ -116,9 +116,9 @@ public class BDeActualRowTest {
     @Test
     public void score_canBeSetAndRetrieved() {
         BDeActualRow row = new BDeActualRow();
-        row.setScore(0.87f);
+        row.setScore(0.87);
 
-        assertEquals(0.87f, row.getScore(), 0.0001);
+        assertEquals(0.87, row.getScore(), 0.0001);
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -133,7 +133,7 @@ public class BDeActualRowTest {
     public void toString_containsValuesAndScore() {
         BDeActualRow row = new BDeActualRow();
         row.put("id", 1);
-        row.setScore(0.5f);
+        row.setScore(0.5);
 
         String s = row.toString();
         assertTrue(s.contains("id"));

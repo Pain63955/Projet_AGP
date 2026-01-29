@@ -2,19 +2,19 @@ package api.core;
 
 public class ParsedQuery {
 	
-	private String sql;
+	private String sqlQuery;
     private String textQuery;
 
-    public ParsedQuery(String sql, String textQuery) {
-        if (sql == null) {
+    public ParsedQuery(String sqlQuery, String textQuery) {
+        if (sqlQuery == null) {
             throw new IllegalArgumentException("SQL query cannot be null");
         }
-        this.sql = sql;
+        this.sqlQuery = sqlQuery;
         this.textQuery = textQuery;
     }
 
-    public String getSql() {
-        return sql;
+    public String getSqlQuery() {
+        return sqlQuery;
     }
 
     public String getTextQuery() {

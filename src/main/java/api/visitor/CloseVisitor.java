@@ -9,7 +9,7 @@ import api.operators.TextOperator;
 public class CloseVisitor implements OperatorVisitor {
 	
 	@Override
-	public void visit(SqlOperator operator) throws SQLException {
+	public void visit(SqlOperator operator) throws Exception {
 		if(operator!=null) {
 			operator.close();
 		}		
@@ -21,11 +21,11 @@ public class CloseVisitor implements OperatorVisitor {
 	}
 
 	@Override
-	public void visit(JoinOperator operator) {
-		operator.close();
-		
+	public void visit(JoinOperator operator) throws Exception {
 		operator.getRight().accept(this);
 		operator.getLeft().accept(this);
+		
+		operator.close();
 	}
 
 }

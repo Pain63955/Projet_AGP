@@ -1,36 +1,35 @@
 package api.core;
 
-import java.util.Collections;
-import java.util.List;
+import api.operators.Operator;
+import api.visitor.CloseVisitor;
 
 public class BDeResultSet {
-
-	private List<BDeActualRow> rows;
-	private int cursor = -1;
+	private final Operator op;
+	private BDeActualRow currentRow;
 	
-	public BDeResultSet(List<BDeActualRow> rows) {
+	public BDeResultSet(Operator op) {
 		super();
-		this.rows = rows;
+		this.op = op;
 	}
 	
-	public boolean next() {
-		if(cursor + 1 >= rows.size()) {
-			cursor = rows.size();
+	public boolean next() throws Exception {
+		boolean ok = op.next();
+		if(!ok) {
+			currentRow = null;
 			return false;
 		}
-		cursor++;
-		return false;
+		currentRow = op.current();
+		return true;
 	}
 	
 	public BDeActualRow current() {
-        if (cursor < 0) {
-            throw new IllegalStateException("Cursor is before first row. Call next() first.");
-        }
-        if (cursor >= rows.size()) {
-            throw new IllegalStateException("Cursor is after last row.");
-        }
-        return rows.get(cursor);
+        return currentRow;
     }
+	
+	public void close()throws Exception {
+		op.accept(new CloseVisitor());
+		currentRow = null;
+	}
 	
 	public Object getObject(String columnLabel) {
         return current().getObject(columnLabel);
@@ -60,11 +59,4 @@ public class BDeResultSet {
         return current().getScore();
     }
 
-    public int size() {
-        return rows.size();
-    }
-
-    public List<BDeActualRow> asList() {
-        return Collections.unmodifiableList(rows);
-    }
 }

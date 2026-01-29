@@ -18,6 +18,7 @@ public class JoinOperator extends Operator {
 	private ArrayList<String> keysOrdered;
 	
 	private ArrayList<BDeActualRow> queryResults;
+
 	private int cursor;
 	private BDeActualRow currentRow;
 	private String keyColumn;
@@ -40,11 +41,15 @@ public class JoinOperator extends Operator {
 		// On ouvre texte operator pour créer la hashmap de (key -> score) et l'arraylist (key) triée dans l'ordre
 		// La hashmap scorebyKey permet de faire la jointure (vérifier que clé c correspond bien à la ligne de la table T)
 		// l'arrayList keysOrdered permet de trier la jointure à la fin
-		textOperator.open();
+		// On ouvre sqlOperator et textOperator directement dans le visitor (visite des fils gauches et droits)
+		
+	    
 		scorebyKey = textOperator.getScoreByKey();
 		keysOrdered = textOperator.getKeysOrdered();
 		
-		sqlOperator.open();
+		if (scorebyKey == null || keysOrdered == null) {
+			throw new IllegalStateException("TextOperator not opened (InitVisitor must open children before JoinOperator.open()).");
+		}
 		
 		HashMap<String, ArrayList<BDeActualRow>> joinMap = new HashMap<>();
 		while(sqlOperator.next()){
@@ -77,9 +82,9 @@ public class JoinOperator extends Operator {
 	}
 	
 	public boolean next() throws Exception {
-		if(!opened) {
-			open();
-		}
+		if (!opened) {
+	        throw new IllegalStateException("JoinOperator not opened, call open() (via InitVisitor).");
+	    }
 		
 		if((cursor + 1) >= queryResults.size()) {
 			cursor = queryResults.size();
@@ -92,33 +97,32 @@ public class JoinOperator extends Operator {
 		
 	}
 	
+	public BDeActualRow current() {
+		if(currentRow == null) {
+			throw new IllegalStateException("Current row is null. You need to call open().");
+		}
+		return currentRow;
+	}
+	
 	public void close() {
 		scorebyKey = null;
 		keysOrdered = null;
-		queryResults.clear();
 		cursor = -1;
 		currentRow = null;
 		opened = false;
+		if(queryResults != null) {
+			queryResults.clear();
+		}
 	}
 	
 	
+	public ArrayList<BDeActualRow> getQueryResults() {
+		return queryResults;
+	}
 	
 	@Override
-	public void accept(OperatorVisitor visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Tree getLeft() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Tree getRight() {
-		// TODO Auto-generated method stub
-		return null;
+	public void accept(OperatorVisitor visitor) throws Exception{
+		visitor.visit(this);
 	}
 
 }
