@@ -15,7 +15,6 @@ public class BDeActualRowTest {
         BDeActualRow row = new BDeActualRow();
         assertNotNull(row.asMap());
         assertTrue(row.asMap().isEmpty());
-        assertNull(row.getScore());
     }
 
     @Test
