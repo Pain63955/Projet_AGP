@@ -39,9 +39,10 @@ public class JdbcSitePersistence implements SitePersistence {
 			return sites; // Retourne une liste vide plutôt que null
 		}
 		
+//		BDeConfig config = new BDeConfig("Site touristique", "SiteID", "data/description");
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
-		
+//		BDeResultSet result = null;
 		try {
 			String selectAddressQuery = "SELECT st.*, ad.*, sa.duration AS info_specifique\r\n"
 					+ "FROM SiteTouristique st\r\n"
@@ -55,11 +56,11 @@ public class JdbcSitePersistence implements SitePersistence {
 					//+ "WITH ? ";
 
 			preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-
+//			BDeStatement statement = new BDeStatement(dbConnection, config);
 			//preparedStatement.setString(1, keywords);
 			
 			result = preparedStatement.executeQuery();
-			
+//			result = statement.executeQuery();
 			while(result.next()) {
 				
 				if (result.getString("site_type").equals("SiteActivite")) {
