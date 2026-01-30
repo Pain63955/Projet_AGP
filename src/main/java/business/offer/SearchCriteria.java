@@ -8,29 +8,26 @@ import dao.HotelPersistence;
 import dao.SitePersistence;
 
 public class SearchCriteria {
-    private int nbDays;           // Utilise la boucle i < nbJours dans le Builder
+    private int nbDays;
     private long budgetMin;
-    private long budgetMax;      // La limite pour la méthode estDansLeBudget() de OffreSejour
-    private String keywords;       // La chaîne de texte analysée par l'IA (ex: "zen temple surf")
+    private long budgetMax;
+    private String keywords;
     private int grade;
     private int confort;
     private List<TouristSite> listSites;
     private List<Hotel> listHotels;
     
-    
     public SearchCriteria() {}
 
-    
-    //constructeur a supprimé éventuellement)
     public SearchCriteria(int nbJours, long budgetMin, long budgetMax, String motsCles, String transportSouhaite) {
         this.nbDays = nbJours;
         this.budgetMin = budgetMin;
         this.budgetMax = budgetMax;
         this.keywords = motsCles;
-    }
+    } 
     
     public void prepareComplexSearch(int days, long bi, long ba, int grade, int confort) {
-    	this.nbDays= days;
+    	this.nbDays = days;
     	this.budgetMin = bi;
     	this.budgetMax = ba;
     	this.grade = grade;
@@ -38,15 +35,13 @@ public class SearchCriteria {
     }
 
 	public boolean complexSearch(SitePersistence sitepersistence, HotelPersistence hotelpersistence) {
-		//Va demander les ressources a DAO, renvoie true si l'execution c'est passé sans souçis.
 		this.listSites = sitepersistence.fetchKeywords(keywords);
 		this.listHotels = hotelpersistence.fetchGrade(this.grade);
     	return true;
     }
     
     public List<TouristSite> simpleSearch(SitePersistence sitepersistence) {
-    	//go ask dao with this.keywords
-    	return(sitepersistence.fetchKeywords(keywords));
+    	return sitepersistence.fetchKeywords(keywords);
     }
 
 	public int getNbDays() {
@@ -89,34 +84,27 @@ public class SearchCriteria {
 		this.grade = grade;
 	}
 
-
 	public int getConfort() {
 		return confort;
 	}
-
 
 	public void setConfort(int confort) {
 		this.confort = confort;
 	}
 
-
 	public List<TouristSite> getListSites() {
 		return listSites;
 	}
-
 
 	public void setListSites(List<TouristSite> listSites) {
 		this.listSites = listSites;
 	}
 
-
 	public List<Hotel> getListHotels() {
 		return listHotels;
 	}
 
-
 	public void setListHotels(List<Hotel> listHotels) {
 		this.listHotels = listHotels;
 	}
-	
 }

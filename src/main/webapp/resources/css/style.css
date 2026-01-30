@@ -48,8 +48,6 @@ body {
     padding: 0 15px;
 }
 
-
-
 .card {
     background: white;
     border-radius: 12px;
@@ -73,6 +71,15 @@ label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5p
     border-radius: 5px;
     box-sizing: border-box;
 }
+/**/
+
+.input-field-days {
+    width: 40%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 
 .radio-section { background: #fdfae0; padding: 10px; border-radius: 8px; }
 
@@ -85,6 +92,11 @@ label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5p
     cursor: pointer;
     margin-top: 10px;
     color: white;
+}
+
+a:link, a:active, a:hover, a:visited {
+  text-decoration: none;
+  text-align: center;
 }
 
 .btn-primary { background-color: #2d5a27; }

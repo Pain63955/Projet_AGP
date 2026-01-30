@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+	<bean id="sitePersistence" class="persistence.jdbc.JdbcSitePersistence"/>
+	
+	<bean id="hotelPersistence" class="persistence.jdbc.JdbcHotelPersistence"/>
+		
+	<bean id="boatCalc" class="business.path.Boat">
+	    <property name="priceKm" value="5.0" /> 
+	</bean>
+	
+	<bean id="busCalc" class="business.path.Bus">
+	    <property name="fixedPrice" value="5.0" /> 
+	</bean>
+	
+	<bean id="feetCalc" class="business.path.Feet"> 
+	</bean>
+	
+	<bean id="transportFactory" class="business.path.TransportFactory">
+	    <property name="strategies">
+	        <map>
+	            <entry key="BOAT" value-ref="boatCalc" />
+	            <entry key="BUS" value-ref="busCalc" />
+	            <entry key="WALK" value-ref="feetCalc" />
+	        </map>
+	    </property>
+	</bean>
+	<bean id="baseAddress" class="business.excursion.Address" abstract="true" />
+	
+	<bean id="offerBali" class="business.offer.StayOffer" scope="prototype">
+	    <property name="hotel" ref="hotelBali" />
+	</bean>
+	
+	<bean id="excursion" class="business.excursion.Excursion" scope="prototype">
+		<property name="factory" ref="transportFactory" />
+		<property name="nbSite" value="3" />
+	</bean>
+
+	<bean id="adrBali" parent="baseAddress">
+		<property name="latitude" value="-8.5069" />
+		<property name="longitude" value="115.2625" />
+	</bean>
+	
+	
+
+	<bean id="hotelBali" class="business.excursion.Hotel">
+		<property name="name" value="Alaya Resort" />
+		<property name="nightRate" value="180.0" />
+		<property name="address" ref="adrBali" />
+	</bean>
+	
+	<bean id="adrSeminyak" parent="baseAddress">
+		<property name="latitude" value="-8.6913" /><property name="longitude" value="115.1682" />
+	</bean>
+	<bean id="hotelSeminyak" class="business.excursion.Hotel">
+		<property name="name" value="W Bali - Seminyak" />
+		<property name="nightRate" value="250.0" />
+		<property name="address" ref="adrSeminyak" />
+	</bean>
+
+	<bean id="adrUluwatu" parent="baseAddress">
+		<property name="latitude" value="-8.8450" /><property name="longitude" value="115.1000" />
+	</bean>
+	<bean id="hotelUluwatu" class="business.excursion.Hotel">
+		<property name="name" value="Renaissance Bali Uluwatu" />
+		<property name="nightRate" value="150.0" />
+		<property name="address" ref="adrUluwatu" />
+	</bean>
+
+	<bean id="adrLovina" parent="baseAddress">
+		<property name="latitude" value="-8.1610" /><property name="longitude" value="115.0242" />
+	</bean>
+	<bean id="hotelLovina" class="business.excursion.Hotel">
+		<property name="name" value="Lovina Beach Resort" />
+		<property name="nightRate" value="95.0" />
+		<property name="address" ref="adrLovina" />
+	</bean>
+
+	<bean id="adrAmed" parent="baseAddress">
+		<property name="latitude" value="-8.3400" /><property name="longitude" value="115.6500" />
+	</bean>
+	<bean id="hotelAmed" class="business.excursion.Hotel">
+		<property name="name" value="Mathis Lodge Amed" />
+		<property name="nightRate" value="110.0" />
+		<property name="address" ref="adrAmed" />
+	</bean>
+
+	<bean id="adrPemuteran" parent="baseAddress">
+		<property name="latitude" value="-8.1481" /><property name="longitude" value="114.6542" />
+	</bean>
+	<bean id="hotelPemuteran" class="business.excursion.Hotel">
+		<property name="name" value="Matahari Beach Resort" />
+		<property name="nightRate" value="130.0" />
+		<property name="address" ref="adrPemuteran" />
+	</bean>
+
+	<bean id="siteTemple" class="business.excursion.HistoricSite">
+		<property name="name" value="Pura Besakih" />
+		<property name="description" value="Le temple mère de Bali, lieu historique, spirituel et calme." />
+		<property name="transport" value="BUS" />
+		<property name="address">
+			<bean parent="baseAddress">
+				<property name="latitude" value="-8.3739" /><property name="longitude" value="115.4511" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="siteRizieres" class="business.excursion.HistoricSite">
+	    <property name="name" value="Rizieres de Jatiluwih" />
+	    <property name="description" value="Paysage culturel magnifique, calme et historique classé UNESCO." />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+	        <bean parent="baseAddress">
+	            <property name="latitude" value="-8.3706" /><property name="longitude" value="115.1305" />
+	        </bean>
+	    </property>
+	</bean>
+
+	<bean id="siteSurf" class="business.excursion.ActivitySite">
+	    <property name="name" value="Canggu Surf" />
+	    <property name="description" value="Meilleur spot de surf pour les vagues et le sport." />
+	    <property name="durationRatio" value="1.5" />
+	    <property name="price" value="10" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+	        <bean parent="baseAddress">
+	            <property name="latitude" value="-8.6478" /><property name="longitude" value="115.1385" />
+	        </bean>
+	    </property>
+	</bean>
+	
+	<bean id="siteUluwatu" class="business.excursion.HistoricSite">
+        <property name="name" value="Temple d'Uluwatu" />
+        <property name="description" value="Temple historique sur une falaise, singes sacrés et vue océan." />
+        <property name="price" value="15.0" />
+        <property name="transport" value="BOAT" />
+        <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.8291"/><property name="longitude" value="115.0849"/>
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="siteTanahLot" class="business.excursion.HistoricSite">
+	    <property name="name" value="Tanah Lot" />
+	    <property name="description" value="Temple historique sur l'eau, coucher de soleil spectaculaire." />
+	    <property name="price" value="20.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.6212"/><property name="longitude" value="115.0868"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteTirtaEmpul" class="business.excursion.HistoricSite">
+	    <property name="name" value="Tirta Empul" />
+	    <property name="description" value="Source sacrée, rituel de purification spirituel et zen." />
+	    <property name="price" value="12.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.4145"/><property name="longitude" value="115.2894"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteGoaGajah" class="business.excursion.HistoricSite">
+	    <property name="name" value="Goa Gajah" />
+	    <property name="description" value="Grotte de l'elephant, site historique mystique et archeologique." />
+	    <property name="price" value="10.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.5230"/><property name="longitude" value="115.2861"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="sitePalaisUbud" class="business.excursion.HistoricSite">
+	    <property name="name" value="Palais d'Ubud" />
+	    <property name="description" value="Residence royale historique, architecture traditionnelle et danse." />
+	    <property name="price" value="0.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.5066"/><property name="longitude" value="115.2625"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteRafting" class="business.excursion.ActivitySite">
+	    <property name="name" value="Ayung Rafting" />
+	    <property name="description" value="Sport intense en riviere, sensations fortes et nature sauvage." />
+	    <property name="price" value="45.0" /><property name="durationRatio" value="2.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.4550"/><property name="longitude" value="115.2340"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteBatur" class="business.excursion.ActivitySite">
+	    <property name="name" value="Mont Batur Trekking" />
+	    <property name="description" value="Randonnee sportive sur un volcan, vue panoramique nature." />
+	    <property name="price" value="60.0" /><property name="durationRatio" value="3.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.2417"/><property name="longitude" value="115.3761"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="sitePlongee" class="business.excursion.ActivitySite">
+	    <property name="name" value="Tulamben Diving" />
+	    <property name="description" value="Plongee sous-marine, sport aquatique, exploration epave." />
+	    <property name="price" value="85.0" /><property name="durationRatio" value="2.5" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.2753"/><property name="longitude" value="115.5911"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteZipline" class="business.excursion.ActivitySite">
+	    <property name="name" value="Bali Treetop" />
+	    <property name="description" value="Parcours accrobranche, sport, aventure en pleine nature." />
+	    <property name="price" value="30.0" /><property name="durationRatio" value="1.8" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.2764"/><property name="longitude" value="115.1544"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteVelo" class="business.excursion.ActivitySite">
+	    <property name="name" value="Cycling Ubud" />
+	    <property name="description" value="Balade a velo, sport doux a travers les rizieres et villages." />
+	    <property name="price" value="25.0" /><property name="durationRatio" value="2.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.4900"/><property name="longitude" value="115.2500"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteYoga" class="business.excursion.ActivitySite">
+	    <property name="name" value="Yoga Barn" />
+	    <property name="description" value="Centre de bien-etre, cours zen et relaxation spirituel." />
+	    <property name="price" value="15.0" /><property name="durationRatio" value="1.2" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.5170"/><property name="longitude" value="115.2650"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteZoo" class="business.excursion.ActivitySite">
+	    <property name="name" value="Bali Zoo" />
+	    <property name="description" value="Parc animalier, decouverte nature et animaux exotiques." />
+	    <property name="price" value="35.0" /><property name="durationRatio" value="2.2" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.5900"/><property name="longitude" value="115.2650"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteCuisine" class="business.excursion.ActivitySite">
+	    <property name="name" value="Cooking Class" />
+	    <property name="description" value="Apprentissage cuisine traditionnelle, culture locale et gout." />
+	    <property name="price" value="40.0" /><property name="durationRatio" value="1.5" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.5000"/><property name="longitude" value="115.2700"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteCascade" class="business.excursion.ActivitySite">
+	    <property name="name" value="Gitgit Waterfall" />
+	    <property name="description" value="Cascade impressionnante en pleine nature tropicale, zen." />
+	    <property name="price" value="5.0" /><property name="durationRatio" value="1.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.2000"/><property name="longitude" value="115.1300"/>
+            </bean>
+        </property>
+	</bean>
+	
+	<bean id="siteMarche" class="business.excursion.ActivitySite">
+	    <property name="name" value="Marche d'Ubud" />
+	    <property name="description" value="Shopping local, artisanat, culture et ambiance animee." />
+	    <property name="price" value="0.0" /><property name="durationRatio" value="1.0" />
+	    <property name="transport" value="BOAT" />
+	    <property name="address">
+            <bean parent="baseAddress">
+                <property name="latitude" value="-8.5068"/><property name="longitude" value="115.2626"/>
+            </bean>
+        </property>
+	</bean>
+
+
+
+</beans>

@@ -30,7 +30,7 @@ public class TestMetierBean {
     }
 
     public static void test1() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("/spring/spring.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("/spring/input_test.xml");
         StayOffer offer = (StayOffer) context.getBean("offerBali");
         Hotel baliHotel = (Hotel) context.getBean("hotelBali");
         TransportFactory transportFactory = (TransportFactory) context.getBean("transportFactory");

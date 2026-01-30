@@ -54,7 +54,7 @@
             <section class="card">
                 <h:form>
                     <fieldset>
-                        <legend>Recherche rapide</legend>
+                        <legend>Recherche de sites touristiques par mots-clés</legend>
                         <div class="form-group">
                             <h:outputLabel value="Mots-clés" for="keywords" />
                             <h:inputText id="keywords" 
@@ -72,7 +72,7 @@
             <section class="card">
                 <h:form>
                     <fieldset>
-                        <legend>Critères de séjour</legend>
+                        <legend>Recherche d'offres de séjour</legend>
                         
                         <div class="form-group">
                             <h:outputLabel value="Mots-clés" for="keywords" />
@@ -84,25 +84,26 @@
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <h:outputLabel value="Budget Min (€)" />
+                                <h:outputLabel value="Budget minimal (€)" />
                                 <h:inputText value="#{searchCriteriaBean.budgetMin}" styleClass="input-field" />
                             </div>
                             <div class="form-group">
-                                <h:outputLabel value="Budget Max (€)" />
+                                <h:outputLabel value="Budget maximal (€)" />
                                 <h:inputText value="#{searchCriteriaBean.budgetMax}" styleClass="input-field" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <h:outputLabel value="Durée (jours)" />
-                            <h:selectOneMenu value="#{searchCriteriaBean.nbDays}" styleClass="input-field">
-                                <f:selectItem itemLabel="Sélectionnez..." itemValue="" />
-                                <f:selectItems value="#{[1,2,3,4,5,7,10,14]}" var="d" itemLabel="#{d} jours" itemValue="#{d}" />
+                            <h:outputLabel value="Durée du séjour (jours)" />
+                            <h:selectOneMenu value="#{searchCriteriaBean.nbDays}" styleClass="input-field-days">
+                                <f:selectItem itemLabel="Nombre de jours" itemValue="" />
+                                <f:selectItems value="#{[1,2,3,4,5,6,7]}" var="d" itemLabel="#{d}" itemValue="#{d}" />
                             </h:selectOneMenu>
                         </div>
+            <!--  -->
 
                         <div class="form-group radio-section">
-                            <h:outputLabel value="Niveau de l'hôtel" />
+                            <h:outputLabel value="Nombre d'étoile de l'hôtel" />
                             <h:selectOneRadio value="#{searchCriteriaBean.starRating}" styleClass="radio-group">
                             	<f:selectItem itemValue="1" itemLabel="1★" />
                                 <f:selectItem itemValue="2" itemLabel="2★" />
@@ -129,6 +130,9 @@
                     </fieldset>
                 </h:form>
             </section>
+            
+			<a href="simplesearch.jsf" class="btn-secondary">Recherche de sites touristiques</a>
+ 
         </div>
     </h:body>
 </html>

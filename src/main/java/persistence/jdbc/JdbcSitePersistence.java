@@ -13,9 +13,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcSitePersistence implements SitePersistence {
+import api.core.BDeConfig;
+import api.core.BDeConnection;
+import api.core.BDeResultSet;
+import api.core.BDeStatement;
 
-	private Connection dbConnection;
+public class JdbcSitePersistence implements SitePersistence {
+	
+//	private Connection dbConnection;
+	Connection dbConnection;
+	//private BDeConfig cfg = new BDeConfig("SiteTouristique","siteID", "data/descriptions");
+	//private BDeConnection conn = BDeConnection.open(cfg, dbConnection);
 	
 	public JdbcSitePersistence() {
 		this.dbConnection = JdbcConnection.getConnection();
@@ -39,10 +47,10 @@ public class JdbcSitePersistence implements SitePersistence {
 			return sites; // Retourne une liste vide plutôt que null
 		}
 		
-//		BDeConfig config = new BDeConfig("Site touristique", "SiteID", "data/description");
 		PreparedStatement preparedStatement = null;
+		//BDeStatement st = null;
 		ResultSet result = null;
-//		BDeResultSet result = null;
+		//BDeResultSet result= null;
 		try {
 			String selectAddressQuery = "SELECT st.*, ad.*, sa.duration AS info_specifique\r\n"
 					+ "FROM SiteTouristique st\r\n"
@@ -56,11 +64,11 @@ public class JdbcSitePersistence implements SitePersistence {
 					//+ "WITH ? ";
 
 			preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-//			BDeStatement statement = new BDeStatement(dbConnection, config);
+			//st = conn.prepareStatement(selectAddressQuery);
 			//preparedStatement.setString(1, keywords);
 			
 			result = preparedStatement.executeQuery();
-//			result = statement.executeQuery();
+			//result = st.executeQuery();
 			while(result.next()) {
 				
 				if (result.getString("site_type").equals("SiteActivite")) {
@@ -100,14 +108,14 @@ public class JdbcSitePersistence implements SitePersistence {
 				}
 			}
 		
-		} catch (SQLException se) {
+		} catch (Exception se) {
 			System.err.println("Erreur SQL dans fetchKeywords: " + se.getMessage());
 			se.printStackTrace();
 		} finally {
 			try {
 				if (result != null) result.close();
-				if (preparedStatement != null) preparedStatement.close();
-			} catch (SQLException e) {
+//				if (st != null) st.close();
+			} catch (Exception e) {
 				System.err.println("Erreur lors de la fermeture des ressources: " + e.getMessage());
 			}
 		}

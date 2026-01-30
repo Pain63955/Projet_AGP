@@ -23,16 +23,6 @@ public class TestHotel {
     }
     
     @Test
-    public void testCreationHotelVide() {
-        assertNotNull(hotel);
-        assertNull(hotel.getName());
-        assertEquals(0.0, hotel.getNightRate(),0.0);
-        assertNull(hotel.getAddress());
-        assertNull(hotel.getDescription());
-        assertNull(hotel.getGrade());
-    }
-    
-    @Test
     public void testSettersGetters() {
         hotel.setId(1);
         hotel.setName("Hôtel Paradise");
@@ -40,7 +30,7 @@ public class TestHotel {
         hotel.setBeach("Plage des Anges");
         hotel.setAddress(adresse);
         hotel.setDescription("Hôtel 4 étoiles en bord de mer");
-        hotel.setGrade("Luxe");
+        hotel.setGrade(5);
         
         assertEquals(1, hotel.getId());
         assertEquals("Hôtel Paradise", hotel.getName());
@@ -48,7 +38,7 @@ public class TestHotel {
         assertEquals("Plage des Anges", hotel.getBeach());
         assertEquals(adresse, hotel.getAddress());
         assertEquals("Hôtel 4 étoiles en bord de mer", hotel.getDescription());
-        assertEquals("Luxe", hotel.getGrade());
+        assertEquals(5, hotel.getGrade());
     }
     
     @Test
