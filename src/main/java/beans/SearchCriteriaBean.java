@@ -78,7 +78,7 @@ public class SearchCriteriaBean implements Serializable{
 				(HotelPersistence) context.getBean("hotelPersistence"));
 		
 		
-		return "resultsC";
+		return "resultsS";
 	}
 	
 	public List<StayOffer> generateStayList(OfferBuilder ob) {
