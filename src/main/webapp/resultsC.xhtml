@@ -8,74 +8,45 @@
 <h:head>
     <title>Résultats</title>
     <h:outputStylesheet library="css" name="style.css" />
-                <!--  -->
-    
+        <style>
+        /* --- LE CONTENEUR HERO --- */
+.hero-container {
+    position: relative;
+    height: 350px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* L'image prend toute la place en fond */
+.hero-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* L'image s'adapte sans se déformer */
+    z-index: 1;
+    filter: brightness(60%); /* On l'assombrit pour lire le texte */
+}
+
+/* Le texte par-dessus l'image */
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+}
+        </style>    
 </h:head>
 <h:body>
-    <h1>Résultats de la recherche</h1>
-    
-    <!-- Recherche Simple -->
-    <h2>🔍 Recherche par mots-clés</h2>
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.keywords}">
-        <div class="search-info">
-            <strong>Mots-clés recherchés :</strong> 
-            <h:outputText value="#{searchCriteriaBean.keywords}" />
-        </div>
-    </h:panelGroup>
-    
-    <!-- Tableau des résultats simples -->
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.simpleResults}">
-        <h:dataTable value="#{searchCriteriaBean.simpleResults}" var="site"
-                     styleClass="results-table"
-                     headerClass="table-header"
-                     rowClasses="table-row-odd,table-row-even">
-      
-            <!-- Colonne Nom -->
-            <h:column>
-                <f:facet name="header">Nom</f:facet>
-                <h:outputText value="#{site.name}" />
-            </h:column>
-            
-            <!-- Colonne Prix -->
-            <h:column>
-                <f:facet name="header">Prix (€)</f:facet>
-                <h:outputText value="#{site.price}">
-                    <f:convertNumber type="currency" currencySymbol="€" />
-                </h:outputText>
-            </h:column>
-            
-            <!-- Colonne Transport -->
-            <h:column>
-                <f:facet name="header">Transport</f:facet>
-                <h:outputText value="#{site.transport}" />
-            </h:column>
-            
-            <!-- Colonne Adresse -->
-            <h:column>
-                <f:facet name="header">Adresse</f:facet>
-                <h:outputText value="#{site.address.street}, #{site.address.postCode} #{site.address.town}" />
-            </h:column>
-            
-            <!-- Colonne Coordonnées GPS -->
-            <h:column>
-                <f:facet name="header">Coordonnées</f:facet>
-                <h:outputText value="#{site.address.latitude}, #{site.address.longitude}">
-                    <f:convertNumber pattern="#0.####" />
-                </h:outputText>
-            </h:column>
-           
-            
-        </h:dataTable>
-    </h:panelGroup>
-    
-    <!-- Message si pas de résultats -->
-    <h:panelGroup rendered="#{empty searchCriteriaBean.simpleResults and not empty searchCriteriaBean.keywords}">
-        <div class="no-results">
-            ℹ️ Aucun site touristique ne correspond à votre recherche.
-        </div>
-    </h:panelGroup>
-    
-    <br/>
+        <div class="hero-container">
+            <h:graphicImage library="images" name="bali.jpg" styleClass="hero-image" />
+            <div class="hero-overlay">
+                <h1>🌴 AGP BALI</h1>
+                <p>Trouvez votre coin de paradis</p>
+            </div>
+        </div>    
     
     <!-- Recherche Complexe -->
     <h2>🔧 Recherche complexe</h2>
@@ -145,6 +116,6 @@
     </h:panelGroup>
     
     <br />
-    <h:link value="← Retour à la recherche" outcome="index" styleClass="back-link" />
+    <h:link value="Retour à la recherche d'offres" outcome="index.jsf" styleClass="btn-secondary" />
 </h:body>
 </html>

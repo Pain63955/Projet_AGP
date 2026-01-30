@@ -51,23 +51,6 @@
         </div>
 
         <div class="main-container">
-            <section class="card">
-                <h:form>
-                    <fieldset>
-                        <legend>Recherche de sites touristiques par mots-clés</legend>
-                        <div class="form-group">
-                            <h:outputLabel value="Mots-clés" for="keywords" />
-                            <h:inputText id="keywords" 
-                                         value="#{searchCriteriaBean.keywords}" 
-                                         p:placeholder="ex: Plage, Temple, Ubud..." 
-                                         styleClass="input-field" />
-                        </div>
-                        <h:commandButton value="Lancer la recherche"
-                                         action="#{searchCriteriaBean.simpleSearch}" 
-                                         styleClass="btn-primary" />
-                    </fieldset>
-                </h:form>
-            </section>
 
             <section class="card">
                 <h:form>
@@ -100,8 +83,7 @@
                                 <f:selectItems value="#{[1,2,3,4,5,6,7]}" var="d" itemLabel="#{d}" itemValue="#{d}" />
                             </h:selectOneMenu>
                         </div>
-            <!--  -->
-
+                        
                         <div class="form-group radio-section">
                             <h:outputLabel value="Nombre d'étoile de l'hôtel" />
                             <h:selectOneRadio value="#{searchCriteriaBean.starRating}" styleClass="radio-group">
@@ -124,9 +106,9 @@
                             </h:selectOneRadio>
                         </div>
 
-                        <h:commandButton value="Filtrer les offres"
+                        <h:commandButton value="Rechercher des offres"
                                          action="#{searchCriteriaBean.complexSearch}" 
-                                         styleClass="btn-secondary" />
+                                         styleClass="btn-primary" />
                     </fieldset>
                 </h:form>
             </section>

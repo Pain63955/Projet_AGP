@@ -8,10 +8,46 @@
 <h:head>
     <title>Résultats</title>
     <h:outputStylesheet library="css" name="style.css" />
-    
+            <style>
+        /* --- LE CONTENEUR HERO --- */
+.hero-container {
+    position: relative;
+    height: 350px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* L'image prend toute la place en fond */
+.hero-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* L'image s'adapte sans se déformer */
+    z-index: 1;
+    filter: brightness(60%); /* On l'assombrit pour lire le texte */
+}
+
+/* Le texte par-dessus l'image */
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+}
+        </style>
 </h:head>
 <h:body>
-    <h1>Résultats de la recherche</h1>
+
+        <div class="hero-container">
+            <h:graphicImage library="images" name="bali.jpg" styleClass="hero-image" />
+            <div class="hero-overlay">
+                <h1>🌴 AGP BALI</h1>
+                <p>Trouvez votre coin de paradis</p>
+            </div>
+        </div>
     
     <!-- Recherche Simple -->
     <h2>🔍 Recherche par mots-clés</h2>
@@ -74,76 +110,7 @@
         </div>
     </h:panelGroup>
     
-    <br/>
-    
-    <!-- Recherche Complexe -->
-    <h2>🔧 Recherche complexe</h2>
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.budgetMin or not empty searchCriteriaBean.budgetMax}">
-        <div class="search-info">
-            <strong>Budget :</strong> 
-            <h:outputText value="#{searchCriteriaBean.budgetMin}">
-                <f:convertNumber type="currency" currencySymbol="€" />
-            </h:outputText>
-            -
-            <h:outputText value="#{searchCriteriaBean.budgetMax}">
-                <f:convertNumber type="currency" currencySymbol="€" />
-            </h:outputText>
-            <br />
-            <strong>Durée :</strong> 
-            <h:outputText value="#{searchCriteriaBean.nbDays}" />
-            jours
-            <br />
-            <strong>Hôtel :</strong> 
-            <h:outputText value="#{searchCriteriaBean.grade}" />
-            étoiles
-            <br />
-            <strong>Confort :</strong> 
-            <h:outputText value="#{searchCriteriaBean.confort}" />
-            / 5
-        </div>
-    </h:panelGroup>
-    
-    <!-- Tableau des résultats complexes -->
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.complexResults}">
-        <h:dataTable value="#{searchCriteriaBean.complexResults}" var="offer"
-                     styleClass="results-table"
-                     headerClass="table-header"
-                     rowClasses="table-row-odd,table-row-even">
-            
-            <!-- Colonne Séjour -->
-            <h:column>
-                <f:facet name="header">Offre de séjour</f:facet>
-                <h:outputText value="#{offer}" />
-            </h:column>
-            
-            <!-- Vous pouvez ajouter d'autres colonnes selon les attributs de StayOffer -->
-            <!-- Exemple :
-            <h:column>
-                <f:facet name="header">Prix total</f:facet>
-                <h:outputText value="#{offer.totalPrice}">
-                    <f:convertNumber type="currency" currencySymbol="€" />
-                </h:outputText>
-            </h:column>
-            
-            <h:column>
-                <f:facet name="header">Score confort</f:facet>
-                <h:outputText value="#{offer.scoreComfort}">
-                    <f:convertNumber pattern="#0.0" />
-                </h:outputText>
-            </h:column>
-            -->
-            <!--  -->
-        </h:dataTable>
-    </h:panelGroup>
-    
-    <!-- Message si pas de résultats complexes -->
-    <h:panelGroup rendered="#{empty searchCriteriaBean.complexResults and not empty searchCriteriaBean.budgetMin}">
-        <div class="no-results">
-            ℹ️ Aucune offre de séjour ne correspond à vos critères.
-        </div>
-    </h:panelGroup>
-    
     <br />
-    <h:link value="← Retour à la recherche" outcome="index" styleClass="back-link" />
+    <h:link value="Retour à la recherche de sites" outcome="simplesearch.jsf" styleClass="btn-secondary" />
 </h:body>
 </html>

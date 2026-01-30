@@ -55,7 +55,7 @@
             <section class="card">
                 <h:form>
                     <fieldset>
-                        <legend>Recherche rapide</legend>
+                        <legend>Recherche de sites touristiques par mots-clés</legend>
                         <div class="form-group">
                             <h:outputLabel value="Mots-clés" for="keywords" />
                             <h:inputText id="keywords" 
@@ -63,75 +63,14 @@
                                          p:placeholder="ex: Plage, Temple, Ubud..." 
                                          styleClass="input-field" />
                         </div>
-                        <h:commandButton value="Lancer la recherche"
+                        <h:commandButton value="Rechercher"
                                          action="#{searchCriteriaBean.simpleSearch}" 
                                          styleClass="btn-primary" />
                     </fieldset>
                 </h:form>
             </section>
-
-            <section class="card">
-                <h:form>
-                    <fieldset>
-                        <legend>Critères de séjour</legend>
-                        
-                        <div class="form-group">
-                            <h:outputLabel value="Mots-clés" for="keywords" />
-                            <h:inputText id="keywords" 
-                                         value="#{searchCriteriaBean.keywords}" 
-                                         p:placeholder="ex: Plage, Temple, Ubud..." 
-                                         styleClass="input-field" />
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <h:outputLabel value="Budget Min (€)" />
-                                <h:inputText value="#{searchCriteriaBean.budgetMin}" styleClass="input-field" />
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel value="Budget Max (€)" />
-                                <h:inputText value="#{searchCriteriaBean.budgetMax}" styleClass="input-field" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <h:outputLabel value="Durée (jours)" />
-                            <h:selectOneMenu value="#{searchCriteriaBean.nbDays}" styleClass="input-field">
-                                <f:selectItem itemLabel="Sélectionnez..." itemValue="" />
-                                <f:selectItems value="#{[1,2,3,4,5,7,10,14]}" var="d" itemLabel="#{d} jours" itemValue="#{d}" />
-                            </h:selectOneMenu>
-                        </div>
-
-                        <div class="form-group radio-section">
-                            <h:outputLabel value="Niveau de l'hôtel" />
-                            <h:selectOneRadio value="#{searchCriteriaBean.starRating}" styleClass="radio-group">
-                            	<f:selectItem itemValue="1" itemLabel="1★" />
-                                <f:selectItem itemValue="2" itemLabel="2★" />
-                                <f:selectItem itemValue="3" itemLabel="3★" />
-                                <f:selectItem itemValue="4" itemLabel="4★" />
-                                <f:selectItem itemValue="5" itemLabel="5★" />
-                            </h:selectOneRadio>
-                        </div>
-                        
-                        <div class="form-group radio-section">
-                            <h:outputLabel value="Niveau de confort du séjour" />
-                            <h:selectOneRadio value="#{searchCriteriaBean.confort}" styleClass="radio-group">
-                                <f:selectItem itemValue="1" itemLabel="1" />
-                                <f:selectItem itemValue="2" itemLabel="2" />
-                                <f:selectItem itemValue="3" itemLabel="3" />
-                                <f:selectItem itemValue="4" itemLabel="4" />
-                                <f:selectItem itemValue="5" itemLabel="5" />
-                            </h:selectOneRadio>
-                        </div>
-
-                        <h:commandButton value="Filtrer les offres"
-                                         action="#{searchCriteriaBean.complexSearch}" 
-                                         styleClass="btn-secondary" />
-                    </fieldset>
-                </h:form>
-            </section>
             
-            <a href="index.jsf" class="btn-secondary">Recherche d'offres de </a>
+            <a href="index.jsf" class="btn-secondary">Recherche d'offres de séjour</a>
             
         </div>
     </h:body>
