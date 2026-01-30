@@ -1,37 +1,134 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets" >
-      
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
-        <title>AGP Bali</title>
+        <title>AGP Bali - Évasion</title>
         <h:outputStylesheet library="css" name="style.css" />
+        <style>
+        /* --- LE CONTENEUR HERO --- */
+.hero-container {
+    position: relative;
+    height: 350px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* L'image prend toute la place en fond */
+.hero-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* L'image s'adapte sans se déformer */
+    z-index: 1;
+    filter: brightness(60%); /* On l'assombrit pour lire le texte */
+}
+
+/* Le texte par-dessus l'image */
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+}
+        </style>
     </h:head>
 
-	<ui:include src="header.xhtml"></ui:include>
-
     <h:body>
+        <div class="hero-container">
+            <h:graphicImage library="images" name="bali.jpg" styleClass="hero-image" />
+            <div class="hero-overlay">
+                <h1>🌴 AGP BALI</h1>
+                <p>Trouvez votre coin de paradis</p>
+            </div>
+        </div>
 
-        <h:outputText value="#{searchCriteriaBean}" />
-         <!--debug ça check si y'a le bean d'instancié, si non alors faut remettre le org.eclipse.wst component
-             la avec le chemin de src/main/java et src/main/ressources
-        -->
+        <div class="main-container">
+            <section class="card">
+                <h:form>
+                    <fieldset>
+                        <legend>Recherche rapide</legend>
+                        <div class="form-group">
+                            <h:outputLabel value="Mots-clés" for="keywords" />
+                            <h:inputText id="keywords" 
+                                         value="#{searchCriteriaBean.keywords}" 
+                                         p:placeholder="ex: Plage, Temple, Ubud..." 
+                                         styleClass="input-field" />
+                        </div>
+                        <h:commandButton value="Lancer la recherche"
+                                         action="#{searchCriteriaBean.simpleSearch}" 
+                                         styleClass="btn-primary" />
+                    </fieldset>
+                </h:form>
+            </section>
 
-        <h2>Recherche de sites touristiques</h2>
+            <section class="card">
+                <h:form>
+                    <fieldset>
+                        <legend>Critères de séjour</legend>
+                        
+                        <div class="form-group">
+                            <h:outputLabel value="Mots-clés" for="keywords" />
+                            <h:inputText id="keywords" 
+                                         value="#{searchCriteriaBean.keywords}" 
+                                         p:placeholder="ex: Plage, Temple, Ubud..." 
+                                         styleClass="input-field" />
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <h:outputLabel value="Budget Min (€)" />
+                                <h:inputText value="#{searchCriteriaBean.budgetMin}" styleClass="input-field" />
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="Budget Max (€)" />
+                                <h:inputText value="#{searchCriteriaBean.budgetMax}" styleClass="input-field" />
+                            </div>
+                        </div>
 
-        <fieldset>
-            <legend>Recherche de sites touristiques par mots-clés</legend>
-            <h:form>
-                Mots-clés :
-                <h:inputText value="#{searchCriteriaBean.keywords}" />
-                <br />
-                <h:commandButton value="Rechercher"
-                                 action="#{searchCriteriaBean.simpleSearch}" />
-            </h:form>
-        </fieldset>
+                        <div class="form-group">
+                            <h:outputLabel value="Durée (jours)" />
+                            <h:selectOneMenu value="#{searchCriteriaBean.nbDays}" styleClass="input-field">
+                                <f:selectItem itemLabel="Sélectionnez..." itemValue="" />
+                                <f:selectItems value="#{[1,2,3,4,5,7,10,14]}" var="d" itemLabel="#{d} jours" itemValue="#{d}" />
+                            </h:selectOneMenu>
+                        </div>
 
+                        <div class="form-group radio-section">
+                            <h:outputLabel value="Niveau de l'hôtel" />
+                            <h:selectOneRadio value="#{searchCriteriaBean.starRating}" styleClass="radio-group">
+                            	<f:selectItem itemValue="1" itemLabel="1★" />
+                                <f:selectItem itemValue="2" itemLabel="2★" />
+                                <f:selectItem itemValue="3" itemLabel="3★" />
+                                <f:selectItem itemValue="4" itemLabel="4★" />
+                                <f:selectItem itemValue="5" itemLabel="5★" />
+                            </h:selectOneRadio>
+                        </div>
+                        
+                        <div class="form-group radio-section">
+                            <h:outputLabel value="Niveau de confort du séjour" />
+                            <h:selectOneRadio value="#{searchCriteriaBean.confort}" styleClass="radio-group">
+                                <f:selectItem itemValue="1" itemLabel="1" />
+                                <f:selectItem itemValue="2" itemLabel="2" />
+                                <f:selectItem itemValue="3" itemLabel="3" />
+                                <f:selectItem itemValue="4" itemLabel="4" />
+                                <f:selectItem itemValue="5" itemLabel="5" />
+                            </h:selectOneRadio>
+                        </div>
+
+                        <h:commandButton value="Filtrer les offres"
+                                         action="#{searchCriteriaBean.complexSearch}" 
+                                         styleClass="btn-secondary" />
+                    </fieldset>
+                </h:form>
+            </section>
+        </div>
     </h:body>
 </html>

@@ -47,6 +47,8 @@ public class SearchCriteriaBean implements Serializable{
 
 	public SearchCriteriaBean() {
 		this.context = new ClassPathXmlApplicationContext("/spring/spring.xml");
+		this.confort = 1;
+		this.grade = 1;
 	}
 
 	public String simpleSearch() {
@@ -57,7 +59,7 @@ public class SearchCriteriaBean implements Serializable{
 		this.simpleResults = this.srct.simpleSearch(
 				(SitePersistence)context.getBean("sitePersistence"));
 		
-		return "results";		
+		return "resultsS";		
 	}
 	
 	public String complexSearch() { 
@@ -76,7 +78,7 @@ public class SearchCriteriaBean implements Serializable{
 				(HotelPersistence) context.getBean("hotelPersistence"));
 		
 		
-		return "results";
+		return "resultsC";
 	}
 	
 	public List<StayOffer> generateStayList(OfferBuilder ob) {
