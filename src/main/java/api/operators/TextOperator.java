@@ -23,6 +23,8 @@ public class TextOperator extends Operator {
 	public void open() throws Exception {
 		this.scoreByKey = lucenneIndex.search(textPart);
 		this.keysOrdered = lucenneIndex.sortScores(scoreByKey); 
+		System.out.println("TO scoreByKey size=" + (scoreByKey==null ? -1 : scoreByKey.size()));
+		System.out.println("TO keysOrdered size=" + (keysOrdered==null ? -1 : keysOrdered.size()));
 	}
 	
 	public HashMap<String, Double> getScoreByKey(){

@@ -1,4 +1,4 @@
-package api.iterator;
+package api.core;
 
 import api.operators.Operator;
 import api.visitor.CloseVisitor;

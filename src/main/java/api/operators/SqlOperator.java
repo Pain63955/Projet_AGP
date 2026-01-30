@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import api.iterator.BDeCurrentRow;
+import api.core.BDeCurrentRow;
 import api.visitor.OperatorVisitor;
 
 public class SqlOperator extends Operator {
@@ -110,5 +110,7 @@ public class SqlOperator extends Operator {
 			}
 		}
 	}
+	
+	
 	
 }

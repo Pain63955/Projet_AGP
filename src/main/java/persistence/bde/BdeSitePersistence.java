@@ -6,6 +6,7 @@ import business.excursion.HistoricSite;
 import business.excursion.TouristSite;
 import dao.SitePersistence;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +34,28 @@ public class BdeSitePersistence implements SitePersistence {
 	}
 	
 	@Override
-	public List<TouristSite> fetchKeywords(String keywords) {
+	public List<TouristSite> fetchKeywords(String keywords){
+		
+		File dir = new File(cfg.getDirectoryPath());
+		if (!dir.exists() || dir.listFiles() == null || dir.listFiles().length == 0) {
+		    throw new IllegalStateException("Descriptions folder invalid: " + dir.getAbsolutePath());
+		}
+		System.out.println("descriptions absolute = " + new java.io.File(cfg.getDirectoryPath()).getAbsolutePath());
+		System.out.println("exists=" + new java.io.File(cfg.getDirectoryPath()).exists());
+		System.out.println("files=" + new java.io.File(cfg.getDirectoryPath()).listFiles().length);
 		List<TouristSite> sites = new ArrayList<>();
 		
 		if (conn == null) {
 			return sites;
 		}
+		
+		try {
+			conn.buildIndex();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		conn.putText("29", "okok");
 		
 		BDeStatement st = null;
 		BDeResultSet result = null;
@@ -57,7 +74,7 @@ public class BdeSitePersistence implements SitePersistence {
 						+ "JOIN SitesHisto sh ON sh.siteID = st.siteID "
 						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID";
 			} else {
-				selectAddressQuery = /*"SELECT st.*, ad.*, sa.duration AS info_specifique "
+				selectAddressQuery = "SELECT st.*, ad.*, sa.duration AS info_specifique "
 						+ "FROM SiteTouristique st "
 						+ "JOIN SitesActiv sa ON sa.siteID = st.siteID "
 						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID "
@@ -66,8 +83,7 @@ public class BdeSitePersistence implements SitePersistence {
 						+ "FROM SiteTouristique st "
 						+ "JOIN SitesHisto sh ON sh.siteID = st.siteID "
 						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID "
-						+ "WITH " + keywords;*/
-						"SELECT siteID, site_type, nom FROM SiteTouristique WITH Ubud";
+						+ "WITH" + keywords.trim();
 			}
 
 			st = conn.prepareStatement(selectAddressQuery);			
@@ -80,7 +96,7 @@ public class BdeSitePersistence implements SitePersistence {
 					site.setName(result.getString("nom"));
 					site.setPrice(result.getDouble("prix"));
 					site.setTransport(result.getString("transport"));
-					site.setDurationRatio(result.getDouble("info_specifique").floatValue());
+					site.setDurationRatio(result.getFloat("info_specifique").floatValue());
 					
 					Address ad = new Address();
 					ad.setLatitude(result.getDouble("latitude"));

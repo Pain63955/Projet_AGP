@@ -12,7 +12,6 @@ public class TextRepository {
 
     public TextRepository(String directoryPath) {
         this.directoryPath = Paths.get(directoryPath);
-        
         ensureDirectoryExists();
     }
 

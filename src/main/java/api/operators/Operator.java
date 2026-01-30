@@ -1,6 +1,6 @@
 package api.operators;
 
-import api.iterator.BDeCurrentRow;
+import api.core.BDeCurrentRow;
 
 public abstract class Operator implements Tree {
 	
