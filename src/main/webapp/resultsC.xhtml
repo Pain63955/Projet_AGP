@@ -92,12 +92,13 @@
     <div class="hero-container">
         <h:graphicImage library="images" name="bali.jpg" styleClass="hero-image" />
         <div class="hero-overlay">
-            <h1>AGP BALI</h1>
+            <h1>🌴 AGP BALI</h1>
             <p>Trouvez votre coin de paradis</p>
         </div>
     </div>
 
-    <div class="main-container">
+    <div class="main-container-offer">
+    <div class = "card">
         <h2>Résultats de recherche complexe</h2>
 
         <!-- CRITÈRES -->
@@ -119,7 +120,7 @@
                 <h:outputText value="#{searchCriteriaBean.nbDays}" /> jours
             </div>
         </h:panelGroup>
-
+		</div>
         <!-- OFFRES -->
         <h:panelGroup rendered="#{not empty searchCriteriaBean.complexResults}">
             <div class="offers-container">
@@ -217,7 +218,7 @@
         </h:panelGroup>
 
         <br/>
-        <h:link value="Retour à la recherche" outcome="index.jsf" />
+    <h:link value="Retour à la recherche de sites" outcome="index.jsf" styleClass="btn-secondary" />
 
     </div>
 </h:body>

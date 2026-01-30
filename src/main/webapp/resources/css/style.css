@@ -48,6 +48,14 @@ body {
     padding: 0 15px;
 }
 
+.main-container-offer {
+    max-width: 720px; /* Largeur étroite demandée */
+    margin: -50px auto 40px auto; /* On remonte sur l'image */
+    position: relative;
+    z-index: 10;
+    padding: 0 15px;
+}
+
 .card {
     background: white;
     border-radius: 12px;
