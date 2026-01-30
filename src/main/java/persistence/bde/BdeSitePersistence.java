@@ -1,4 +1,4 @@
-package persistence.jdbc;
+package persistence.bde;
 
 import business.excursion.ActivitySite;
 import business.excursion.Address;
@@ -18,17 +18,20 @@ import api.core.BDeConnection;
 import api.core.BDeResultSet;
 import api.core.BDeStatement;
 
-public class JdbcSitePersistence implements SitePersistence {
+public class BdeSitePersistence implements SitePersistence {
 	
-//	private Connection dbConnection;
-	Connection dbConnection;
-	//private BDeConfig cfg = new BDeConfig("SiteTouristique","siteID", "data/descriptions");
-	//private BDeConnection conn = BDeConnection.open(cfg, dbConnection);
+	private BDeConfig cfg;
+	private BDeConnection conn;
 	
-	public JdbcSitePersistence() {
-		this.dbConnection = JdbcConnection.getConnection();
-		if (this.dbConnection == null) {
-			System.err.println("ERREUR CRITIQUE: La connexion à la base de données est null!");
+	public BdeSitePersistence() {
+		
+		this.cfg = new BDeConfig("SiteTouristique", "siteID", "data/descriptions");
+		
+		this.conn = BDeConnection.open(cfg);
+		
+		if (this.conn == null) {
+			System.err.println("ERREUR CRITIQUE: La connexion BDE est null!");
+			throw new RuntimeException("Impossible d'initialiser BDeConnection");
 		}
 	}
 
@@ -42,15 +45,14 @@ public class JdbcSitePersistence implements SitePersistence {
 		List<TouristSite> sites = new ArrayList<>();
 		
 		// Vérification de la connexion avant toute opération
-		if (dbConnection == null) {
-			System.err.println("ERREUR: Impossible d'exécuter la requête - connexion à la BD est null");
-			return sites; // Retourne une liste vide plutôt que null
+		if (conn == null) {
+			System.err.println("ERREUR: Impossible d'exécuter la requête - connexion BDE est null");
+			return sites;
 		}
 		
-		PreparedStatement preparedStatement = null;
-		//BDeStatement st = null;
-		ResultSet result = null;
-		//BDeResultSet result= null;
+		BDeStatement st = null;
+		BDeResultSet result = null;
+		
 		try {
 			String selectAddressQuery = "SELECT st.*, ad.*, sa.duration AS info_specifique\r\n"
 					+ "FROM SiteTouristique st\r\n"
@@ -60,15 +62,14 @@ public class JdbcSitePersistence implements SitePersistence {
 					+ "SELECT st.*, ad.*, sh.guideName AS info_specifique\r\n"
 					+ "FROM SiteTouristique st\r\n"
 					+ "JOIN SitesHisto sh ON sh.siteID = st.siteID\r\n"
-					+ "JOIN Adresse ad ON st.adresseID = ad.adresseID\r\n";
-					//+ "WITH ? ";
+					+ "JOIN Adresse ad ON st.adresseID = ad.adresseID\r\n"
+					+ "WITH ? ";
 
-			preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-			//st = conn.prepareStatement(selectAddressQuery);
-			//preparedStatement.setString(1, keywords);
+			st = conn.prepareStatement(selectAddressQuery);
+			//st.setString(1, keywords);  
 			
-			result = preparedStatement.executeQuery();
-			//result = st.executeQuery();
+			result = st.executeQuery();
+			
 			while(result.next()) {
 				
 				if (result.getString("site_type").equals("SiteActivite")) {
@@ -76,7 +77,7 @@ public class JdbcSitePersistence implements SitePersistence {
 					site.setName(result.getString("nom"));
 					site.setPrice(result.getDouble("prix"));
 					site.setTransport(result.getString("transport"));
-					site.setDurationRatio(result.getFloat("info_specifique"));
+					site.setDurationRatio(result.getDouble("info_specifique").floatValue());
 					
 					Address ad = new Address();
 					ad.setLatitude(result.getDouble("latitude"));

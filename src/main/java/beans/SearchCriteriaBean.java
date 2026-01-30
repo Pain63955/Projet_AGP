@@ -60,13 +60,13 @@ public class SearchCriteriaBean implements Serializable{
 		return "results";		
 	}
 	
-	public String complexSearch() {
+	public String complexSearch() { 
 		simpleResults = null;
 		validatePrice(this.budgetMin, this.budgetMax);
 		validateDays(this.nbDays);
 		validateConfort(this.confort);
 		validateGrade(this.grade);
-		
+		  
 		complexResults = new ArrayList<>();
 		this.srct = new SearchCriteria();
 		this.srct.setKeywords(keywords);

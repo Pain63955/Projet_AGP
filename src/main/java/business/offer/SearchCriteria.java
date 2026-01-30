@@ -27,7 +27,7 @@ public class SearchCriteria {
         this.budgetMin = budgetMin;
         this.budgetMax = budgetMax;
         this.keywords = motsCles;
-    }
+    } 
     
     public void prepareComplexSearch(int days, long bi, long ba, int grade, int confort) {
     	this.nbDays= days;
@@ -46,6 +46,8 @@ public class SearchCriteria {
     
     public List<TouristSite> simpleSearch(SitePersistence sitepersistence) {
     	//go ask dao with this.keywords
+    	
+    	
     	return(sitepersistence.fetchKeywords(keywords));
     }
 

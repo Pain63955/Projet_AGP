@@ -40,7 +40,7 @@ public class OfferBuilder {
         // --- ADAPTATION SELON LA STRATÉGIE ---
         // Si détente : on limite les sites et on bouge moins. Si soutenu : on maximise.
         boolean estDetente = (strategy instanceof CalmPaceStrategy);
-        int maxSitesParJour = estDetente ? 2 : 3; 
+        int maxSitesParJour = estDetente ? 2 : 3;
         double seuilChangementHotel = estDetente ? 50.0 : 25.0; // Plus réticent à bouger en mode détente
         double ratioActiviteBase = estDetente ? 0.5 : 0.8; 
 
