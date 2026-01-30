@@ -15,10 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import api.core.BDeConfig;
-import api.core.BDeConnection;
-import api.core.BDeResultSet;
-import api.core.BDeStatement;
+import api.engine.BDeConfig;
+import api.engine.BDeConnection;
+import api.engine.BDeResultSet;
+import api.engine.BDeStatement;
 
 public class JdbcSitePersistence implements SitePersistence {
 	

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import api.core.BDeConfig;
+import api.engine.BDeConfig;
 
 public class TestOperator {
 

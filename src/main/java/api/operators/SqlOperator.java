@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import api.core.BDeCurrentRow;
+import api.engine.BDeCurrentRow;
 import api.visitor.OperatorVisitor;
 
 public class SqlOperator extends Operator {

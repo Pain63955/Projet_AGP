@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import api.core.BDeConfig;
-import api.core.BDeConnection;
-import api.core.BDeResultSet;
-import api.core.BDeStatement;
+import api.engine.BDeConfig;
+import api.engine.BDeConnection;
+import api.engine.BDeResultSet;
+import api.engine.BDeStatement;
 
 public class BdeSitePersistence implements SitePersistence {
 	

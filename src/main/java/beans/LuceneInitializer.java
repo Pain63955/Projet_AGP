@@ -4,8 +4,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import api.core.BDeConfig;
-import api.text.LuceneIndexService;
+import api.engine.BDeConfig;
+import api.text.LuceneService;
 
 @ManagedBean(eager = true)
 @ApplicationScoped
@@ -14,7 +14,7 @@ public class LuceneInitializer  {
     @PostConstruct
     public void init() {
         try {
-			new LuceneIndexService(BDeConfig.getInstance()).buildIndex();
+			new LuceneService(BDeConfig.getInstance()).buildIndex();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

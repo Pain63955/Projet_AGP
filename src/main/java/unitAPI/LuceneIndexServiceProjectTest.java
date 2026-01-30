@@ -9,8 +9,8 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import api.core.BDeConfig;
-import api.text.LuceneIndexService;
+import api.engine.BDeConfig;
+import api.text.LuceneService;
 import api.text.TextRepository;
 
 public class LuceneIndexServiceProjectTest {
@@ -47,7 +47,7 @@ public class LuceneIndexServiceProjectTest {
         BDeConfig cfg = new BDeConfig("SiteTouristique", "idSite", textsDir.toString());
 
         // 5️⃣ Construction index Lucene
-        LuceneIndexService lucene = new LuceneIndexService(cfg);
+        LuceneService lucene = new LuceneService(cfg);
         lucene.buildIndex();
 
         Path indexDir = textsDir.resolve("index");

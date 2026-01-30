@@ -3,10 +3,10 @@ package persistence.bde;
 import java.util.ArrayList;
 import java.util.List;
 
-import api.core.BDeConfig;
-import api.core.BDeConnection;
-import api.core.BDeResultSet;
-import api.core.BDeStatement;
+import api.engine.BDeConfig;
+import api.engine.BDeConnection;
+import api.engine.BDeResultSet;
+import api.engine.BDeStatement;
 import business.excursion.Address;
 import business.excursion.Hotel;
 import dao.HotelPersistence;

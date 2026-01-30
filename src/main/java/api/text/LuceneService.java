@@ -26,15 +26,15 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-import api.core.BDeConfig;
+import api.engine.BDeConfig;
 
-public class LuceneIndexService {
+public class LuceneService {
 	
 	private String directoryStringPath;
 	private String indexStringPath;
 	
 	
-	public LuceneIndexService(BDeConfig cfg) {
+	public LuceneService(BDeConfig cfg) {
 		this.indexStringPath = cfg.getIndexPath();
 		this.directoryStringPath = cfg.getDirectoryPath();
 	}

@@ -3,26 +3,27 @@ package api.operators;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import api.text.LuceneIndexService;
+import api.engine.BDeConnection;
+import api.text.LuceneService;
 import api.visitor.OperatorVisitor;
 
 public class TextOperator extends Operator {
 	
 	private String textPart;
-	private LuceneIndexService lucenneIndex;
+	private BDeConnection connection;
 	
 	private HashMap<String, Double> scoreByKey;
 	private ArrayList<String> keysOrdered;
 	
-	public TextOperator(String textPart, LuceneIndexService lucenneIndex) {
+	public TextOperator(String textPart, BDeConnection connection) {
 		super(null,null);
 		this.textPart = textPart;
-		this.lucenneIndex = lucenneIndex;
+		this.connection = connection;
 	} 
 	
 	public void open() throws Exception {
-		this.scoreByKey = lucenneIndex.search(textPart);
-		this.keysOrdered = lucenneIndex.sortScores(scoreByKey); 
+		this.scoreByKey = connection.search(textPart);
+		this.keysOrdered = connection.sortScores(scoreByKey); 
 		System.out.println("TO scoreByKey size=" + (scoreByKey==null ? -1 : scoreByKey.size()));
 		System.out.println("TO keysOrdered size=" + (keysOrdered==null ? -1 : keysOrdered.size()));
 	}

@@ -1,15 +1,16 @@
 package unitAPI;
 
-import api.core.BDeConfig;
-import api.core.BDeConnection;
-import api.core.BDeResultSet;
-import api.core.BDeStatement;
 import business.excursion.ActivitySite;
 import business.excursion.Address;
 import business.excursion.HistoricSite;
 import business.excursion.TouristSite;
 
 import org.junit.Test;
+
+import api.engine.BDeConfig;
+import api.engine.BDeConnection;
+import api.engine.BDeResultSet;
+import api.engine.BDeStatement;
 
 import static org.junit.Assert.*;
 

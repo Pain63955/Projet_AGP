@@ -1,10 +1,12 @@
-package api.core;
+package api.engine;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import api.core.BDeConfig;
 import api.text.TextRepository;
-import api.text.LuceneIndexService;
+import api.engine.BDeConfig;
+import api.text.LuceneService;
 import persistence.jdbc.JdbcConnection;
 
 public class BDeConnection {
@@ -12,9 +14,9 @@ public class BDeConnection {
     private BDeConfig config;
     private Connection jdbcConnection;
     private TextRepository textRepo;
-    private LuceneIndexService lucene;
+    private LuceneService lucene;
 
-    private BDeConnection(BDeConfig config, Connection jdbcConnection, TextRepository textRepo, LuceneIndexService lucene) {
+    private BDeConnection(BDeConfig config, Connection jdbcConnection, TextRepository textRepo, LuceneService lucene) {
         this.config = config;
         this.jdbcConnection = jdbcConnection;
         this.textRepo = textRepo;
@@ -33,7 +35,7 @@ public class BDeConnection {
 
         TextRepository repo = new TextRepository(cfg.getDirectoryPath());
 
-        LuceneIndexService lucene = new LuceneIndexService(cfg);
+        LuceneService lucene = new LuceneService(cfg);
         return new BDeConnection(cfg, jdbc, repo, lucene);
     }
     
@@ -45,11 +47,11 @@ public class BDeConnection {
             throw new IllegalStateException("Cannot obtain JDBC connection");
         }
         TextRepository repo = new TextRepository(cfg.getDirectoryPath());
-        LuceneIndexService lucene =new LuceneIndexService(cfg);
+        LuceneService lucene =new LuceneService(cfg);
         return new BDeConnection(cfg, jdbc, repo, lucene);
     }
 
-    // --- API publique ---
+    
     public BDeStatement prepareStatement(String query) {
         return new BDeStatement(this, query);
     }
@@ -66,7 +68,14 @@ public class BDeConnection {
         jdbcConnection.close();
     }
 
+    // pour faciliter les intéractions entre classes avec lucene
+    public HashMap<String, Double> search(String textQuery) throws Exception {
+    	return lucene.search(textQuery);
+    }
     
+    public ArrayList<String> sortScores(HashMap<String, Double> scoreByKey) throws Exception {
+    	return lucene.sortScores(scoreByKey);
+    }
     
  // --- getters internes (utiles pour BDeStatement / opérateurs) ---
     public BDeConfig getConfig() {
@@ -81,7 +90,7 @@ public class BDeConnection {
         return textRepo;
     }
 
-    public LuceneIndexService getLuceneIndexService() {
+    public LuceneService getLuceneIndexService() {
         return lucene;
     }
 }

@@ -1,4 +1,4 @@
-package api.core;
+package api.engine;
 
 public class BDeConfig {
 	private String tableName;

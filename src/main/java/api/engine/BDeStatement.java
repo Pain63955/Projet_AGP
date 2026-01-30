@@ -1,4 +1,4 @@
-package api.core;
+package api.engine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class BDeStatement {
         }
         
         SqlOperator sqlOperator = new SqlOperator(connection.getJdbcConnection(), sqlPart, connection.getConfig().getKeyColumn(), queryParams);
-        TextOperator textOperator = new TextOperator(textPart, connection.getLuceneIndexService());
+        TextOperator textOperator = new TextOperator(textPart, connection);
         JoinOperator joinOperator = new JoinOperator(sqlOperator, textOperator);
         try {
         	joinOperator.accept(initVisitor);

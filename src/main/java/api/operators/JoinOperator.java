@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import api.core.BDeCurrentRow;
+import api.engine.BDeCurrentRow;
 import api.visitor.OperatorVisitor;
 
 public class JoinOperator extends Operator {
