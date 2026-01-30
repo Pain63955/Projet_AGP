@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
-	<bean id="sitePersistence" class="persistence.jdbc.JdbcSitePersistence"/>
+	<bean id="sitePersistence" class="persistence.bde.BdeSitePersistence"/>
 	
 	<bean id="hotelPersistence" class="persistence.jdbc.JdbcHotelPersistence"/>
 		

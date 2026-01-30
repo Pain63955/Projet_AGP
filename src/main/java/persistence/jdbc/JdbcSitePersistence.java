@@ -99,7 +99,7 @@ public class JdbcSitePersistence implements SitePersistence {
 	                site.setAddress(ad);
 
 	                // ⭐ même valeur Double pour tous les sites
-	                resultMap.put(site, 1.0);
+	                resultMap.put(site, 2.37);
 	            }
 	        }
 
