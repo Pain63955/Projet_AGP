@@ -6,10 +6,6 @@ import business.excursion.HistoricSite;
 import business.excursion.TouristSite;
 import dao.SitePersistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,11 +59,9 @@ public class BdeSitePersistence implements SitePersistence {
 					+ "FROM SiteTouristique st\r\n"
 					+ "JOIN SitesHisto sh ON sh.siteID = st.siteID\r\n"
 					+ "JOIN Adresse ad ON st.adresseID = ad.adresseID\r\n"
-					+ "WITH ? ";
+					+ "WITH "+ keywords ;
 
-			st = conn.prepareStatement(selectAddressQuery);
-			//st.setString(1, keywords);  
-			
+			st = conn.prepareStatement(selectAddressQuery);			
 			result = st.executeQuery();
 			
 			while(result.next()) {

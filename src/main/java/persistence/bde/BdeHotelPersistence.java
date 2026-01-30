@@ -1,9 +1,6 @@
 package persistence.bde;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,11 +51,9 @@ public class BdeHotelPersistence implements HotelPersistence {
 			String selectAddressQuery = "SELECT h.*, ad.* \r\n"
 					+ "FROM `Hotel` h\r\n"
 					+ "JOIN Adresse ad ON ad.adresseID = h.adresseID\r\n"
-					+ "WHERE h.gamme >= ?";
+					+ "WHERE h.gamme >= " + range;
 					
-			st = conn.prepareStatement(selectAddressQuery);
-			//st.setInt(1, range); 
-			
+			st = conn.prepareStatement(selectAddressQuery);			
 			result = st.executeQuery();
 
 			while(result.next()) {
