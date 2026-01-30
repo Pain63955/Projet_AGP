@@ -96,14 +96,18 @@ public class SearchCriteriaBean implements Serializable{
         int maxAttempts = 20; // Maximum de tentatives pour éviter les boucles infinies
         int attempts = 0;
         
+        List<TouristSite> blackList = new ArrayList<>();
+        
         while (validOffers.size() < 3 && attempts < maxAttempts) {
             attempts++;
             OfferBuilder builder = new OfferBuilder(context, this.srct);
+            builder.setBlackList(blackList);
             StayOffer candidate = builder.setStrategy(strategy).generateOptimizedStay(factory).build();
 
             // Vérifier que l'offre respecte les critères de confort
             if (candidate.getScoreComfort() >= this.srct.getConfort() * 15) { // Échelle 1-5 devient 15-75
                 validOffers.add(candidate);
+                blackList = builder.getBlackList();
             }
         }
 

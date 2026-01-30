@@ -12,6 +12,7 @@ public class OfferBuilder {
     private StayOffer offer;
     private ComfortStrategy strategy;
     private Random random = new Random();
+    private List<TouristSite> blackList;
 
     public OfferBuilder(ApplicationContext context, SearchCriteria criteria) {
         this.context = context;
@@ -20,16 +21,24 @@ public class OfferBuilder {
         this.offer.setNbNights(criteria.getNbDays());
         this.offer.getHotels().clear();
         this.offer.getExcursions().clear();
+        this.blackList = new ArrayList<>();
     }
 
     public OfferBuilder setStrategy(ComfortStrategy strategy) {
         this.strategy = strategy;
         return this;
     }
-
+    
     public OfferBuilder generateOptimizedStay(TransportFactory factory) {
-        // Créer une liste pondérée des sites en fonction de leur score de pertinence
-        List<TouristSite> matchedSites = createWeightedSiteList();
+        // 1. On récupère la liste et on s'assure qu'elle ne contient QUE des sites uniques
+        // pour éviter que le même site soit présent plusieurs fois à cause de la pondération
+        List<TouristSite> matchedSites = createWeightedSiteList().stream()
+                                         .distinct()
+                                         .collect(Collectors.toList());
+        
+        // 2. Liste locale pour suivre l'historique global du séjour
+        List<TouristSite> globallySelectedSites = blackList;
+        
         Collections.shuffle(matchedSites);
         
         List<Hotel> allHotels = this.criteria.getListHotels();
@@ -38,7 +47,6 @@ public class OfferBuilder {
         Hotel currentHotel = allHotels.get(random.nextInt(allHotels.size()));
 
         int nbJoursTotal = criteria.getNbDays();
-
         boolean estDetente = (strategy instanceof CalmPaceStrategy);
         int maxSitesParJour = estDetente ? 2 : 3;
         double seuilChangementHotel = estDetente ? 50.0 : 25.0;
@@ -53,39 +61,55 @@ public class OfferBuilder {
             dailyEx.setFactory(factory);
             if (dailyEx.getTrajets() != null) dailyEx.getTrajets().clear();
 
-            double ratioDynamique = Math.min(ratioActiviteBase, (double) matchedSites.size() / nbJoursTotal);
-            boolean faireActivite = !matchedSites.isEmpty() && (Math.random() <= ratioDynamique || matchedSites.size() >= joursRestants);
+            // 3. Filtrer matchedSites pour exclure ceux déjà sélectionnés les jours précédents
+            List<TouristSite> availableNow = matchedSites.stream()
+                .filter(s -> !globallySelectedSites.contains(s))
+                .collect(Collectors.toList());
+
+            double ratioDynamique = Math.min(ratioActiviteBase, (double) availableNow.size() / nbJoursTotal);
+            boolean faireActivite = !availableNow.isEmpty() && (Math.random() <= ratioDynamique || availableNow.size() >= joursRestants);
 
             if (faireActivite) {
-                // Choisir un site pivot en privilégiant les sites avec un meilleur score
-                TouristSite pivot = selectBestScoredSite(currentHotel.getAddress(), matchedSites);
+                // On choisit le pivot dans les sites encore disponibles
+                TouristSite pivot = selectBestScoredSite(currentHotel.getAddress(), availableNow);
                 
-                if (calculateDistance(currentHotel.getAddress(), pivot.getAddress()) > seuilChangementHotel) {
-                    Hotel potential = findRandomBestHotel(pivot.getAddress(), allHotels, budgetMaxJour / 2);
-                    if (potential.getPrice() < budgetMaxJour) {
-                        currentHotel = potential;
+                if (pivot != null) {
+                    if (calculateDistance(currentHotel.getAddress(), pivot.getAddress()) > seuilChangementHotel) {
+                        Hotel potential = findRandomBestHotel(pivot.getAddress(), allHotels, budgetMaxJour / 2);
+                        if (potential.getPrice() < budgetMaxJour) {
+                            currentHotel = potential;
+                        }
                     }
-                }
 
-                dailyEx.addSite(pivot);
-                matchedSites.remove(pivot);
+                    dailyEx.addSite(pivot);
+                    globallySelectedSites.add(pivot); // Marqué comme utilisé !
+                    availableNow.remove(pivot);
 
-                // Ajouter des sites supplémentaires proches
-                while (dailyEx.getSites().size() < maxSitesParJour && matchedSites.size() > joursRestants) {
-                    TouristSite extra = selectBestScoredSite(pivot.getAddress(), matchedSites);
-                    if (calculateDistance(pivot.getAddress(), extra.getAddress()) < 20.0) {
-                        dailyEx.addSite(extra);
-                        matchedSites.remove(extra);
-                    } else break;
-                }
-                
-                dailyEx.generateTour(currentHotel);
-
-                // Ajuster en fonction du budget
-                while ((currentHotel.getPrice() + dailyEx.getPrice()) > budgetMaxJour && !dailyEx.getSites().isEmpty()) {
-                    matchedSites.add(dailyEx.getSites().remove(dailyEx.getSites().size() - 1));
-                    if (dailyEx.getSites().isEmpty()) dailyEx.getTrajets().clear();
-                    else dailyEx.generateTour(currentHotel);
+                    // Ajouter des sites supplémentaires proches
+                    while (dailyEx.getSites().size() < maxSitesParJour && !availableNow.isEmpty()) {
+                        TouristSite extra = selectBestScoredSite(pivot.getAddress(), availableNow);
+                        if (extra != null && calculateDistance(pivot.getAddress(), extra.getAddress()) < 20.0) {
+                            dailyEx.addSite(extra);
+                            globallySelectedSites.add(extra); // Marqué comme utilisé !
+                            availableNow.remove(extra);
+                        } else break;
+                    }
+                    
+                    // Génération sécurisée du tour
+                    try {
+                        dailyEx.generateTour(currentHotel);
+                        
+                        // Ajuster budget : si on retire un site, on le libère du Set global
+                        while ((currentHotel.getPrice() + dailyEx.getPrice()) > budgetMaxJour && !dailyEx.getSites().isEmpty()) {
+                            TouristSite removed = dailyEx.getSites().remove(dailyEx.getSites().size() - 1);
+                            globallySelectedSites.remove(removed); // Il redeviendra disponible pour plus tard
+                            if (dailyEx.getSites().isEmpty()) dailyEx.getTrajets().clear();
+                            else dailyEx.generateTour(currentHotel);
+                        }
+                    } catch (Exception e) {
+                        // En cas de NullPointerException (ton erreur ligne 33), on vide l'excursion
+                        dailyEx.getSites().clear();
+                    }
                 }
             }
 
@@ -94,12 +118,22 @@ public class OfferBuilder {
                 if (currentHotel.getPrice() > budgetMaxJour) currentHotel = cheapestHotel;
             }
 
-            runningTotal += currentHotel.getPrice() + dailyEx.getPrice();
+            // Calcul final du prix du jour (avec sécurité sur le prix de l'excursion)
+            double excursionPrice = 0;
+            try { excursionPrice = dailyEx.getPrice(); } catch (Exception e) {}
+            
+            runningTotal += currentHotel.getPrice() + excursionPrice;
             offer.addHotel(currentHotel);
             offer.addExcursion(dailyEx);
         }
 
         if (strategy != null) offer.setScoreComfort(strategy.calculeScore(offer));
+        blackList.addAll(globallySelectedSites);
+        /**
+        List<TouristSite> randomPool = new ArrayList<>(globallySelectedSites);
+        Collections.shuffle(randomPool);
+        blackList.addAll(randomPool.subList(0, Math.min(1, randomPool.size())));
+        **/
         return this;
     }
     
@@ -202,8 +236,18 @@ public class OfferBuilder {
                     + Math.cos(Math.toRadians(a1.getLatitude())) * Math.cos(Math.toRadians(a2.getLatitude())) * Math.cos(Math.toRadians(theta));
         return Math.toDegrees(Math.acos(dist)) * 60 * 1.1515 * 1.609344;
     }
+    
+    
 
-    public StayOffer build() {
+    public List<TouristSite> getBlackList() {
+		return blackList;
+	}
+
+	public void setBlackList(List<TouristSite> blackList) {
+		this.blackList = blackList;
+	}
+
+	public StayOffer build() {
         return this.offer;
     }
 }
