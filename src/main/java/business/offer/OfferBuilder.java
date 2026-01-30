@@ -30,8 +30,6 @@ public class OfferBuilder {
     }
     
     public OfferBuilder generateOptimizedStay(TransportFactory factory) {
-        // 1. On récupère la liste et on s'assure qu'elle ne contient QUE des sites uniques
-        // pour éviter que le même site soit présent plusieurs fois à cause de la pondération
         List<TouristSite> matchedSites = createWeightedSiteList().stream()
                                          .distinct()
                                          .collect(Collectors.toList());
@@ -82,7 +80,7 @@ public class OfferBuilder {
                     }
 
                     dailyEx.addSite(pivot);
-                    globallySelectedSites.add(pivot); // Marqué comme utilisé !
+                    globallySelectedSites.add(pivot); // Marqué comme utilisé 
                     availableNow.remove(pivot);
 
                     // Ajouter des sites supplémentaires proches
@@ -90,24 +88,23 @@ public class OfferBuilder {
                         TouristSite extra = selectBestScoredSite(pivot.getAddress(), availableNow);
                         if (extra != null && calculateDistance(pivot.getAddress(), extra.getAddress()) < 20.0) {
                             dailyEx.addSite(extra);
-                            globallySelectedSites.add(extra); // Marqué comme utilisé !
+                            globallySelectedSites.add(extra); // Marqué comme utilisé 
                             availableNow.remove(extra);
                         } else break;
                     }
                     
-                    // Génération sécurisée du tour
+                    // Génération  du tour
                     try {
                         dailyEx.generateTour(currentHotel);
                         
                         // Ajuster budget : si on retire un site, on le libère du Set global
                         while ((currentHotel.getPrice() + dailyEx.getPrice()) > budgetMaxJour && !dailyEx.getSites().isEmpty()) {
                             TouristSite removed = dailyEx.getSites().remove(dailyEx.getSites().size() - 1);
-                            globallySelectedSites.remove(removed); // Il redeviendra disponible pour plus tard
+                            globallySelectedSites.remove(removed); 
                             if (dailyEx.getSites().isEmpty()) dailyEx.getTrajets().clear();
                             else dailyEx.generateTour(currentHotel);
                         }
                     } catch (Exception e) {
-                        // En cas de NullPointerException (ton erreur ligne 33), on vide l'excursion
                         dailyEx.getSites().clear();
                     }
                 }
@@ -118,7 +115,7 @@ public class OfferBuilder {
                 if (currentHotel.getPrice() > budgetMaxJour) currentHotel = cheapestHotel;
             }
 
-            // Calcul final du prix du jour (avec sécurité sur le prix de l'excursion)
+            // Calcul final du prix du jour
             double excursionPrice = 0;
             try { excursionPrice = dailyEx.getPrice(); } catch (Exception e) {}
             
@@ -129,11 +126,6 @@ public class OfferBuilder {
 
         if (strategy != null) offer.setScoreComfort(strategy.calculeScore(offer));
         blackList.addAll(globallySelectedSites);
-        /**
-        List<TouristSite> randomPool = new ArrayList<>(globallySelectedSites);
-        Collections.shuffle(randomPool);
-        blackList.addAll(randomPool.subList(0, Math.min(1, randomPool.size())));
-        **/
         return this;
     }
     

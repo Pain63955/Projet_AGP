@@ -116,7 +116,7 @@ public class Excursion implements PriceableElement {
         double total = 0.0;
         for (Path p : paths) {
             if (p != null) {
-                total += p.getDistance(); // Assurez-vous que la classe Path a getDistance()
+                total += p.getDistance(); 
             }
         }
         return total;

@@ -41,7 +41,7 @@ public class StayOffer implements PriceableElement {
     public int getNbNights() { return nbNights; }
     public void setNbNights(int nbNights) { this.nbNights = nbNights; }
 
-    // Pour compatibilité avec les anciens tests
+   
     public Hotel getHotel() {
         return hotels.isEmpty() ? null : hotels.get(hotels.size() - 1);
     }
