@@ -1,6 +1,8 @@
 package business.offer;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import business.excursion.Hotel;
 import business.excursion.TouristSite;
@@ -16,6 +18,7 @@ public class SearchCriteria {
     private int confort;
     private List<TouristSite> listSites;
     private List<Hotel> listHotels;
+    private Map<TouristSite, Double> sitesWithScores;
     
     public SearchCriteria() {}
 
@@ -35,12 +38,13 @@ public class SearchCriteria {
     }
 
 	public boolean complexSearch(SitePersistence sitepersistence, HotelPersistence hotelpersistence) {
-		this.listSites = sitepersistence.fetchKeywords(keywords);
+		this.sitesWithScores = sitepersistence.fetchKeywords(keywords);
+		this.listSites = new ArrayList<>(sitesWithScores.keySet());
 		this.listHotels = hotelpersistence.fetchGrade(this.grade);
     	return true;
     }
     
-    public List<TouristSite> simpleSearch(SitePersistence sitepersistence) {
+    public Map<TouristSite, Double> simpleSearch(SitePersistence sitepersistence) {
     	return sitepersistence.fetchKeywords(keywords);
     }
 
@@ -106,5 +110,13 @@ public class SearchCriteria {
 
 	public void setListHotels(List<Hotel> listHotels) {
 		this.listHotels = listHotels;
+	}
+
+	public Map<TouristSite, Double> getSitesWithScores() {
+		return sitesWithScores;
+	}
+
+	public void setSitesWithScores(Map<TouristSite, Double> sitesWithScores) {
+		this.sitesWithScores = sitesWithScores;
 	}
 }

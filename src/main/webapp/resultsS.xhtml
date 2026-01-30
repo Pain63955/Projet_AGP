@@ -9,8 +9,7 @@
     <title>Résultats</title>
     <h:outputStylesheet library="css" name="style.css" />
             <style>
-        /* --- LE CONTENEUR HERO --- */
-.hero-container {
+        .hero-container {
     position: relative;
     height: 350px;
     width: 100%;
@@ -20,17 +19,15 @@
     overflow: hidden;
 }
 
-/* L'image prend toute la place en fond */
 .hero-image {
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* L'image s'adapte sans se déformer */
+    object-fit: cover;
     z-index: 1;
-    filter: brightness(60%); /* On l'assombrit pour lire le texte */
+    filter: brightness(60%);
 }
 
-/* Le texte par-dessus l'image */
 .hero-overlay {
     position: relative;
     z-index: 2;
@@ -49,7 +46,6 @@
             </div>
         </div>
     
-    <!-- Recherche Simple -->
     <h2>🔍 Recherche par mots-clés</h2>
     <h:panelGroup rendered="#{not empty searchCriteriaBean.keywords}">
         <div class="search-info">
@@ -58,43 +54,44 @@
         </div>
     </h:panelGroup>
     
-    <!-- Tableau des résultats simples -->
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.simpleResults}">
-        <h:dataTable value="#{searchCriteriaBean.simpleResults}" var="site"
+    <h:panelGroup rendered="#{not empty searchCriteriaBean.simpleResultsWithScores}">
+        <h:dataTable value="#{searchCriteriaBean.simpleResultsList}" var="entry"
                      styleClass="results-table"
                      headerClass="table-header"
                      rowClasses="table-row-odd,table-row-even">
       
-            <!-- Colonne Nom -->
             <h:column>
-                <f:facet name="header">Nom</f:facet>
-                <h:outputText value="#{site.name}" />
+                <f:facet name="header">Score</f:facet>
+                <h:outputText value="#{entry.value}">
+                    <f:convertNumber pattern="#0.####" />
+                </h:outputText>
             </h:column>
             
-            <!-- Colonne Prix -->
+            <h:column>
+                <f:facet name="header">Nom</f:facet>
+                <h:outputText value="#{entry.key.name}" />
+            </h:column>
+            
             <h:column>
                 <f:facet name="header">Prix (€)</f:facet>
-                <h:outputText value="#{site.price}">
+                <h:outputText value="#{entry.key.price}">
                     <f:convertNumber type="currency" currencySymbol="€" />
                 </h:outputText>
             </h:column>
             
-            <!-- Colonne Transport -->
             <h:column>
                 <f:facet name="header">Transport</f:facet>
-                <h:outputText value="#{site.transport}" />
+                <h:outputText value="#{entry.key.transport}" />
             </h:column>
             
-            <!-- Colonne Adresse -->
             <h:column>
                 <f:facet name="header">Adresse</f:facet>
-                <h:outputText value="#{site.address.street}, #{site.address.postCode} #{site.address.town}" />
+                <h:outputText value="#{entry.key.address.street}, #{entry.key.address.postCode} #{entry.key.address.town}" />
             </h:column>
             
-            <!-- Colonne Coordonnées GPS -->
             <h:column>
                 <f:facet name="header">Coordonnées</f:facet>
-                <h:outputText value="#{site.address.latitude}, #{site.address.longitude}">
+                <h:outputText value="#{entry.key.address.latitude}, #{entry.key.address.longitude}">
                     <f:convertNumber pattern="#0.####" />
                 </h:outputText>
             </h:column>
@@ -103,8 +100,7 @@
         </h:dataTable>
     </h:panelGroup>
     
-    <!-- Message si pas de résultats -->
-    <h:panelGroup rendered="#{empty searchCriteriaBean.simpleResults and not empty searchCriteriaBean.keywords}">
+    <h:panelGroup rendered="#{empty searchCriteriaBean.simpleResultsWithScores and not empty searchCriteriaBean.keywords}">
         <div class="no-results">
             ℹ️ Aucun site touristique ne correspond à votre recherche.
         </div>

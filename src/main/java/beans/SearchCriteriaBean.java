@@ -3,11 +3,11 @@ package beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import org.springframework.context.ApplicationContext;
@@ -38,7 +38,7 @@ public class SearchCriteriaBean implements Serializable{
     
     private ApplicationContext context;
     
-    private List<TouristSite> simpleResults;
+    private Map<TouristSite, Double> simpleResultsWithScores;
     private List<StayOffer> complexResults;
 
 	public SearchCriteriaBean() {
@@ -52,14 +52,14 @@ public class SearchCriteriaBean implements Serializable{
 		
 		this.srct = new SearchCriteria();
 		this.srct.setKeywords(this.keywords);
-		this.simpleResults = this.srct.simpleSearch(
+		this.simpleResultsWithScores = this.srct.simpleSearch(
 				(SitePersistence)context.getBean("sitePersistence"));
 		
 		return "resultsS";		
 	}
 	
 	public String complexSearch() { 
-		simpleResults = null;
+		simpleResultsWithScores = null;
 		validatePrice(this.budgetMin, this.budgetMax);
 		validateDays(this.nbDays);
 		validateConfort(this.confort);
@@ -104,21 +104,21 @@ public class SearchCriteriaBean implements Serializable{
 	
 	public void validateGrade(int star) {
 		if (star < 1 || star > 5) {
-			FacesMessage message = new FacesMessage("Nombre d'étoiles invalide.");
+			FacesMessage message = new FacesMessage("Nombre d'Ã©toiles invalide.");
 			throw new ValidatorException(message);
 		}
 	}
 
 	public void validateKeywords(String kwds) throws ValidatorException{
 		if (kwds.isEmpty()) {
-			FacesMessage message = new FacesMessage("La liste ne peut pas être vide.");
+			FacesMessage message = new FacesMessage("La liste ne peut pas Ãªtre vide.");
 			throw new ValidatorException(message);
 		}
 	}
 	
 	public void validatePrice(long prixMin, long prixMax) throws ValidatorException {
 		if (prixMin < 0 || prixMax > 50000 || prixMin > prixMax) {
-			FacesMessage message = new FacesMessage("The prix cannot be negative nor over 50000€");
+			FacesMessage message = new FacesMessage("The prix cannot be negative nor over 50000â‚¬");
 			throw new ValidatorException(message);
 		}
 	}
@@ -194,12 +194,19 @@ public class SearchCriteriaBean implements Serializable{
 		this.grade = grade;
 	}
 
-	public List<TouristSite> getSimpleResults() {
-		return simpleResults;
+	public Map<TouristSite, Double> getSimpleResultsWithScores() {
+		return simpleResultsWithScores;
 	}
 
-	public void setSimpleResults(List<TouristSite> simpleResults) {
-		this.simpleResults = simpleResults;
+	public void setSimpleResultsWithScores(Map<TouristSite, Double> simpleResultsWithScores) {
+		this.simpleResultsWithScores = simpleResultsWithScores;
+	}
+
+	public List<Map.Entry<TouristSite, Double>> getSimpleResultsList() {
+		if (simpleResultsWithScores == null) {
+			return new ArrayList<>();
+		}
+		return new ArrayList<>(simpleResultsWithScores.entrySet());
 	}
 
 	public List<StayOffer> getComplexResults() {

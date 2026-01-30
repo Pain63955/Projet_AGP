@@ -7,7 +7,11 @@ import business.excursion.TouristSite;
 import dao.SitePersistence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import api.core.BDeConfig;
 import api.core.BDeConnection;
@@ -33,11 +37,11 @@ public class BdeSitePersistence implements SitePersistence {
 	}
 	
 	@Override
-	public List<TouristSite> fetchKeywords(String keywords) {
-		List<TouristSite> sites = new ArrayList<>();
+	public Map<TouristSite,Double> fetchKeywords(String keywords) {
+		Map<TouristSite, Double> sitesWithScores = new HashMap<>();
 		
 		if (conn == null) {
-			return sites;
+			return sitesWithScores;
 		}
 		
 		BDeStatement st = null;
@@ -71,15 +75,16 @@ public class BdeSitePersistence implements SitePersistence {
 
 			st = conn.prepareStatement(selectAddressQuery);			
 			result = st.executeQuery();
-			
+
 			while(result.next()) {
+				TouristSite site = null;
 				
 				if (result.getString("site_type").equals("SiteActivite")) {
-					ActivitySite site = new ActivitySite();
-					site.setName(result.getString("nom"));
-					site.setPrice(result.getDouble("prix"));
-					site.setTransport(result.getString("transport"));
-					site.setDurationRatio(result.getDouble("info_specifique").floatValue());
+					ActivitySite activitySite = new ActivitySite();
+					activitySite.setName(result.getString("nom"));
+					activitySite.setPrice(result.getDouble("prix"));
+					activitySite.setTransport(result.getString("transport"));
+					activitySite.setDurationRatio(result.getDouble("info_specifique").floatValue());
 					
 					Address ad = new Address();
 					ad.setLatitude(result.getDouble("latitude"));
@@ -88,16 +93,16 @@ public class BdeSitePersistence implements SitePersistence {
 					ad.setStreet(result.getString("rue"));
 					ad.setTown(result.getString("ville"));
 					
-					site.setAddress(ad);
-					sites.add(site);
+					activitySite.setAddress(ad);
+					site = activitySite;
 				}
 				
 				if (result.getString("site_type").equals("SiteHistorique")) {
-					HistoricSite site = new HistoricSite();
-					site.setName(result.getString("nom"));
-					site.setPrice(result.getDouble("prix"));
-					site.setTransport(result.getString("transport"));
-					site.setGuideName(result.getString("info_specifique"));
+					HistoricSite historicSite = new HistoricSite();
+					historicSite.setName(result.getString("nom"));
+					historicSite.setPrice(result.getDouble("prix"));
+					historicSite.setTransport(result.getString("transport"));
+					historicSite.setGuideName(result.getString("info_specifique"));
 					
 					Address ad = new Address();
 					ad.setLatitude(result.getDouble("latitude"));
@@ -106,8 +111,13 @@ public class BdeSitePersistence implements SitePersistence {
 					ad.setStreet(result.getString("rue"));
 					ad.setTown(result.getString("ville"));
 					
-					site.setAddress(ad);
-					sites.add(site);
+					historicSite.setAddress(ad);
+					site = historicSite;
+				}
+				
+				if (site != null) {
+					double score = result.getScore();
+					sitesWithScores.put(site, score);
 				}
 			}
 		
@@ -120,7 +130,15 @@ public class BdeSitePersistence implements SitePersistence {
 				e.printStackTrace();
 			}
 		}
-		return sites;
+		
+		return sitesWithScores.entrySet().stream()
+				.sorted(Map.Entry.<TouristSite, Double>comparingByValue().reversed())
+				.collect(Collectors.toMap(
+						Map.Entry::getKey,
+						Map.Entry::getValue,
+						(e1, e2) -> e1,
+						LinkedHashMap::new
+				));
 	}
 
 	@Override

@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import api.core.BDeConfig;
 import api.core.BDeConnection;
@@ -38,88 +40,82 @@ public class JdbcSitePersistence implements SitePersistence {
 	}
 	
 	@Override
-	public List<TouristSite> fetchKeywords(String keywords) {
-		List<TouristSite> sites = new ArrayList<>();
-		
-		// Vérification de la connexion avant toute opération
-		if (dbConnection == null) {
-			System.err.println("ERREUR: Impossible d'exécuter la requête - connexion à la BD est null");
-			return sites; // Retourne une liste vide plutôt que null
-		}
-		
-		PreparedStatement preparedStatement = null;
-		//BDeStatement st = null;
-		ResultSet result = null;
-		//BDeResultSet result= null;
-		try {
-			String selectAddressQuery = "SELECT st.*, ad.*, sa.duration AS info_specifique\r\n"
-					+ "FROM SiteTouristique st\r\n"
-					+ "JOIN SitesActiv sa ON sa.siteID = st.siteID\r\n"
-					+ "JOIN Adresse ad ON st.adresseID = ad.adresseID\r\n"
-					+ "UNION ALL\r\n"
-					+ "SELECT st.*, ad.*, sh.guideName AS info_specifique\r\n"
-					+ "FROM SiteTouristique st\r\n"
-					+ "JOIN SitesHisto sh ON sh.siteID = st.siteID\r\n"
-					+ "JOIN Adresse ad ON st.adresseID = ad.adresseID\r\n";
-					//+ "WITH ? ";
+	public Map<TouristSite, Double> fetchKeywords(String keywords) {
 
-			preparedStatement = dbConnection.prepareStatement(selectAddressQuery);
-			//st = conn.prepareStatement(selectAddressQuery);
-			//preparedStatement.setString(1, keywords);
-			
-			result = preparedStatement.executeQuery();
-			//result = st.executeQuery();
-			while(result.next()) {
-				
-				if (result.getString("site_type").equals("SiteActivite")) {
-					ActivitySite site = new ActivitySite();
-					site.setName(result.getString("nom"));
-					site.setPrice(result.getDouble("prix"));
-					site.setTransport(result.getString("transport"));
-					site.setDurationRatio(result.getFloat("info_specifique"));
-					
-					Address ad = new Address();
-					ad.setLatitude(result.getDouble("latitude"));
-					ad.setLongitude(result.getDouble("longitude"));
-					ad.setPostCode(result.getString("code_postal"));
-					ad.setStreet(result.getString("rue"));
-					ad.setTown(result.getString("ville"));
-					
-					site.setAddress(ad);
-					sites.add(site);
-				}
-				
-				if (result.getString("site_type").equals("SiteHistorique")) {
-					HistoricSite site = new HistoricSite();
-					site.setName(result.getString("nom"));
-					site.setPrice(result.getDouble("prix"));
-					site.setTransport(result.getString("transport"));
-					site.setGuideName(result.getString("info_specifique"));
-					
-					Address ad = new Address();
-					ad.setLatitude(result.getDouble("latitude"));
-					ad.setLongitude(result.getDouble("longitude"));
-					ad.setPostCode(result.getString("code_postal"));
-					ad.setStreet(result.getString("rue"));
-					ad.setTown(result.getString("ville"));
-					
-					site.setAddress(ad);
-					sites.add(site);
-				}
-			}
-		
-		} catch (Exception se) {
-			System.err.println("Erreur SQL dans fetchKeywords: " + se.getMessage());
-			se.printStackTrace();
-		} finally {
-			try {
-				if (result != null) result.close();
-//				if (st != null) st.close();
-			} catch (Exception e) {
-				System.err.println("Erreur lors de la fermeture des ressources: " + e.getMessage());
-			}
-		}
-		return sites;
+	    Map<TouristSite, Double> resultMap = new HashMap<>();
+
+	    if (dbConnection == null) {
+	        System.err.println("ERREUR: connexion BD null");
+	        return resultMap; // map vide
+	    }
+
+	    PreparedStatement preparedStatement = null;
+	    ResultSet result = null;
+
+	    try {
+	        String query =
+	            "SELECT st.*, ad.*, sa.duration AS info_specifique " +
+	            "FROM SiteTouristique st " +
+	            "JOIN SitesActiv sa ON sa.siteID = st.siteID " +
+	            "JOIN Adresse ad ON st.adresseID = ad.adresseID " +
+	            "UNION ALL " +
+	            "SELECT st.*, ad.*, sh.guideName AS info_specifique " +
+	            "FROM SiteTouristique st " +
+	            "JOIN SitesHisto sh ON sh.siteID = st.siteID " +
+	            "JOIN Adresse ad ON st.adresseID = ad.adresseID";
+
+	        preparedStatement = dbConnection.prepareStatement(query);
+	        result = preparedStatement.executeQuery();
+
+	        while (result.next()) {
+
+	            TouristSite site = null;
+
+	            if ("SiteActivite".equals(result.getString("site_type"))) {
+	                ActivitySite s = new ActivitySite();
+	                s.setName(result.getString("nom"));
+	                s.setPrice(result.getDouble("prix"));
+	                s.setTransport(result.getString("transport"));
+	                s.setDurationRatio(result.getFloat("info_specifique"));
+	                site = s;
+	            }
+
+	            if ("SiteHistorique".equals(result.getString("site_type"))) {
+	                HistoricSite s = new HistoricSite();
+	                s.setName(result.getString("nom"));
+	                s.setPrice(result.getDouble("prix"));
+	                s.setTransport(result.getString("transport"));
+	                s.setGuideName(result.getString("info_specifique"));
+	                site = s;
+	            }
+
+	            if (site != null) {
+	                Address ad = new Address();
+	                ad.setLatitude(result.getDouble("latitude"));
+	                ad.setLongitude(result.getDouble("longitude"));
+	                ad.setPostCode(result.getString("code_postal"));
+	                ad.setStreet(result.getString("rue"));
+	                ad.setTown(result.getString("ville"));
+	                site.setAddress(ad);
+
+	                // ⭐ même valeur Double pour tous les sites
+	                resultMap.put(site, 1.0);
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        System.err.println("Erreur SQL fetchKeywords: " + e.getMessage());
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (result != null) result.close();
+	            if (preparedStatement != null) preparedStatement.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return resultMap;
 	}
 
 	@Override
