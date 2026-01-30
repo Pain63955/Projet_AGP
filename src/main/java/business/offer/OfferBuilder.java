@@ -28,8 +28,10 @@ public class OfferBuilder {
     }
 
     public OfferBuilder generateOptimizedStay(TransportFactory factory) {
-        List<TouristSite> matchedSites = new ArrayList<>(this.criteria.getListSites());
+        // Créer une liste pondérée des sites en fonction de leur score de pertinence
+        List<TouristSite> matchedSites = createWeightedSiteList();
         Collections.shuffle(matchedSites);
+        
         List<Hotel> allHotels = this.criteria.getListHotels();
         double runningTotal = 0.0;
         Hotel cheapestHotel = findCheapestHotel(allHotels);
@@ -55,7 +57,8 @@ public class OfferBuilder {
             boolean faireActivite = !matchedSites.isEmpty() && (Math.random() <= ratioDynamique || matchedSites.size() >= joursRestants);
 
             if (faireActivite) {
-                TouristSite pivot = findClosestSite(currentHotel.getAddress(), matchedSites);
+                // Choisir un site pivot en privilégiant les sites avec un meilleur score
+                TouristSite pivot = selectBestScoredSite(currentHotel.getAddress(), matchedSites);
                 
                 if (calculateDistance(currentHotel.getAddress(), pivot.getAddress()) > seuilChangementHotel) {
                     Hotel potential = findRandomBestHotel(pivot.getAddress(), allHotels, budgetMaxJour / 2);
@@ -67,8 +70,9 @@ public class OfferBuilder {
                 dailyEx.addSite(pivot);
                 matchedSites.remove(pivot);
 
+                // Ajouter des sites supplémentaires proches
                 while (dailyEx.getSites().size() < maxSitesParJour && matchedSites.size() > joursRestants) {
-                    TouristSite extra = findClosestSite(pivot.getAddress(), matchedSites);
+                    TouristSite extra = selectBestScoredSite(pivot.getAddress(), matchedSites);
                     if (calculateDistance(pivot.getAddress(), extra.getAddress()) < 20.0) {
                         dailyEx.addSite(extra);
                         matchedSites.remove(extra);
@@ -77,6 +81,7 @@ public class OfferBuilder {
                 
                 dailyEx.generateTour(currentHotel);
 
+                // Ajuster en fonction du budget
                 while ((currentHotel.getPrice() + dailyEx.getPrice()) > budgetMaxJour && !dailyEx.getSites().isEmpty()) {
                     matchedSites.add(dailyEx.getSites().remove(dailyEx.getSites().size() - 1));
                     if (dailyEx.getSites().isEmpty()) dailyEx.getTrajets().clear();
@@ -96,6 +101,77 @@ public class OfferBuilder {
 
         if (strategy != null) offer.setScoreComfort(strategy.calculeScore(offer));
         return this;
+    }
+    
+    /**
+     * Crée une liste pondérée des sites basée sur leur score de pertinence
+     * Les sites avec un meilleur score apparaissent plus souvent dans la liste
+     */
+    private List<TouristSite> createWeightedSiteList() {
+        List<TouristSite> weightedList = new ArrayList<>();
+        Map<TouristSite, Double> sitesWithScores = criteria.getSitesWithScores();
+        
+        if (sitesWithScores == null || sitesWithScores.isEmpty()) {
+            return new ArrayList<>(criteria.getListSites());
+        }
+        
+        for (Map.Entry<TouristSite, Double> entry : sitesWithScores.entrySet()) {
+            TouristSite site = entry.getKey();
+            Double score = entry.getValue();
+            
+            // Ajouter le site plusieurs fois en fonction de son score
+            // Score > 0.8 : 3 fois
+            // Score > 0.5 : 2 fois
+            // Score <= 0.5 : 1 fois
+            int weight = 1;
+            if (score > 0.8) {
+                weight = 3;
+            } else if (score > 0.5) {
+                weight = 2;
+            }
+            
+            for (int i = 0; i < weight; i++) {
+                weightedList.add(site);
+            }
+        }
+        
+        return weightedList;
+    }
+    
+    /**
+     * Sélectionne le meilleur site en tenant compte à la fois de la distance et du score de pertinence
+     */
+    private TouristSite selectBestScoredSite(Address addr, List<TouristSite> sites) {
+        if (sites.isEmpty()) {
+            return null;
+        }
+        
+        Map<TouristSite, Double> sitesWithScores = criteria.getSitesWithScores();
+        
+        // Si pas de scores disponibles, utiliser la méthode classique
+        if (sitesWithScores == null || sitesWithScores.isEmpty()) {
+            return findClosestSite(addr, sites);
+        }
+        
+        // Calculer un score combiné (distance + pertinence)
+        TouristSite bestSite = sites.get(0);
+        double bestCombinedScore = Double.NEGATIVE_INFINITY;
+        
+        for (TouristSite site : sites) {
+            double distance = calculateDistance(addr, site.getAddress());
+            double relevanceScore = sitesWithScores.getOrDefault(site, 0.0);
+            
+            // Score combiné : privilégier la pertinence mais pénaliser les grandes distances
+            // Plus la pertinence est élevée, moins la distance compte
+            double combinedScore = (relevanceScore * 100) - (distance * (1 - relevanceScore));
+            
+            if (combinedScore > bestCombinedScore) {
+                bestCombinedScore = combinedScore;
+                bestSite = site;
+            }
+        }
+        
+        return bestSite;
     }
     
     private TouristSite findClosestSite(Address addr, List<TouristSite> sites) {

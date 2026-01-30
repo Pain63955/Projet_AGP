@@ -38,6 +38,15 @@
     color: white;
     text-align: center;
 }
+
+.strategy-info {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f8ff;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #333;
+}
         </style>
     </h:head>
 
@@ -104,6 +113,18 @@
                                 <f:selectItem itemValue="4" itemLabel="4" />
                                 <f:selectItem itemValue="5" itemLabel="5" />
                             </h:selectOneRadio>
+                        </div>
+                        
+                        <div class="form-group radio-section">
+                            <h:outputLabel value="Type de séjour" />
+                            <h:selectOneRadio value="#{searchCriteriaBean.paceStrategy}" styleClass="radio-group">
+                                <f:selectItem itemValue="calm" itemLabel="🌅 Rythme Calme - Détente et relaxation (2 sites/jour max)" />
+                                <f:selectItem itemValue="speed" itemLabel="⚡ Rythme Soutenu - Découverte intensive (3 sites/jour max)" />
+                            </h:selectOneRadio>
+                            <div class="strategy-info">
+                                <strong>Rythme Calme:</strong> Privilégie le repos, limite les déplacements, moins de sites par jour.<br/>
+                                <strong>Rythme Soutenu:</strong> Maximise les découvertes, accepte plus de déplacements, plus de sites par jour.
+                            </div>
                         </div>
 
                         <h:commandButton value="Rechercher des offres"
