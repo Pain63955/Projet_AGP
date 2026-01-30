@@ -57,7 +57,7 @@ public class BdeSitePersistence implements SitePersistence {
 						+ "JOIN SitesHisto sh ON sh.siteID = st.siteID "
 						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID";
 			} else {
-				selectAddressQuery = /*"SELECT st.*, ad.*, sa.duration AS info_specifique "
+				selectAddressQuery = "SELECT st.*, ad.*, sa.duration AS info_specifique "
 						+ "FROM SiteTouristique st "
 						+ "JOIN SitesActiv sa ON sa.siteID = st.siteID "
 						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID "
@@ -66,8 +66,7 @@ public class BdeSitePersistence implements SitePersistence {
 						+ "FROM SiteTouristique st "
 						+ "JOIN SitesHisto sh ON sh.siteID = st.siteID "
 						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID "
-						+ "WITH " + keywords;*/
-						"SELECT siteID, site_type, nom FROM SiteTouristique WITH Ubud";
+						+ "WITH " + keywords;
 			}
 
 			st = conn.prepareStatement(selectAddressQuery);			

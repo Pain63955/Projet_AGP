@@ -5,6 +5,8 @@ public class BDeConfig {
 	private String keyColumn;
 	private String directoryPath;
 		
+	private static BDeConfig instance;
+	
 	public BDeConfig(String tableName, String keyColumn, String directoryPath) {
 		if (tableName == null || keyColumn == null || directoryPath == null) {
             throw new IllegalArgumentException("BDeConfig arguments cannot be null");
@@ -18,6 +20,13 @@ public class BDeConfig {
 	public BDeConfig() {
 		
 	}
+	
+	public static BDeConfig getInstance() {
+        if (instance == null) {
+            instance = new BDeConfig();
+        }
+        return instance;
+    }
 	
 	public String getTableName() {
 		return tableName;

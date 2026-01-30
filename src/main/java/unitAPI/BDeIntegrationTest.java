@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+
 public class BDeIntegrationTest {
 	BDeConfig cfg = new BDeConfig("SiteTouristique", "siteID", "data/descriptions");
     BDeConnection conn = BDeConnection.open(cfg);
@@ -53,7 +54,6 @@ public class BDeIntegrationTest {
 	        double score = rs.getScore();
 	        System.out.println("Row " + count + " : hotelID=" + id + "site_type" + type + ", nom_hotel=" + nom + ", score=" + score);
         }
-        System.out.println("okok");
         assertTrue(count > 0);
                 
         rs.close();
