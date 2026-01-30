@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import api.core.BDeActualRow;
 import api.visitor.OperatorVisitor;
@@ -15,6 +17,7 @@ public class SqlOperator extends Operator {
 	private Connection connection;
     private String sqlPart;
     private String keyColumn;
+    private HashMap<Integer, Object> queryParams;
     
     //JDBC
     private PreparedStatement preparedStatement;
@@ -23,16 +26,18 @@ public class SqlOperator extends Operator {
     
 //    private BDeActualRow currentRow;
     
-	public SqlOperator(Connection connection, String sqlPart, String keyColumn) {
+	public SqlOperator(Connection connection, String sqlPart, String keyColumn, HashMap<Integer, Object> queryParams) {
 		super(null,null);
 		this.connection = connection;
 		this.sqlPart = sqlPart;
 		this.keyColumn = keyColumn;
+		this.queryParams = queryParams;
 	}
 	
 	@Override
 	public void open() throws Exception {
 		this.preparedStatement = connection.prepareStatement(sqlPart);
+		bindParams();
 		this.resultSet = preparedStatement.executeQuery();
 		this.resultSetMetaData = resultSet.getMetaData();
 		currentRow = null;
@@ -92,6 +97,18 @@ public class SqlOperator extends Operator {
 	@Override
 	public void accept(OperatorVisitor visitor) throws Exception  {
 		visitor.visit(this);
+	}
+	
+	private void bindParams() throws SQLException{
+		if(queryParams != null) {
+			for(int index=0; index< queryParams.size(); index++) {
+				Object value = queryParams.get(index);
+				if(value == null) {
+					throw new IllegalStateException("Missing parameters");
+				}
+				preparedStatement.setObject(index + 1, value);
+			}
+		}
 	}
 	
 }

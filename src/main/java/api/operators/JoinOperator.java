@@ -43,10 +43,10 @@ public class JoinOperator extends Operator {
 		// l'arrayList keysOrdered permet de trier la jointure à la fin
 		// On ouvre sqlOperator et textOperator directement dans le visitor (visite des fils gauches et droits)
 		
-	    
+	    System.out.println("je suis la");
 		scorebyKey = textOperator.getScoreByKey();
 		keysOrdered = textOperator.getKeysOrdered();
-		
+
 		if (scorebyKey == null || keysOrdered == null) {
 			throw new IllegalStateException("TextOperator not opened (InitVisitor must open children before JoinOperator.open()).");
 		}
@@ -54,10 +54,11 @@ public class JoinOperator extends Operator {
 		HashMap<String, ArrayList<BDeActualRow>> joinMap = new HashMap<>();
 		while(sqlOperator.next()){
 			currentRow = sqlOperator.current();
+			System.out.println(currentRow);
 			String key = currentRow.getObject(keyColumn).toString();
-			
 			if(scorebyKey.containsKey(key)) {
 				currentRow.setScore(scorebyKey.get(key));
+				System.out.println(currentRow);
 				ArrayList<BDeActualRow> rows = joinMap.get(key);
 				if(rows == null) {
 					rows = new ArrayList<BDeActualRow>();
@@ -75,6 +76,8 @@ public class JoinOperator extends Operator {
 				queryResults.addAll(joinMap.get(key));
 			}
 		}
+		
+		System.out.println(queryResults);
 		
 		cursor = -1;
 		currentRow = null;

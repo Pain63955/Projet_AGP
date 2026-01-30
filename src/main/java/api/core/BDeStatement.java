@@ -1,12 +1,16 @@
 package api.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import api.operators.*;
 import api.visitor.InitVisitor;
 
 public class BDeStatement {
     private final BDeConnection connection;
     private final String query;
-
+    private final HashMap<Integer, Object> queryParams = new HashMap<>();
+    
     public BDeStatement(BDeConnection connection, String query) {
         this.connection = connection;
         this.query = query;
@@ -20,7 +24,7 @@ public class BDeStatement {
         InitVisitor initVisitor = new InitVisitor();
         
         if(textPart==null) {
-        	SqlOperator sqlOperator = new SqlOperator(connection.getJdbcConnection(), sqlPart, connection.getConfig().getKeyColumn());
+        	SqlOperator sqlOperator = new SqlOperator(connection.getJdbcConnection(), sqlPart, connection.getConfig().getKeyColumn(), queryParams);
         	try {
         		sqlOperator.accept(initVisitor);
         	}catch (Exception e) {
@@ -30,7 +34,7 @@ public class BDeStatement {
         	
         }
         
-        SqlOperator sqlOperator = new SqlOperator(connection.getJdbcConnection(), sqlPart, connection.getConfig().getKeyColumn());
+        SqlOperator sqlOperator = new SqlOperator(connection.getJdbcConnection(), sqlPart, connection.getConfig().getKeyColumn(), queryParams);
         TextOperator textOperator = new TextOperator(textPart, connection.getLuceneIndexService());
         JoinOperator joinOperator = new JoinOperator(sqlOperator, textOperator);
         try {
@@ -41,5 +45,13 @@ public class BDeStatement {
         
         return new BDeResultSet(joinOperator);
         }
+    
+    public void setString(int index, String value) {
+    	queryParams.put(index, value);
+    }
+    
+    public void setInt(int index, int value) {
+    	queryParams.put(index, value);
+    }
 
 }

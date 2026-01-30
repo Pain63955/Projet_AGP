@@ -54,9 +54,15 @@ public class BDeResultSet {
     public Boolean getBoolean(String columnLabel) {
         return current().getBoolean(columnLabel);
     }
+    
+    public Float getFloat(String columnLabel) {
+    	return current().getFloat(columnLabel);
+    }
 
     public double getScore() {
         return current().getScore();
     }
+    
+    
 
 }

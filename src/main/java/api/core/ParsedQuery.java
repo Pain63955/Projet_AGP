@@ -12,7 +12,7 @@ public class ParsedQuery {
         this.sqlQuery = sqlQuery;
         this.textQuery = textQuery;
     }
-
+    
     public String getSqlQuery() {
         return sqlQuery;
     }

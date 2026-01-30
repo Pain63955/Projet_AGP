@@ -69,7 +69,13 @@ public class BDeActualRow {
     public double getScore() {
         return score;
     }
-
+    
+    public Float getFloat(String columnLabel) {
+    	 Object v = valuesByColumn.get(columnLabel);
+         if (v == null) return null;
+         if (v instanceof Float) return (Float) v;
+         return Float.parseFloat(v.toString());
+    }
     public void setScore(Double score) {
         this.score = score;
     }
