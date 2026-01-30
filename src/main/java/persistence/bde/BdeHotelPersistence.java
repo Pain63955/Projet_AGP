@@ -1,6 +1,5 @@
 package persistence.bde;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,29 +17,23 @@ public class BdeHotelPersistence implements HotelPersistence {
 	private BDeConnection conn;
 	
 	public BdeHotelPersistence() {
-
 		this.cfg = new BDeConfig("Hotel", "hotelID", "data/descriptions");
-		
 		this.conn = BDeConnection.open(cfg);
 		
 		if (this.conn == null) {
-			System.err.println("ERREUR CRITIQUE: La connexion BDE est null!");
 			throw new RuntimeException("Impossible d'initialiser BDeConnection");
 		}
 	}
 	 
 	@Override
 	public void dataInit() {
-		System.err.println("Please don't forget to create tables manually by importing creation.sql in your database !");
 	}
 	
 	@Override
 	public List<Hotel> fetchGrade(int range) {
 		List<Hotel> hotels = new ArrayList<>();
 		
-		// Vérification de la connexion avant toute opération
 		if (conn == null) {
-			System.err.println("ERREUR: Impossible d'exécuter la requête - connexion BDE est null");
 			return hotels;
 		}
 		
@@ -48,16 +41,12 @@ public class BdeHotelPersistence implements HotelPersistence {
 		BDeResultSet result = null;
 		
 		try {
-			String selectAddressQuery = "SELECT h.*, ad.* \r\n"
-					+ "FROM `Hotel` h\r\n"
-					+ "JOIN Adresse ad ON ad.adresseID = h.adresseID\r\n"
-					+ "WHERE h.gamme >= " + range;
+			String selectAddressQuery = "SELECT h.*, ad.* FROM Hotel h JOIN Adresse ad ON ad.adresseID = h.adresseID WHERE h.gamme >= " + range;
 					
 			st = conn.prepareStatement(selectAddressQuery);			
 			result = st.executeQuery();
 
 			while(result.next()) {
-
 				Hotel hotel = new Hotel();
 				
 				hotel.setName(result.getString("nom_hotel"));
@@ -81,14 +70,12 @@ public class BdeHotelPersistence implements HotelPersistence {
 			}
 			
 		} catch (Exception se) {
-			System.err.println("Erreur SQL dans fetchGrade: " + se.getMessage());
 			se.printStackTrace();
 		} finally {
 			try {
 				if (result != null) result.close();
-//				if (st != null) st.close();
 			} catch (Exception e) {
-				System.err.println("Erreur lors de la fermeture des ressources: " + e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return hotels;
@@ -118,10 +105,8 @@ public class BdeHotelPersistence implements HotelPersistence {
 			}
 			
 		} catch (NumberFormatException e) {
-			System.err.println("Impossible de convertir la gamme: " + gammeStr);
 		}
 		
 		return 1;
 	}
-
 }

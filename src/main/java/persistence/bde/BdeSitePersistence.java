@@ -20,29 +20,23 @@ public class BdeSitePersistence implements SitePersistence {
 	private BDeConnection conn;
 	
 	public BdeSitePersistence() {
-		
 		this.cfg = new BDeConfig("SiteTouristique", "siteID", "data/descriptions");
-		
 		this.conn = BDeConnection.open(cfg);
 		
 		if (this.conn == null) {
-			System.err.println("ERREUR CRITIQUE: La connexion BDE est null!");
 			throw new RuntimeException("Impossible d'initialiser BDeConnection");
 		}
 	}
 
 	@Override
 	public void dataInit() {
-		System.err.println("Please don't forget to create tables manually by importing creation.sql in your database !");
 	}
 	
 	@Override
 	public List<TouristSite> fetchKeywords(String keywords) {
 		List<TouristSite> sites = new ArrayList<>();
 		
-		// Vérification de la connexion avant toute opération
 		if (conn == null) {
-			System.err.println("ERREUR: Impossible d'exécuter la requête - connexion BDE est null");
 			return sites;
 		}
 		
@@ -50,16 +44,31 @@ public class BdeSitePersistence implements SitePersistence {
 		BDeResultSet result = null;
 		
 		try {
-			String selectAddressQuery = "SELECT st.*, ad.*, sa.duration AS info_specifique\r\n"
-					+ "FROM SiteTouristique st\r\n"
-					+ "JOIN SitesActiv sa ON sa.siteID = st.siteID\r\n"
-					+ "JOIN Adresse ad ON st.adresseID = ad.adresseID\r\n"
-					+ "UNION ALL\r\n"
-					+ "SELECT st.*, ad.*, sh.guideName AS info_specifique\r\n"
-					+ "FROM SiteTouristique st\r\n"
-					+ "JOIN SitesHisto sh ON sh.siteID = st.siteID\r\n"
-					+ "JOIN Adresse ad ON st.adresseID = ad.adresseID\r\n"
-					+ "WITH "+ keywords ;
+			String selectAddressQuery;
+			
+			if (keywords == null || keywords.trim().isEmpty()) {
+				selectAddressQuery = "SELECT st.*, ad.*, sa.duration AS info_specifique "
+						+ "FROM SiteTouristique st "
+						+ "JOIN SitesActiv sa ON sa.siteID = st.siteID "
+						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID "
+						+ "UNION ALL "
+						+ "SELECT st.*, ad.*, sh.guideName AS info_specifique "
+						+ "FROM SiteTouristique st "
+						+ "JOIN SitesHisto sh ON sh.siteID = st.siteID "
+						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID";
+			} else {
+				selectAddressQuery = /*"SELECT st.*, ad.*, sa.duration AS info_specifique "
+						+ "FROM SiteTouristique st "
+						+ "JOIN SitesActiv sa ON sa.siteID = st.siteID "
+						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID "
+						+ "UNION ALL "
+						+ "SELECT st.*, ad.*, sh.guideName AS info_specifique "
+						+ "FROM SiteTouristique st "
+						+ "JOIN SitesHisto sh ON sh.siteID = st.siteID "
+						+ "JOIN Adresse ad ON st.adresseID = ad.adresseID "
+						+ "WITH " + keywords;*/
+						"SELECT siteID, site_type, nom FROM SiteTouristique WITH Ubud";
+			}
 
 			st = conn.prepareStatement(selectAddressQuery);			
 			result = st.executeQuery();
@@ -104,14 +113,12 @@ public class BdeSitePersistence implements SitePersistence {
 			}
 		
 		} catch (Exception se) {
-			System.err.println("Erreur SQL dans fetchKeywords: " + se.getMessage());
 			se.printStackTrace();
 		} finally {
 			try {
 				if (result != null) result.close();
-//				if (st != null) st.close();
 			} catch (Exception e) {
-				System.err.println("Erreur lors de la fermeture des ressources: " + e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return sites;
@@ -119,8 +126,6 @@ public class BdeSitePersistence implements SitePersistence {
 
 	@Override
 	public List<TouristSite> fetchByInput() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
