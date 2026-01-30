@@ -28,4 +28,6 @@ public class BDeQueryParser {
 	    String text = textPart(query);
 	    return new ParsedQuery(sql, text);
 	}
+	
+	
 }
