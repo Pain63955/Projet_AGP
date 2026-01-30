@@ -94,5 +94,10 @@ label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5p
     color: white;
 }
 
+a:link, a:active, a:hover, a:visited {
+  text-decoration: none;
+  text-align: center;
+}
+
 .btn-primary { background-color: #2d5a27; }
 .btn-secondary { background-color: #bc6c25; }
