@@ -5,146 +5,220 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
+
 <h:head>
     <title>Résultats</title>
     <h:outputStylesheet library="css" name="style.css" />
-                <!--  -->
-    
+
+    <style>
+        /* CONTENEUR DES OFFRES (VERTICAL, PLEINE LARGEUR) */
+.offers-container {
+    width: 100%;
+    margin: 30px 0;
+}
+
+.main-container{
+	width: 95%
+}
+
+/* CARTE OFFRE - PLEINE LARGEUR */
+.offer-card {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* EN-TÊTE OFFRE */
+.offer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.offer-rank {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.offer-score {
+    font-size: 1em;
+}
+
+/* JOUR */
+.day-section {
+    background: #f9f9f9;
+    border-left: 4px solid #2c3e50;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.day-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* BLOCS INTERNES */
+.hotel-info,
+.sites-list,
+.transport-list {
+    margin-bottom: 10px;
+}
+
+/* PRIX TOTAL */
+.price-summary {
+    margin-top: 20px;
+    padding: 15px;
+    background: #eef2f7;
+    font-weight: bold;
+    text-align: right;
+    border-radius: 4px;
+}
+
+    </style>
 </h:head>
+
 <h:body>
-    <h1>Résultats de la recherche</h1>
-    
-    <!-- Recherche Simple -->
-    <h2>🔍 Recherche par mots-clés</h2>
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.keywords}">
-        <div class="search-info">
-            <strong>Mots-clés recherchés :</strong> 
-            <h:outputText value="#{searchCriteriaBean.keywords}" />
+
+    <!-- HERO -->
+    <div class="hero-container">
+        <h:graphicImage library="images" name="bali.jpg" styleClass="hero-image" />
+        <div class="hero-overlay">
+            <h1>AGP BALI</h1>
+            <p>Trouvez votre coin de paradis</p>
         </div>
-    </h:panelGroup>
-    
-    <!-- Tableau des résultats simples -->
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.simpleResults}">
-        <h:dataTable value="#{searchCriteriaBean.simpleResults}" var="site"
-                     styleClass="results-table"
-                     headerClass="table-header"
-                     rowClasses="table-row-odd,table-row-even">
-      
-            <!-- Colonne Nom -->
-            <h:column>
-                <f:facet name="header">Nom</f:facet>
-                <h:outputText value="#{site.name}" />
-            </h:column>
-            
-            <!-- Colonne Prix -->
-            <h:column>
-                <f:facet name="header">Prix (€)</f:facet>
-                <h:outputText value="#{site.price}">
-                    <f:convertNumber type="currency" currencySymbol="€" />
+    </div>
+
+    <div class="main-container">
+        <h2>Résultats de recherche complexe</h2>
+
+        <!-- CRITÈRES -->
+        <h:panelGroup rendered="#{not empty searchCriteriaBean.budgetMin}">
+            <div class="search-info">
+                <strong>Mots-clés : </strong>
+                <h:outputText value="#{searchCriteriaBean.keywords}" /><br/>
+
+                <strong>Budget : </strong>
+                <h:outputText value="#{searchCriteriaBean.budgetMin}">
+                    <f:convertNumber type="currency" currencySymbol="€"/>
                 </h:outputText>
-            </h:column>
-            
-            <!-- Colonne Transport -->
-            <h:column>
-                <f:facet name="header">Transport</f:facet>
-                <h:outputText value="#{site.transport}" />
-            </h:column>
-            
-            <!-- Colonne Adresse -->
-            <h:column>
-                <f:facet name="header">Adresse</f:facet>
-                <h:outputText value="#{site.address.street}, #{site.address.postCode} #{site.address.town}" />
-            </h:column>
-            
-            <!-- Colonne Coordonnées GPS -->
-            <h:column>
-                <f:facet name="header">Coordonnées</f:facet>
-                <h:outputText value="#{site.address.latitude}, #{site.address.longitude}">
-                    <f:convertNumber pattern="#0.####" />
-                </h:outputText>
-            </h:column>
-           
-            
-        </h:dataTable>
-    </h:panelGroup>
-    
-    <!-- Message si pas de résultats -->
-    <h:panelGroup rendered="#{empty searchCriteriaBean.simpleResults and not empty searchCriteriaBean.keywords}">
-        <div class="no-results">
-            ℹ️ Aucun site touristique ne correspond à votre recherche.
-        </div>
-    </h:panelGroup>
-    
-    <br/>
-    
-    <!-- Recherche Complexe -->
-    <h2>🔧 Recherche complexe</h2>
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.budgetMin or not empty searchCriteriaBean.budgetMax}">
-        <div class="search-info">
-            <strong>Budget :</strong> 
-            <h:outputText value="#{searchCriteriaBean.budgetMin}">
-                <f:convertNumber type="currency" currencySymbol="€" />
-            </h:outputText>
-            -
-            <h:outputText value="#{searchCriteriaBean.budgetMax}">
-                <f:convertNumber type="currency" currencySymbol="€" />
-            </h:outputText>
-            <br />
-            <strong>Durée :</strong> 
-            <h:outputText value="#{searchCriteriaBean.nbDays}" />
-            jours
-            <br />
-            <strong>Hôtel :</strong> 
-            <h:outputText value="#{searchCriteriaBean.grade}" />
-            étoiles
-            <br />
-            <strong>Confort :</strong> 
-            <h:outputText value="#{searchCriteriaBean.confort}" />
-            / 5
-        </div>
-    </h:panelGroup>
-    
-    <!-- Tableau des résultats complexes -->
-    <h:panelGroup rendered="#{not empty searchCriteriaBean.complexResults}">
-        <h:dataTable value="#{searchCriteriaBean.complexResults}" var="offer"
-                     styleClass="results-table"
-                     headerClass="table-header"
-                     rowClasses="table-row-odd,table-row-even">
-            
-            <!-- Colonne Séjour -->
-            <h:column>
-                <f:facet name="header">Offre de séjour</f:facet>
-                <h:outputText value="#{offer}" />
-            </h:column>
-            
-            <!-- Vous pouvez ajouter d'autres colonnes selon les attributs de StayOffer -->
-            <!-- Exemple :
-            <h:column>
-                <f:facet name="header">Prix total</f:facet>
-                <h:outputText value="#{offer.totalPrice}">
-                    <f:convertNumber type="currency" currencySymbol="€" />
-                </h:outputText>
-            </h:column>
-            
-            <h:column>
-                <f:facet name="header">Score confort</f:facet>
-                <h:outputText value="#{offer.scoreComfort}">
-                    <f:convertNumber pattern="#0.0" />
-                </h:outputText>
-            </h:column>
-            -->
-            
-        </h:dataTable>
-    </h:panelGroup>
-    
-    <!-- Message si pas de résultats complexes -->
-    <h:panelGroup rendered="#{empty searchCriteriaBean.complexResults and not empty searchCriteriaBean.budgetMin}">
-        <div class="no-results">
-            ℹ️ Aucune offre de séjour ne correspond à vos critères.
-        </div>
-    </h:panelGroup>
-    
-    <br />
-    <h:link value="← Retour à la recherche" outcome="index" styleClass="back-link" />
+                -
+                <h:outputText value="#{searchCriteriaBean.budgetMax}">
+                    <f:convertNumber type="currency" currencySymbol="€"/>
+                </h:outputText><br/>
+
+                <strong>Durée : </strong>
+                <h:outputText value="#{searchCriteriaBean.nbDays}" /> jours
+            </div>
+        </h:panelGroup>
+
+        <!-- OFFRES -->
+        <h:panelGroup rendered="#{not empty searchCriteriaBean.complexResults}">
+            <div class="offers-container">
+
+                <ui:repeat value="#{searchCriteriaBean.complexResults}" var="offer" varStatus="status">
+                    <div class="offer-card">
+
+                        <div class="offer-header">
+                            <div class="offer-rank">
+                                Offre #{status.index + 1}
+                            </div>
+                            <div class="offer-score">
+                                Score confort :
+                                <h:outputText value="#{offer.scoreComfort}">
+                                    <f:convertNumber pattern="#0.0"/>
+                                </h:outputText>
+                                / 100
+                            </div>
+                        </div>
+
+                        <ui:repeat value="#{offer.excursions}" var="excursion" varStatus="dayStatus">
+                            <div class="day-section">
+                                <div class="day-title">
+                                    Jour #{dayStatus.index + 1}
+                                </div>
+
+                                <div class="hotel-info">
+                                    <strong>Hôtel :</strong>
+                                    <h:outputText value="#{offer.hotel.name}" /><br/>
+                                    <strong>Prix :</strong>
+                                    <h:outputText value="#{offer.hotel.price}">
+                                        <f:convertNumber type="currency" currencySymbol="€"/>
+                                    </h:outputText>
+                                </div>
+
+                                <h:panelGroup rendered="#{not empty excursion.sites}">
+                                    <div class="sites-list">
+                                        <strong>Sites visités :</strong>
+                                        <ul>
+                                            <ui:repeat value="#{excursion.sites}" var="site">
+                                                <li>
+                                                    <h:outputText value="#{site.name}" /> —
+                                                    <h:outputText value="#{site.price}">
+                                                        <f:convertNumber type="currency" currencySymbol="€"/>
+                                                    </h:outputText>
+                                                </li>
+                                            </ui:repeat>
+                                        </ul>
+                                    </div>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{not empty excursion.trajets}">
+                                    <div class="transport-list">
+                                        <strong>Transports :</strong>
+                                        <ui:repeat value="#{excursion.trajets}" var="trajet">
+                                            <div class="transport-item">
+                                                <h:outputText value="#{trajet.mode}" />
+                                                —
+                                                <h:outputText value="#{trajet.distance}">
+                                                    <f:convertNumber pattern="#0.00"/>
+                                                </h:outputText>
+                                                km
+                                            </div>
+                                        </ui:repeat>
+                                    </div>
+                                </h:panelGroup>
+
+                                <div>
+                                    Coût de la journée :
+                                    <h:outputText value="#{excursion.price}">
+                                        <f:convertNumber type="currency" currencySymbol="€"/>
+                                    </h:outputText>
+                                </div>
+                            </div>
+                        </ui:repeat>
+
+                        <div class="price-summary">
+                            Prix total :
+                            <h:outputText value="#{offer.price}">
+                                <f:convertNumber type="currency" currencySymbol="€"/>
+                            </h:outputText>
+                        </div>
+
+                    </div>
+                </ui:repeat>
+
+            </div>
+        </h:panelGroup>
+
+        <!-- PAS DE RÉSULTATS -->
+        <h:panelGroup rendered="#{empty searchCriteriaBean.complexResults}">
+            <div class="no-results">
+                Aucune offre ne correspond à vos critères.
+            </div>
+        </h:panelGroup>
+
+        <br/>
+        <h:link value="Retour à la recherche" outcome="index.jsf" />
+
+    </div>
 </h:body>
 </html>

@@ -13,8 +13,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class BDeIntegrationTest {
 	BDeConfig cfg = new BDeConfig("SiteTouristique", "siteID", "data/descriptions");
@@ -117,6 +116,7 @@ public class BDeIntegrationTest {
 			System.out.println("----------------");
 
         }
+
                 
         result.close();
         conn.close();
