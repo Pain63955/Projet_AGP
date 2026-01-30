@@ -1,19 +1,19 @@
-package api.core;
+package api.iterator;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class BDeActualRow {
+public class BDeCurrentRow {
 
     private final Map<String, Object> valuesByColumn;
     private double score;
     
-    public BDeActualRow() {
+    public BDeCurrentRow() {
         this.valuesByColumn = new LinkedHashMap<>();
     }
 
-    public BDeActualRow(Map<String, Object> valuesByColumn) {
+    public BDeCurrentRow(Map<String, Object> valuesByColumn) {
         if (valuesByColumn == null) {
             throw new IllegalArgumentException("valuesByColumn is null");
         }
@@ -78,18 +78,5 @@ public class BDeActualRow {
     }
     public void setScore(Double score) {
         this.score = score;
-    }
-
-    /** Utile pour debug / tests */
-    public Map<String, Object> asMap() {
-        return Collections.unmodifiableMap(valuesByColumn);
-    }
-
-    @Override
-    public String toString() {
-        return "BDeRow{" +
-                "values=" + valuesByColumn +
-                ", score=" + score +
-                '}';
     }
 }

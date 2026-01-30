@@ -1,4 +1,6 @@
-package api.core;
+package api.utils;
+
+import api.core.ParsedQuery;
 
 public class BDeQueryParser {
 		

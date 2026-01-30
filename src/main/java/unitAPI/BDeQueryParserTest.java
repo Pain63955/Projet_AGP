@@ -1,7 +1,8 @@
 package unitAPI;
 
-import api.core.BDeQueryParser;
 import org.junit.Test;
+
+import api.utils.BDeQueryParser;
 
 import static org.junit.Assert.*;
 

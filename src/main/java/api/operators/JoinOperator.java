@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import api.core.BDeActualRow;
+import api.iterator.BDeCurrentRow;
 import api.visitor.OperatorVisitor;
 
 public class JoinOperator extends Operator {
@@ -17,10 +17,10 @@ public class JoinOperator extends Operator {
 	private HashMap<String, Double> scorebyKey;
 	private ArrayList<String> keysOrdered;
 	
-	private ArrayList<BDeActualRow> queryResults;
+	private ArrayList<BDeCurrentRow> queryResults;
 
 	private int cursor;
-	private BDeActualRow currentRow;
+	private BDeCurrentRow currentRow;
 	private String keyColumn;
 	private boolean opened;
 	
@@ -42,8 +42,6 @@ public class JoinOperator extends Operator {
 		// La hashmap scorebyKey permet de faire la jointure (vérifier que clé c correspond bien à la ligne de la table T)
 		// l'arrayList keysOrdered permet de trier la jointure à la fin
 		// On ouvre sqlOperator et textOperator directement dans le visitor (visite des fils gauches et droits)
-		
-	    System.out.println("je suis la");
 		scorebyKey = textOperator.getScoreByKey();
 		keysOrdered = textOperator.getKeysOrdered();
 
@@ -51,7 +49,7 @@ public class JoinOperator extends Operator {
 			throw new IllegalStateException("TextOperator not opened (InitVisitor must open children before JoinOperator.open()).");
 		}
 		
-		HashMap<String, ArrayList<BDeActualRow>> joinMap = new HashMap<>();
+		HashMap<String, ArrayList<BDeCurrentRow>> joinMap = new HashMap<>();
 		while(sqlOperator.next()){
 			currentRow = sqlOperator.current();
 			System.out.println(currentRow);
@@ -59,16 +57,16 @@ public class JoinOperator extends Operator {
 			if(scorebyKey.containsKey(key)) {
 				currentRow.setScore(scorebyKey.get(key));
 				System.out.println(currentRow);
-				ArrayList<BDeActualRow> rows = joinMap.get(key);
+				ArrayList<BDeCurrentRow> rows = joinMap.get(key);
 				if(rows == null) {
-					rows = new ArrayList<BDeActualRow>();
+					rows = new ArrayList<BDeCurrentRow>();
 					joinMap.put(key, rows);
 				}
 				rows.add(currentRow);
 			}
 		}
 		
-		queryResults = new ArrayList<BDeActualRow>();
+		queryResults = new ArrayList<BDeCurrentRow>();
 		Iterator<String> ite = keysOrdered.iterator();
 		while(ite.hasNext()) {
 			String key = ite.next();
@@ -100,7 +98,7 @@ public class JoinOperator extends Operator {
 		
 	}
 	
-	public BDeActualRow current() {
+	public BDeCurrentRow current() {
 		if(currentRow == null) {
 			throw new IllegalStateException("Current row is null. You need to call open().");
 		}
@@ -119,7 +117,7 @@ public class JoinOperator extends Operator {
 	}
 	
 	
-	public ArrayList<BDeActualRow> getQueryResults() {
+	public ArrayList<BDeCurrentRow> getQueryResults() {
 		return queryResults;
 	}
 	

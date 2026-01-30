@@ -1,12 +1,12 @@
 package api.operators;
 
-import api.core.BDeActualRow;
+import api.iterator.BDeCurrentRow;
 
 public abstract class Operator implements Tree {
 	
     private Tree left;
     private Tree right;
-    protected BDeActualRow currentRow;
+    protected BDeCurrentRow currentRow;
     
     public Operator() {
         this(null, null);
@@ -23,7 +23,7 @@ public abstract class Operator implements Tree {
     	return false;
     };
     
-    public BDeActualRow current() {
+    public BDeCurrentRow current() {
     	return currentRow;
     };
     

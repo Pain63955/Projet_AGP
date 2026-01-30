@@ -2,8 +2,8 @@ package unitAPI;
 
 import api.core.BDeConfig;
 import api.core.BDeConnection;
-import api.core.BDeResultSet;
 import api.core.BDeStatement;
+import api.iterator.BDeResultSet;
 
 import org.junit.Test;
 

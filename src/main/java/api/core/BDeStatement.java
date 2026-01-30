@@ -3,7 +3,9 @@ package api.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import api.iterator.BDeResultSet;
 import api.operators.*;
+import api.utils.BDeQueryParser;
 import api.visitor.InitVisitor;
 
 public class BDeStatement {

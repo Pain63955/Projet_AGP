@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import api.core.BDeActualRow;
+import api.iterator.BDeCurrentRow;
 import api.visitor.OperatorVisitor;
 
 public class SqlOperator extends Operator {
@@ -53,7 +53,7 @@ public class SqlOperator extends Operator {
 			return false;
 		}
 		
-		BDeActualRow row = new BDeActualRow();
+		BDeCurrentRow row = new BDeCurrentRow();
 		int numberRow = resultSetMetaData.getColumnCount();
 		for(int columnIndex = 1; columnIndex<= numberRow; columnIndex++) {
 			String label = resultSetMetaData.getColumnLabel(columnIndex);
@@ -79,7 +79,7 @@ public class SqlOperator extends Operator {
 	}
 	
 	@Override
-	public BDeActualRow current() {
+	public BDeCurrentRow current() {
 		if(currentRow == null) {
 			throw new IllegalStateException("Current row is null. You need to call open().");
 		}

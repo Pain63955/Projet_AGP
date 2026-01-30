@@ -1,11 +1,11 @@
-package api.core;
+package api.iterator;
 
 import api.operators.Operator;
 import api.visitor.CloseVisitor;
 
 public class BDeResultSet {
 	private final Operator op;
-	private BDeActualRow currentRow;
+	private BDeCurrentRow currentRow;
 	
 	public BDeResultSet(Operator op) {
 		super();
@@ -22,7 +22,7 @@ public class BDeResultSet {
 		return true;
 	}
 	
-	public BDeActualRow current() {
+	public BDeCurrentRow current() {
         return currentRow;
     }
 	
